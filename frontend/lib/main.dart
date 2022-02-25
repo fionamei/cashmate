@@ -11,20 +11,63 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Welcome to Cashmate!',
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Welcome to Cashmate!'),
+          ),
+          body: const Center(
+            child: MyCustomForm(),
+          )),
+    );
+  }
+}
+
+// class MyCustomForm extends StatelessWidget {
+//   const MyCustomForm({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     const appTitle = 'Form Styling Demo';
+//     return MaterialApp(
+//       title: appTitle,
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text(appTitle),
+//         ),
+//         body: const MyCustomForm(),
+//       ),
+//     );
+//   }
+// }
+
+class MyCustomForm extends StatelessWidget {
+  const MyCustomForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        // const Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        //   child: TextField(
+        //     decoration: InputDecoration(
+        //       border: OutlineInputBorder(),
+        //       hintText: 'Enter a search term',
+        //     ),
+        //   ),
+        // ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Enter your budget',
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
