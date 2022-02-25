@@ -18,7 +18,7 @@ export default function Input() {
       {/* <TouchableOpacity style={styles.button} onPress={e => setBudget(e)} > */}
         <Text>Enter</Text>
       </TouchableOpacity>
-      <Text>This is my budget: {budget}</Text>
+      <Text style={styles.display}>This is my budget: {budget}</Text>
     </View>
   );
 }
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 80
   },
   input: {
     borderColor: '#000000',
@@ -40,5 +40,10 @@ const styles = StyleSheet.create({
    margin:"2%",
    padding:"1%",
    backgroundColor:"#89CFF0"
+ },
+ display: {
+   paddingTop: 50,
+   alignItems: 'center',
+   fontSize: 30
  }
 });
