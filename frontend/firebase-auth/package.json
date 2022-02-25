@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/stack": "^6.1.1",
+    "dotenv": "^16.0.0",
+    "expo-constants": "^13.0.2",
+    "firebase": "^9.6.7",
+    "react-native-gesture-handler": "^2.2.0",
+    "react-native-reanimated": "^2.4.1",
+    "react-native-safe-area-context": "^4.0.1",
+    "react-native-screens": "^3.12.0"
+  }
+}
