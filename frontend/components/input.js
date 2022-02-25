@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { useState, setState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 
 export default function Input() {
+  const [input, setInput] = useState('')
+  const [budget, setBudget] = useState('')
+
+  const displayBudget = () => {
+    <Text>This is my budget: {budget}</Text>
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Cashmate</Text>
-      <TextInput 
-        style={styles.input}
-        editable
-      />
-      <StatusBar style="auto" />
+      <Text>budget:</Text>
+      <TextInput style={styles.input} editable onChangeText={(text)=>setInput(text)}/>
+      <TouchableOpacity style={styles.button} onPress={() => setBudget(input)} >
+      {/* <TouchableOpacity style={styles.button} onPress={e => setBudget(e)} > */}
+        <Text>Enter</Text>
+      </TouchableOpacity>
+      <Text>This is my budget: {budget}</Text>
     </View>
   );
 }
- 
-
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +31,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    borderColor: '#7a42f4',
-    borderWidth: 1,
-    width:200
+    borderColor: '#000000',
+    borderWidth: 2,
+    width:200, 
+    fontSize:20
  },
+ button: {
+   margin:"2%",
+   padding:"1%",
+   backgroundColor:"#89CFF0"
+ }
 });
