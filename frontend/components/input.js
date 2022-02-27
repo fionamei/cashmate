@@ -1,25 +1,50 @@
 import { useState, setState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useFonts } from '@use-expo/font';
+
 
 
 export default function Input() {
   const [input, setInput] = useState('')
   const [budget, setBudget] = useState('')
 
-  const displayBudget = () => {
-    <Text>This is my budget: {budget}</Text>
+  const [isLoaded] = useFonts({
+    "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
+  })
+
+  if (!isLoaded) {
+    return null;
+  } 
+
+  function DisplayBudget() {
+    return (
+       <Text
+        style={styles.display}>
+          This is my budget: {budget}
+       </Text>
+    )
   }
 
   return (
-    <View style={styles.container}>
-      <Text>budget:</Text>
-      <TextInput style={styles.input} editable onChangeText={(text)=>setInput(text)}/>
-      <TouchableOpacity style={styles.button} onPress={() => setBudget(input)} >
-      {/* <TouchableOpacity style={styles.button} onPress={e => setBudget(e)} > */}
-        <Text>Enter</Text>
-      </TouchableOpacity>
-      <Text style={styles.display}>This is my budget: {budget}</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <Text style={styles.display}>I will spend under</Text>
+        <View style={styles.input} >
+          <Text style={styles.icon}>$</Text>
+          <TextInput 
+            style={styles.inputLine} 
+            keyboardType="numeric"
+            editable 
+            placeholder="0"
+            onChangeText={(text)=>setInput(text)}/>
+        </View>
+        {/* < DisplayBudget /> */}
+        <Text style={styles.display}>this week</Text>
+        <TouchableOpacity style={styles.button} onPress={() => setBudget(input)} >
+          <Text style={styles.continue}>Continue</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -28,22 +53,40 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    paddingTop: 80
+    paddingTop: 150,
   },
   input: {
-    borderColor: '#000000',
-    borderWidth: 2,
-    width:200, 
+    flexDirection: 'row',
+    // height: 50
+    resizeMode:'contain'
+  },
+  inputLine: {
+    fontSize: 50,
+    fontFamily:"Urbanist-Light",
+    borderBottomColor:'#000000',
+    borderBottomWidth:2
+  },
+  icon: {
+    fontSize: 40,
+    // fontWeight: 'bold'
+  },
+  button: {
+    margin:"2%",
+    //  padding:"1%",
+    //  backgroundColor:"#89CFF0",
+    borderBottomColor:'#000000',
+    borderBottomWidth:2,
+    marginTop: "75%",
+  },
+  continue: {
+    fontFamily:"Urbanist-Light",
     fontSize:20
- },
- button: {
-   margin:"2%",
-   padding:"1%",
-   backgroundColor:"#89CFF0"
- },
- display: {
-   paddingTop: 50,
-   alignItems: 'center',
-   fontSize: 30
- }
-});
+  },
+  display: {
+    paddingTop: 50,
+    alignItems: 'center',
+    fontSize: 30,
+    padding: 20,
+    fontFamily:"Urbanist-Light",
+  }
+  });
