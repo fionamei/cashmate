@@ -1,8 +1,9 @@
 import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
-
-
+import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../Firebase.js'
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 export default function Input() {
   const [input, setInput] = useState('')
@@ -25,6 +26,13 @@ export default function Input() {
     )
   }
 
+  function update(num) {
+    const newData = doc(collection(db, "numbers"))
+    setDoc(newData, {
+      number: num
+    });
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -40,7 +48,11 @@ export default function Input() {
         </View>
         {/* < DisplayBudget /> */}
         <Text style={styles.display}>this week</Text>
-        <TouchableOpacity style={styles.button} onPress={() => setBudget(input)} >
+        <TouchableOpacity style={styles.button} 
+          onPress={() => {
+            setBudget(input)
+            update(parseInt(input))}
+            } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
       </View>
