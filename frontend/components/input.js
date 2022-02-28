@@ -51,7 +51,7 @@ export default function Input() {
         <TouchableOpacity style={styles.button} 
           onPress={() => {
             setBudget(input)
-            update(parseInt(input))}
+            update(input)}
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
