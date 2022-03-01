@@ -27,9 +27,9 @@ export default function Input() {
   }
 
   function update(num) {
-    const newData = doc(collection(db, "numbers"))
+    const newData = doc(collection(db, "budget"))
     setDoc(newData, {
-      number: num
+      amount: num
     });
   }
 
