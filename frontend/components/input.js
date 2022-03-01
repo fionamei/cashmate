@@ -2,7 +2,7 @@ import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../Firebase.js'
+import { db } from '../backend/Firebase.js'
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 export default function Input() {
