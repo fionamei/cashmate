@@ -1,9 +1,10 @@
 import { useState, setState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+
 
 
 export default function Input() {
@@ -18,18 +19,7 @@ export default function Input() {
     return null;
   } 
 
-  function DisplayBudget() {
-    return (
-       <Text
-        style={styles.display}>
-          This is my budget: {budget}
-       </Text>
-    )
-  }
 
-  //
-  // METHODS
-  //
   function update(num) {
     const newData = doc(collection(db, "budget"))
     setDoc(newData, {
@@ -50,7 +40,6 @@ export default function Input() {
             placeholder="0"
             onChangeText={(text)=>setInput(text)}/>
         </View>
-        {/* < DisplayBudget /> */}
         <Text style={styles.display}>this week</Text>
         <TouchableOpacity style={styles.button} 
           onPress={() => {
@@ -87,13 +76,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     // fontWeight: 'bold'
   },
-  button: {
+  continueButton: {
     margin:"2%",
     //  padding:"1%",
     //  backgroundColor:"#89CFF0",
     borderBottomColor:'#000000',
     borderBottomWidth:2,
-    marginTop: "75%",
+    marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.7,
   },
   continue: {
     fontFamily:"Urbanist-Light",
