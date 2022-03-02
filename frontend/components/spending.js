@@ -126,8 +126,7 @@ export default function Spending() {
         </View>
         <TouchableOpacity style={styles.continueButton} 
           onPress={() => {
-            setSpending(input)
-            update(input)}
+            setSpending(input)}
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
