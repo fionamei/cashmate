@@ -2,7 +2,10 @@ import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../Firebase.js'
+import { db } from '../backend/Firebase.js';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+
+
 
 export default function Input() {
   const [input, setInput] = useState('')
@@ -16,10 +19,11 @@ export default function Input() {
     return null;
   } 
 
+
   function update(num) {
-    const newData = doc(collection(db, "numbers"))
+    const newData = doc(collection(db, "budget"))
     setDoc(newData, {
-      number: num
+      amount: num
     });
   }
 
@@ -40,7 +44,8 @@ export default function Input() {
         <TouchableOpacity style={styles.button} 
           onPress={() => {
             setBudget(input)
-            update(input)}
+            update(input)
+            }
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
