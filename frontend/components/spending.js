@@ -1,11 +1,15 @@
 import { useState, setState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
+import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../backend/Firebase.js';
 import images from './images';
 
 
 export default function Spending() {
     const [input, setInput] = useState('');
+    const [value, setValue] = useState('');
+    const [info, setInfo] = useState('');
     const [spending, setSpending] = useState('');
     const [category, setCategory] = useState('');
     const [isCategory, setIsCategory] = useState(false);
@@ -29,6 +33,16 @@ export default function Spending() {
       'travel': images.categories.travel,
       'entertainment': images.categories.entertainment,
       'other': images.categories.other
+    }
+
+    function create(num, det, cat) {
+      const newData = doc(collection(db, "spending"))
+      setDoc(newData, {
+        amount: num,
+        detail: det,
+        category: cat,
+        timestamp: new Date()
+      });
     }
 
     const Buttons1 = category1.map((c) =>
@@ -72,7 +86,11 @@ export default function Spending() {
             keyboardType="numeric"
             editable 
             placeholder="0"
-            onChangeText={(text)=>setInput(text)}/>
+            onChangeText={(text)=>{
+              setInput(text)
+              setValue(text)
+              }
+            }/>
         </View>
         <Text style={styles.display}>on</Text>
 
@@ -82,7 +100,11 @@ export default function Spending() {
             // keyboardType="numeric"
             editable 
             placeholder="place"
-            onChangeText={(text)=>setInput(text)}/>
+            onChangeText={(text)=>{
+              setInput(text)
+              setInfo(text)
+              }
+            }/>
         </View>
         <View >
             <Modal
@@ -126,7 +148,9 @@ export default function Spending() {
         </View>
         <TouchableOpacity style={styles.continueButton} 
           onPress={() => {
-            setSpending(input)}
+            setSpending(input)
+            create(value, info, category)
+          }
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
