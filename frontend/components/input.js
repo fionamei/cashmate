@@ -23,7 +23,8 @@ export default function Input() {
   function update(num) {
     const newData = doc(collection(db, "budget"))
     setDoc(newData, {
-      amount: num
+      amount: num,
+      timestamp: new Date()
     });
   }
 
