@@ -169,6 +169,8 @@ export default function Spending() {
             setSpending(input)
             create(value, info, category, budgetId)
             spendAmt = value
+            // setInput("")
+            // setIsCategory(false)
           }
             } >
           <Text style={styles.continue}>Continue</Text>

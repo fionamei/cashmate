@@ -5,6 +5,7 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { db } from '../backend/Firebase.js';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 import { spendAmt } from "./spending.js";
+import Nav from './nav';
 
 
 var budgetId;
@@ -52,7 +53,7 @@ export default function Input() {
             onChangeText={(text)=>setInput(text)}/>
         </View>
         <Text style={styles.display}>this week</Text>
-        <TouchableOpacity style={styles.button} 
+        <TouchableOpacity style={styles.continueButton} 
           onPress={() => {
             setBudget(input)
             update(input)
@@ -61,6 +62,7 @@ export default function Input() {
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
+        <Nav />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     //  backgroundColor:"#89CFF0",
     borderBottomColor:'#000000',
     borderBottomWidth:2,
-    marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.7,
+    marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
   },
   continue: {
     fontFamily:"Urbanist-Light",

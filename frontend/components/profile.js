@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 
     // text:
     subtitle1: {
-        fontFamily:'Urbanist-Medium',
+        fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/30
     },
     subtitle2: {
