@@ -17,7 +17,7 @@ export default function Nav() {
             
             <TouchableOpacity
                 // title="Go to Spending"
-                onPress={() => navigation.navigate('Feed')}
+                onPress={() => navigation.navigate('Input')}
             >
                 <Image source={require('../assets/navicon/home.png')} style={styles.icons} />
             </TouchableOpacity>
