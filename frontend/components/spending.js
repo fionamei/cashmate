@@ -3,9 +3,10 @@ import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, Touc
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
+import { budgetId } from './input.js';
 import images from './images';
 
-
+var spendAmt; 
 export default function Spending() {
     const [input, setInput] = useState('');
     const [value, setValue] = useState('');
@@ -35,13 +36,25 @@ export default function Spending() {
       'other': images.categories.other
     }
 
-    function create(num, det, cat) {
-      const newData = doc(collection(db, "spending"))
-      setDoc(newData, {
+    // function create(num, det, cat, id) {
+    //   const newData = doc(collection(db, "spending"))
+    //   setDoc(newData, {
+    //     amount: num,
+    //     detail: det,
+    //     category: cat,
+    //     timestamp: new Date(),
+    //     budget_id: id
+    //   });
+    // }
+
+    function create(num, det, cat, id) {
+      const ref = doc(collection(db, "budget", id, "spending"))
+      setDoc(ref, {
         amount: num,
         detail: det,
         category: cat,
-        timestamp: new Date()
+        timestamp: new Date(),
+        budget_id: id
       });
     }
 
@@ -149,7 +162,8 @@ export default function Spending() {
         <TouchableOpacity style={styles.continueButton} 
           onPress={() => {
             setSpending(input)
-            create(value, info, category)
+            create(value, info, category, budgetId)
+            spendAmt = value
           }
             } >
           <Text style={styles.continue}>Continue</Text>
@@ -253,4 +267,4 @@ const styles = StyleSheet.create({
         paddingTop: 5
       }
     });
-  
+ export {spendAmt};
