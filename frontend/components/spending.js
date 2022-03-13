@@ -4,6 +4,7 @@ import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
 import images from './images';
+import Nav from './nav';
 
 
 export default function Spending() {
@@ -76,6 +77,7 @@ export default function Spending() {
     )
     
     return (
+    
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Text style={styles.display}>I spent</Text>
@@ -86,6 +88,7 @@ export default function Spending() {
             keyboardType="numeric"
             editable 
             placeholder="0"
+            maxLength={7}
             onChangeText={(text)=>{
               setInput(text)
               setValue(text)
@@ -100,6 +103,8 @@ export default function Spending() {
             // keyboardType="numeric"
             editable 
             placeholder="place"
+            maxLength={20}
+            // adjustsFontSizeToFit
             onChangeText={(text)=>{
               setInput(text)
               setInfo(text)
@@ -154,6 +159,7 @@ export default function Spending() {
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
+      <Nav />
       </View>
     </TouchableWithoutFeedback>
     );
@@ -165,7 +171,7 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      paddingTop: 150,
+      paddingTop:  Dimensions.get('window').height - Dimensions.get('window').height*0.85,
     },
     input: {
       flexDirection: 'row',
@@ -198,7 +204,7 @@ const styles = StyleSheet.create({
       paddingTop: 30,
       alignItems: 'center',
       fontSize: 30,
-      padding: 20,
+      padding: "7%",
       fontFamily:"Urbanist-Light",
     },
     roundButton: {
