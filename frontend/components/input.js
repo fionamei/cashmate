@@ -1,11 +1,13 @@
 import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+import { spendAmt } from "./spending.js";
 
 
+var budgetId;
 
 export default function Input() {
   const [input, setInput] = useState('')
@@ -19,13 +21,21 @@ export default function Input() {
     return null;
   } 
 
-
   function update(num) {
     const newData = doc(collection(db, "budget"))
     setDoc(newData, {
       amount: num,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
+  }
+
+  function getRecentlyCreatedBudget() {
+    const q = query(collection(db, "budget"), orderBy("timestamp", "desc"), limit(1));
+    const q2 = getDocs(q).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+      budgetId = doc.id
+      })
+    })
   }
 
   return (
@@ -46,6 +56,7 @@ export default function Input() {
           onPress={() => {
             setBudget(input)
             update(input)
+            getRecentlyCreatedBudget()
             }
             } >
           <Text style={styles.continue}>Continue</Text>
@@ -97,3 +108,5 @@ const styles = StyleSheet.create({
     fontFamily:"Urbanist-Light",
   }
   });
+
+  export {budgetId};
