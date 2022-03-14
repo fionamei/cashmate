@@ -1,7 +1,7 @@
 import { useState, setState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
 import { budgetId } from './input.js';
 import images from './images';
@@ -47,6 +47,19 @@ export default function Spending() {
     //     budget_id: id
     //   });
     // }
+
+      async function updateRemaining(id, value) {
+        console.log(id)
+        console.log(value)
+        const ref = doc(db, "budget", id)
+        const change =  await getDoc(ref).then((docSnap) => {
+          // console.log(Number(docSnap.data()['remainingAmt']))
+          updateDoc(ref, {
+            remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
+          }
+        )
+      })
+    }
 
     function create(num, det, cat, id) {
       const ref = doc(collection(db, "budget", id, "spending"))
@@ -168,6 +181,7 @@ export default function Spending() {
           onPress={() => {
             setSpending(input)
             create(value, info, category, budgetId)
+            updateRemaining(budgetId, value)
             spendAmt = value
             // setInput("")
             // setIsCategory(false)

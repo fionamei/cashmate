@@ -27,6 +27,7 @@ export default function Input() {
     setDoc(newData, {
       amount: num,
       timestamp: new Date(),
+      remainingAmt: num
     });
   }
 
