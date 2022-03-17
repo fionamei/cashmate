@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFe
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
-import { spendAmt } from "./spending.js";
+// import { spendAmt } from "./spending.js";
 import Nav from './nav';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 var budgetId;
@@ -13,6 +14,7 @@ var budgetId;
 export default function Input() {
   const [input, setInput] = useState('')
   const [budget, setBudget] = useState('')
+  const navigation = useNavigation();
 
   const [isLoaded] = useFonts({
     "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -50,6 +52,7 @@ export default function Input() {
             keyboardType="numeric"
             editable 
             placeholder="0"
+            maxLength={7}
             onChangeText={(text)=>setInput(text)}/>
         </View>
         <Text style={styles.display}>this week</Text>
@@ -58,6 +61,7 @@ export default function Input() {
             setBudget(input)
             update(input)
             getRecentlyCreatedBudget()
+            navigation.navigate('Spending')
             }
             } >
           <Text style={styles.continue}>Continue</Text>
