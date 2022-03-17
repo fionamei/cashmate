@@ -6,6 +6,7 @@ import { db } from '../backend/Firebase.js';
 import { budgetId } from './input.js';
 import images from './images';
 import Nav from './nav';
+import { useNavigation } from '@react-navigation/native';
 
 var spendAmt; 
 export default function Spending() {
@@ -16,7 +17,7 @@ export default function Spending() {
     const [category, setCategory] = useState('');
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-
+    const navigation = useNavigation();
     // const isCategory = setState(false)
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -102,6 +103,8 @@ export default function Spending() {
         </TouchableOpacity>
     )
     
+    
+
     return (
     
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -157,7 +160,6 @@ export default function Spending() {
                         </View>
                     </View>
                 </View>
-                
             </Modal>
             
             {isCategory ? 
@@ -185,6 +187,7 @@ export default function Spending() {
             spendAmt = value
             // setInput("")
             // setIsCategory(false)
+            navigation.navigate('Profile')
           }
             } >
           <Text style={styles.continue}>Continue</Text>
