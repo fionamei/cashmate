@@ -192,7 +192,15 @@ export default function Spending() {
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
-      <Nav />
+
+        <TouchableOpacity 
+                // title="Go to Input"
+                onPress={() => navigation.navigate('LoginScreen')}
+            >
+            <Text>Go to Login Screen</Text>
+        </TouchableOpacity>
+        
+        <Nav />
       </View>
     </TouchableWithoutFeedback>
     );

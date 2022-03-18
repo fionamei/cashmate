@@ -7,7 +7,7 @@ import Feed from './components/feed';
 import Profile from './components/profile';
 import Home from './Home';
 import Nav from './components/nav';
-import Login from './components/login';
+import LoginScreen from './components/loginscreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -15,14 +15,14 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Spending">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Input" component={Input} />
         <Stack.Screen name="Spending" component={Spending} />
         <Stack.Screen name="Feed" component={Feed} />
         <Stack.Screen name="Profile" component={Profile}/>
         <Stack.Screen name="Nav" component={Nav}/>
-        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
