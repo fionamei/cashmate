@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import { useState, setState } from 'react';
+import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import Nav from './nav';
 import { signOut, getAuth } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const spendings = {
@@ -69,8 +71,26 @@ const stringpercent = `${percentage}%`
 const name = "Daniel Chen"
 const friends = 4
 const streak = 6
+
 export default function Profile() {
     const navigation = useNavigation()
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+        setImage(result.uri);
+        }
+    };
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -82,10 +102,10 @@ export default function Profile() {
 
     const auth = getAuth();
     const handleSignOut = () => {
-        signOut(a)
+        auth.signOut()
           .then(() => {
             console.log("logging out")
-            navigation.navigate("Login")
+            navigation.navigate("LoginScreen")
           })
           .catch(
               console.log("no"),
@@ -112,7 +132,17 @@ export default function Profile() {
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
                     <View style={styles.profile}>
-                        <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                        <TouchableOpacity onPress={pickImage}>
+                            {image  
+                                ? <Image source={{ uri: image }} style={styles.image} />
+                                : <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                            }
+                            {/* // {image && <Image source={{ uri: image }} style={styles.image} />} */}
+                        </TouchableOpacity> 
+                        {/* <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/> */}
+                        <View >
+                            
+                        </View>
                         <View style={styles.descriptions}>
                             <Text style={styles.name}>
                                 {name}
