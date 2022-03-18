@@ -38,17 +38,6 @@ export default function Spending() {
       'other': images.categories.other
     }
 
-    // function create(num, det, cat, id) {
-    //   const newData = doc(collection(db, "spending"))
-    //   setDoc(newData, {
-    //     amount: num,
-    //     detail: det,
-    //     category: cat,
-    //     timestamp: new Date(),
-    //     budget_id: id
-    //   });
-    // }
-
       async function updateRemaining(id, value) {
         console.log(id)
         console.log(value)
