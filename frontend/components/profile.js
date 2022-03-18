@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import Nav from './nav';
+import { signOut, getAuth } from "firebase/auth";
+import { useNavigation } from '@react-navigation/native';
+
 
 const spendings = {
     1: {"amount": "12",
@@ -64,6 +67,8 @@ const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
 export default function Profile() {
+    const navigation = useNavigation()
+
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../assets/Urbanist/static/Urbanist-Regular.ttf")
@@ -71,6 +76,16 @@ export default function Profile() {
     if (!isLoaded) {
         return null;
     } 
+
+    const auth = getAuth();
+    const handleSignOut = () => {
+        signOut(auth)
+          .then(() => {
+            navigation.navigate("LoginScreen")
+          })
+          .catch(
+              error => alert(error.message))
+      }
 
     const history = Object.entries(spendings).map(([key, value]) => {
         return(
@@ -91,7 +106,10 @@ export default function Profile() {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
-                        <Text style={styles.subtitle1}>budget: </Text>
+                        <TouchableOpacity onPress={handleSignOut}>
+                            <Text style={styles.subtitle1}>budget: </Text>
+                        </TouchableOpacity>
+
                         <Text style={styles.subtitle2}>${budget}</Text>
                         <Text style={styles.subtitle3}>{percentage}% remaining</Text>
                         <View style={styles.progressBar}>

@@ -67,6 +67,8 @@ export default function Input() {
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
+
+        
         <Nav />
       </View>
     </TouchableWithoutFeedback>
