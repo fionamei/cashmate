@@ -67,6 +67,14 @@ export default function Input() {
             } >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+                // title="Go to Input"
+                onPress={() => navigation.navigate('Login')}
+            >
+            <Text>Go to Login</Text>
+        </TouchableOpacity>
+        
         <Nav />
       </View>
     </TouchableWithoutFeedback>

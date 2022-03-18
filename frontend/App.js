@@ -7,6 +7,7 @@ import Feed from './components/feed';
 import Profile from './components/profile';
 import Home from './Home';
 import Nav from './components/nav';
+import Login from './components/login';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Feed" component={Feed} />
         <Stack.Screen name="Profile" component={Profile}/>
         <Stack.Screen name="Nav" component={Nav}/>
+        <Stack.Screen name="Login" component={Login}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
