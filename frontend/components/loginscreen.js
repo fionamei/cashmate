@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { auth, firebaseConfig } from '../backend/Firebase.js'
 import { db } from '../backend/Firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
@@ -31,8 +32,8 @@ export default function LoginScreen() {
     createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      const newData = doc(collection(db, "user"))
-      setDoc(newData, {
+      const id = user.uid;
+      setDoc(doc(db, "user", id), {
           uid: user.uid,
           email: email,
           password: password

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import Nav from './nav';
-import { signOut, getAuth } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const spendings = {
     1: {"amount": "12",
@@ -78,6 +78,14 @@ export default function Profile() {
     } 
 
     const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const uid = user.uid;
+    } else {
+        console.log("NO USER SIGNED IN")
+    }
+    });
+
     const handleSignOut = () => {
         signOut(auth)
           .then(() => {
