@@ -58,8 +58,7 @@ export default function Spending() {
         // console.log(Number(docSnap.data()['remainingAmt']))
         updateDoc(ref, {
           remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
-        }
-        )
+        })
       })
     }
 

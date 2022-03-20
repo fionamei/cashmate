@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import { useState, setState } from 'react';
+import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import Nav from './nav';
 import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import * as ImagePicker from 'expo-image-picker';
 
 const spendings = {
     1: {"amount": "12",
@@ -66,8 +68,29 @@ const remaining = 88
 const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
+const name = "Daniel Chen"
+const friends = 4
+const streak = 6
+
 export default function Profile() {
     const navigation = useNavigation()
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+        setImage(result.uri);
+        }
+    };
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -87,11 +110,13 @@ export default function Profile() {
     });
 
     const handleSignOut = () => {
-        signOut(auth)
+        auth.signOut()
           .then(() => {
+            console.log("logging out")
             navigation.navigate("LoginScreen")
           })
           .catch(
+              console.log("no"),
               error => alert(error.message))
       }
 
@@ -114,17 +139,43 @@ export default function Profile() {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
-                        <TouchableOpacity onPress={handleSignOut}>
-                            <Text style={styles.subtitle1}>budget: </Text>
-                        </TouchableOpacity>
-
-                        <Text style={styles.subtitle2}>${budget}</Text>
-                        <Text style={styles.subtitle3}>{percentage}% remaining</Text>
-                        <View style={styles.progressBar}>
-                            <View style={styles.fill}/>
+                    <View style={styles.profile}>
+                        <TouchableOpacity onPress={pickImage}>
+                            {image  
+                                ? <Image source={{ uri: image }} style={styles.image} />
+                                : <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                            }
+                            {/* // {image && <Image source={{ uri: image }} style={styles.image} />} */}
+                        </TouchableOpacity> 
+                        {/* <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/> */}
+                        <View >
+                            
                         </View>
-                        {history}
-                        {/* <Nav/> */}
+                        <View style={styles.descriptions}>
+                            <Text style={styles.name}>
+                                {name}
+                            </Text>
+                            <View style={styles.subprofile}>
+                                <TouchableOpacity> 
+                                    <Text style={styles.pfptxt}>{friends} friends</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.pfptxt}> streak: {streak} </Text>
+                            </View>
+                        </View>
+                        
+                    </View>
+
+                    <TouchableOpacity onPress={handleSignOut}>
+                        <Text style={styles.subtitle1}>budget: </Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.subtitle2}>${budget}</Text>
+                    <Text style={styles.subtitle3}>{percentage}% remaining</Text>
+                    <View style={styles.progressBar}>
+                        <View style={styles.fill}/>
+                    </View>
+                    {history}
+                    {/* <Nav/> */}
                 </View>
             </ScrollView>
             <Nav/>
@@ -146,7 +197,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderColor: '#000',
         borderWidth: 2,
-        borderRadius: 5
+        borderRadius: 5,
+        marginBottom: "3%"
     },
 
     fill: {
@@ -159,7 +211,8 @@ const styles = StyleSheet.create({
     // text:
     subtitle1: {
         fontFamily:'Urbanist-Regular',
-        fontSize: Dimensions.get('window').height/30
+        fontSize: Dimensions.get('window').height/30,
+        // paddingTop: "3%"
     },
     subtitle2: {
         fontFamily:'Urbanist-Medium',
@@ -197,5 +250,41 @@ const styles = StyleSheet.create({
     scroll: {
         padding: "10%",
         paddingBottom:"30%"
+    },
+
+    profile: {
+        alignItems: "flex-start",
+        width: Dimensions.get("window").width * 0.75,
+        flexDirection: "row",
+        // backgroundColor: "red",
+        paddingBottom: "5%",
+        // borderBottomColor: "black",
+        // borderBottomWidth: 1
+    },
+
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 100 
+    },
+
+    descriptions: {
+        paddingLeft: 20
+    },
+
+    name: {
+        fontFamily:'Urbanist-Regular',
+        fontSize: 35
+    },
+
+    subprofile: {
+        flexDirection: "row",
+        justifyContent:'space-between',
+    },
+
+    pfptxt: {
+        fontFamily:'Urbanist-Regular',
+        fontSize: 20
     }
+
 })
