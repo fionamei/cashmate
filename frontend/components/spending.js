@@ -7,6 +7,7 @@ import { budgetId } from './input.js';
 import images from './images';
 import Nav from './nav';
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 var spendAmt; 
 export default function Spending() {
@@ -18,6 +19,7 @@ export default function Spending() {
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
+    const [uid, setUID] = useState('');
     // const isCategory = setState(false)
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -38,21 +40,30 @@ export default function Spending() {
       'other': images.categories.other
     }
 
-      async function updateRemaining(id, value) {
-        console.log(id)
-        console.log(value)
-        const ref = doc(db, "budget", id)
-        const change =  await getDoc(ref).then((docSnap) => {
-          // console.log(Number(docSnap.data()['remainingAmt']))
-          updateDoc(ref, {
-            remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
-          }
-        )
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const id = user.uid;
+        setUID(id)
+    } else {
+        console.log("NO USER SIGNED IN")
+    }
+    });
+
+    async function updateRemaining(id, value) {
+      console.log(id)
+      console.log(value)
+      const ref = doc(db, "user", uid, "budget", id)
+      const change =  await getDoc(ref).then((docSnap) => {
+        // console.log(Number(docSnap.data()['remainingAmt']))
+        updateDoc(ref, {
+          remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
+        })
       })
     }
 
     function create(num, det, cat, id) {
-      const ref = doc(collection(db, "budget", id, "spending"))
+      const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
       setDoc(ref, {
         amount: num,
         detail: det,

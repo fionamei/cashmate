@@ -1,12 +1,12 @@
 import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../backend/Firebase.js';
 // import { spendAmt } from "./spending.js";
 import Nav from './nav';
 import { useNavigation } from '@react-navigation/native';
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 var budgetId;
@@ -14,6 +14,7 @@ var budgetId;
 export default function Input() {
   const [input, setInput] = useState('')
   const [budget, setBudget] = useState('')
+  const [uid, setUID] = useState('')
   const navigation = useNavigation();
 
   const [isLoaded] = useFonts({
@@ -24,9 +25,20 @@ export default function Input() {
     return null;
   } 
 
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+  if (user) {
+      const id = user.uid;
+      setUID(id)
+  } else {
+      console.log("NO USER SIGNED IN")
+  }
+  });
+  
   function update(num) {
-    const newData = doc(collection(db, "budget"))
-    setDoc(newData, {
+    const ref = doc(collection(db, "user", uid, "budget"))
+    // const newData = doc(collection(db, "user", ))
+    setDoc(ref, {
       amount: num,
       timestamp: new Date(),
       remainingAmt: num
@@ -34,7 +46,7 @@ export default function Input() {
   }
 
   function getRecentlyCreatedBudget() {
-    const q = query(collection(db, "budget"), orderBy("timestamp", "desc"), limit(1));
+    const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
     const q2 = getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
       budgetId = doc.id
