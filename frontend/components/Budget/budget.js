@@ -2,16 +2,16 @@ import { useState, setState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
-import { db } from '../backend/Firebase.js';
+import { db } from '../../backend/Firebase.js';
 // import { spendAmt } from "./spending.js";
-import Nav from './nav';
+import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 var budgetId;
 
-export default function Input() {
+export default function Budget() {
   const [input, setInput] = useState('')
   const [budget, setBudget] = useState('')
   const [uid, setUID] = useState('')

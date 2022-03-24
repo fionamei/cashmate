@@ -2,10 +2,10 @@ import { useState, setState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, getDoc } from 'firebase/firestore';
-import { db } from '../backend/Firebase.js';
-import { budgetId } from './input.js';
-import images from './images';
-import Nav from './nav';
+import { db } from '../../backend/Firebase.js';
+import { budgetId } from '../Budget/budget.js';
+import iconImages from './images';
+import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -24,7 +24,7 @@ export default function Spending() {
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
     })
-    
+     
     if (!isLoaded) {
         return null;
     } 
@@ -32,12 +32,12 @@ export default function Spending() {
     const category2 = ['travel', 'entertainment', 'other']
 
     const iconArray = {
-      'food': images.categories.food,
-      'utilities': images.categories.utilities,
-      'lifestyle': images.categories.lifestyle,
-      'travel': images.categories.travel,
-      'entertainment': images.categories.entertainment,
-      'other': images.categories.other
+      'food': iconImages.categories.food,
+      'utilities': iconImages.categories.utilities,
+      'lifestyle': iconImages.categories.lifestyle,
+      'travel': iconImages.categories.travel,
+      'entertainment': iconImages.categories.entertainment,
+      'other': iconImages.categories.other
     }
 
     const auth = getAuth();

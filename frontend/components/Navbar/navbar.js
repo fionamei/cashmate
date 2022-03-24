@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 
 export default function Nav() {
     const navigation = useNavigation();
@@ -17,7 +16,7 @@ export default function Nav() {
             
             <TouchableOpacity
                 // title="Go to Spending"
-                onPress={() => navigation.navigate('Input')}
+                onPress={() => navigation.navigate('Budget')}
             >
                 <Image source={require('../assets/navicon/home.png')} style={styles.icons} />
             </TouchableOpacity>
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         flexWrap: "wrap"
     },
-
     icons: {
         width: 35,
         height: 35,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, View, Text } from 'react-native';
-import Nav from './components/nav';
+import Nav from './components/Navbar/navbar';
 
 export default function Home({navigation}) {
     return (
