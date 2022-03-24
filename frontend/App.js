@@ -15,16 +15,19 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Budget" component={Budget} />
+      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
+      <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}/>
+        <Stack.Screen name="Budget" component={Budget}/>
         <Stack.Screen name="Spending" component={Spending} />
         <Stack.Screen name="Feed" component={Feed} />
         <Stack.Screen name="Profile" component={Profile}/>
         <Stack.Screen name="Nav" component={Nav}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+      {/* </Stack.Group> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 

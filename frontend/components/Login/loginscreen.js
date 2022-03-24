@@ -1,8 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
-import { auth, firebaseConfig } from '../backend/Firebase.js'
-import { db } from '../../backend/Firebase.js';
+import { auth, firebaseConfig, db  } from '../../backend/Firebase.js'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
@@ -62,7 +61,7 @@ export default function LoginScreen() {
   }
 
   const [isLoaded] = useFonts({
-    "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
+    "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
   })
 
   if (!isLoaded) {

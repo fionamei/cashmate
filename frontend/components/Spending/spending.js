@@ -20,9 +20,8 @@ export default function Spending() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
     const [uid, setUID] = useState('');
-    // const isCategory = setState(false)
     const [isLoaded] = useFonts({
-        "Urbanist-Light": require("../assets/Urbanist/static/Urbanist-Light.ttf")
+        "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
      
     if (!isLoaded) {
@@ -31,14 +30,25 @@ export default function Spending() {
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
 
-    const iconArray = {
+    const icons = {
       'food': iconImages.categories.food,
       'utilities': iconImages.categories.utilities,
       'lifestyle': iconImages.categories.lifestyle,
       'travel': iconImages.categories.travel,
       'entertainment': iconImages.categories.entertainment,
       'other': iconImages.categories.other
-    }
+  }
+
+    /***************************************************/
+    /* THESE ARE THE FIREBASE-RELATED METHODS          */
+    /*                                                 */
+    /* Methods included in this file:                  */
+    /*   create() => sets new spending within 'budget' */
+    /*   onAuthStateChanged() => handles login         */
+    /*   getRecentlyCreatedBudget()  => sets           */
+    /*     global variable budget id to the most       */
+    /*     recent one                                  */
+    /***************************************************/
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -73,7 +83,7 @@ export default function Spending() {
       });
     }
 
-    const Buttons1 = category1.map((c) =>
+    const RowOne = category1.map((c) =>
         <TouchableOpacity 
           key={c} 
           style={styles.roundButton}
@@ -83,12 +93,11 @@ export default function Spending() {
             setIsCategory(true)
           }}
           >
-            <Image source={(iconArray[c])} style={styles.icons} />
-            <Text style={styles.icontxt}>{c}</Text>
-            
+            <Image source={(icons[c])} style={styles.icons} />
+            <Text style={styles.icontxt}>{c}</Text>  
         </TouchableOpacity>
     )
-    const Buttons2 = category2.map((c) => 
+    const RowTwo = category2.map((c) => 
         <TouchableOpacity 
           key={c} 
           style={styles.roundButton}
@@ -98,7 +107,7 @@ export default function Spending() {
             setIsCategory(true)
           }}
           >
-          <Image source={(iconArray[c])} style={styles.icons}/>
+          <Image source={(icons[c])} style={styles.icons}/>
           <Text style={styles.icontxt}>{c}</Text>
         </TouchableOpacity>
     )
@@ -106,104 +115,99 @@ export default function Spending() {
     
 
     return (
-    
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Text style={styles.display}>I spent</Text>
-        <View style={styles.input} >
-          <Text style={styles.icon}>$</Text>
-          <TextInput 
-            style={styles.inputLine} 
-            keyboardType="numeric"
-            editable 
-            placeholder="0"
-            maxLength={7}
-            onChangeText={(text)=>{
-              setInput(text)
-              setValue(text)
-              }
-            }/>
-        </View>
-        <Text style={styles.display}>on</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <Text style={styles.display}>I spent</Text>
+          <View style={styles.input} >
+            <Text style={styles.icon}>$</Text>
+            <TextInput 
+              style={styles.inputLine} 
+              keyboardType="numeric"
+              editable 
+              placeholder="0"
+              maxLength={7}
+              onChangeText={(text)=>{
+                setInput(text)
+                setValue(text)
+                }
+              }/>
+          </View>
+          <Text style={styles.display}>on</Text>
 
-        <View style={styles.input} >
-          <TextInput 
-            style={styles.inputLine} 
-            // keyboardType="numeric"
-            editable 
-            placeholder="place"
-            maxLength={20}
-            // adjustsFontSizeToFit
-            onChangeText={(text)=>{
-              setInput(text)
-              setInfo(text)
-              }
-            }/>
-        </View>
-        <View >
-            <Modal
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-            }}
-            >
+          <View style={styles.input} >
+            <TextInput 
+              style={styles.inputLine} 
+              editable 
+              placeholder="place"
+              maxLength={20}
+              onChangeText={(text)=>{
+                setInput(text)
+                setInfo(text)
+                }
+              }/>
+          </View>
+          <View >
+              <Modal
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+              }}
+              >
 
-                <View style={styles.popup}>
-                    <View style={styles.modalView}>
-                        <View style={styles.buttonsContainer}>
-                            {Buttons1}
-                        </View>
-                        <View style={styles.buttonsContainer}>
-                            {Buttons2}
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-            
-            {isCategory ? 
-            <Pressable
-                style={styles.continue}
-                onPress={() => setModalVisible(true)}
-                >
-                <Text style={styles.textStyle}>({category})</Text>
-            </Pressable>
-            : 
-            <Pressable
-                style={styles.continue}
-                onPress={() => setModalVisible(true)}
-                >
-                <Text style={styles.textStyle}>Pick a Category!</Text>
-            </Pressable>
+                  <View style={styles.popup}>
+                      <View style={styles.modalView}>
+                          <View style={styles.buttonsContainer}>
+                              {RowOne}
+                          </View>
+                          <View style={styles.buttonsContainer}>
+                              {RowTwo}
+                          </View>
+                      </View>
+                  </View>
+              </Modal>
+              
+              {isCategory ? 
+              <Pressable
+                  style={styles.continue}
+                  onPress={() => setModalVisible(true)}
+                  >
+                  <Text style={styles.textStyle}>({category})</Text>
+              </Pressable>
+              : 
+              <Pressable
+                  style={styles.continue}
+                  onPress={() => setModalVisible(true)}
+                  >
+                  <Text style={styles.textStyle}>Pick a Category!</Text>
+              </Pressable>
+              }
+
+          </View>
+          <TouchableOpacity style={styles.continueButton} 
+            onPress={() => {
+              setSpending(input)
+              create(value, info, category, budgetId)
+              updateRemaining(budgetId, value)
+              spendAmt = value
+              navigation.navigate('Profile')
             }
+              } >
+            <Text style={styles.continue}>Continue</Text>
+          </TouchableOpacity>
 
+          <TouchableOpacity 
+                  // title="Go to Input"
+                  onPress={() => navigation.navigate('LoginScreen')}
+              >
+              <Text>Go to Login Screen</Text>
+          </TouchableOpacity>
+          
+          <Nav />
         </View>
-        <TouchableOpacity style={styles.continueButton} 
-          onPress={() => {
-            setSpending(input)
-            create(value, info, category, budgetId)
-            updateRemaining(budgetId, value)
-            spendAmt = value
-            // setInput("")
-            // setIsCategory(false)
-            navigation.navigate('Profile')
-          }
-            } >
-          <Text style={styles.continue}>Continue</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-                // title="Go to Input"
-                onPress={() => navigation.navigate('LoginScreen')}
-            >
-            <Text>Go to Login Screen</Text>
-        </TouchableOpacity>
-        
-        <Nav />
-      </View>
-    </TouchableWithoutFeedback>
-    );
+      </TouchableWithoutFeedback>
+      );
 }
 
 
@@ -216,7 +220,6 @@ const styles = StyleSheet.create({
     },
     input: {
       flexDirection: 'row',
-      // height: 50
       resizeMode:'contain'
     },
     inputLine: {
@@ -227,12 +230,9 @@ const styles = StyleSheet.create({
     },
     icon: {
       fontSize: 40,
-      // fontWeight: 'bold'
     },
     continueButton: {
       margin:"2%",
-      //  padding:"1%",
-      //  backgroundColor:"#89CFF0",
       borderBottomColor:'#000000',
       borderBottomWidth:2,
       marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
@@ -251,7 +251,6 @@ const styles = StyleSheet.create({
     roundButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        // padding: "8%",
         margin:"2%",
         borderRadius: 100,
         
@@ -260,7 +259,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     modalView: {
-        // margin:150,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,

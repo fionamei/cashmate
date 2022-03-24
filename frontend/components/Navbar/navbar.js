@@ -11,21 +11,21 @@ export default function Nav() {
                 // title="Go to Input"
                 onPress={() => navigation.navigate('Spending')}
             >
-                <Image source={require('../assets/navicon/add.png')} style={styles.icons} />
+                <Image source={require('../../assets/navicon/add.png')} style={styles.icons} />
             </TouchableOpacity>
             
             <TouchableOpacity
                 // title="Go to Spending"
                 onPress={() => navigation.navigate('Budget')}
             >
-                <Image source={require('../assets/navicon/home.png')} style={styles.icons} />
+                <Image source={require('../../assets/navicon/home.png')} style={styles.icons} />
             </TouchableOpacity>
 
             <TouchableOpacity
                 // title="Go to Spending"
                 onPress={() => navigation.navigate('Profile')}
             >
-                <Image source={require('../assets/navicon/user.png')} style={styles.icons} />
+                <Image source={require('../../assets/navicon/user.png')} style={styles.icons} />
             </TouchableOpacity>
 
         </View>
