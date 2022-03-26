@@ -29,7 +29,30 @@ export default function Spending() {
     } 
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
-
+    
+    async function updateRemaining(id, value) {
+      console.log(id)
+      console.log(value)
+      const ref = doc(db, "user", uid, "budget", id)
+      const change =  await getDoc(ref).then((docSnap) => {
+        // console.log(Number(docSnap.data()['remainingAmt']))
+        updateDoc(ref, {
+          remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
+        })
+      })
+    }
+  
+    function create(num, det, cat, id) {
+      const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
+      setDoc(ref, {
+        amount: num,
+        detail: det,
+        category: cat,
+        timestamp: new Date(),
+        budget_id: id
+      });
+    }
+    
     const icons = {
       'food': iconImages.categories.food,
       'utilities': iconImages.categories.utilities,
@@ -60,28 +83,6 @@ export default function Spending() {
     }
     });
 
-    async function updateRemaining(id, value) {
-      console.log(id)
-      console.log(value)
-      const ref = doc(db, "user", uid, "budget", id)
-      const change =  await getDoc(ref).then((docSnap) => {
-        // console.log(Number(docSnap.data()['remainingAmt']))
-        updateDoc(ref, {
-          remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
-        })
-      })
-    }
-
-    function create(num, det, cat, id) {
-      const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
-      setDoc(ref, {
-        amount: num,
-        detail: det,
-        category: cat,
-        timestamp: new Date(),
-        budget_id: id
-      });
-    }
 
     const RowOne = category1.map((c) =>
         <TouchableOpacity 

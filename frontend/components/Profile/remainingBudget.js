@@ -4,13 +4,22 @@ import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView
 import { useFonts } from '@use-expo/font';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { budgetId } from '../Budget/budget.js';
+import { useEffect } from 'react/cjs/react.production.min';
 
 const budget = 100
 const remaining = 88
 const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
-export default function remainbudget() {
+// var stringpercent;
+
+export default function RemainBudget() {
+    // const [uid, setUID] = useState('');
+    // const [budget, setBudget] = useState('');
+    // const [remaining, setRemaining] = useState('');
+    // const [percentage, setPercentage] = useState('');
+
     const navigation = useNavigation()
 
     const [isLoaded] = useFonts({
@@ -20,6 +29,41 @@ export default function remainbudget() {
     if (!isLoaded) {
         return null;
     } 
+
+    /***************************************************/
+    /* THESE ARE THE FIREBASE-RELATED METHODS          */
+    /*                                                 */
+    /* Methods included in this file:                  */
+    /*   create() => sets new spending within 'budget' */
+    /*   onAuthStateChanged() => handles login         */
+    /*   getRecentlyCreatedBudget()  => sets           */
+    /*     global variable budget id to the most       */
+    /*     recent one                                  */
+    /***************************************************/
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const id = user.uid;
+        setUID(id)
+    } else {
+        console.log("NO USER SIGNED IN")
+    }
+    });
+
+    // useEffect(() => {
+    //     const docRef = doc(db, "user", uid, "budget", budgetId);
+    //     const execute = getDoc(docRef).then((docSnap) => {
+    //         setBudget(docSnap.data()['amount'])
+    //         setRemaining(docSnap.data()['remainingAmt'])
+    //         setPercentage(Number(remaining) / Number(budget) * 100)
+
+    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+
+    //         stringpercent = `${percentage}%`
+    //     })
+    // }, [uid])
 
     return (
         <View style={styles.container}>

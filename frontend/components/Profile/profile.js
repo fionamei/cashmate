@@ -6,13 +6,13 @@ import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-import Remainingbudget from "./remainbudget";
+import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
 
 export default function Profile() {
     const navigation = useNavigation()
-    
+
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
     /*                                                 */
@@ -49,7 +49,7 @@ export default function Profile() {
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
                     <UserInfo />
-                    <Remainingbudget />
+                    <RemainingBudget />
                     <Timeline />
                     <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>

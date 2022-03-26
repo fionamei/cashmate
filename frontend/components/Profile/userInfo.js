@@ -10,8 +10,15 @@ const name = "Daniel Chen"
 const friends = 4
 const streak = 6
 
-export default function userInfo() {
+export default function UserInfo() {
     const [image, setImage] = useState(null);
+    // const [name, setName] = useState('');
+
+    // function displayName(id) {
+    //     const firstRef = doc(db, "user", uid, "firstName")
+    //     const lastRef = doc(db, "user", uid, "lastName")
+    //     setName(firstRef, lastRef)
+    // }
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library

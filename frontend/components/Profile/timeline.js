@@ -57,7 +57,7 @@ const spendings = {
         }
 }
 
-export default function timeline() {
+export default function Timeline() {
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
