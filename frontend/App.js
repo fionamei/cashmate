@@ -8,6 +8,8 @@ import Profile from './components/Profile/profile';
 import Home from './Home';
 import Nav from './components/Navbar/navbar';
 import LoginScreen from './components/Login/loginscreen';
+import SettingsButton from './components/Settings/settingsButton';
+import Settings from './components/Settings/settings'
 
 const Stack = createNativeStackNavigator();
 
@@ -20,9 +22,11 @@ export default function App() {
         <Stack.Screen name="Budget" component={Budget}/>
         <Stack.Screen name="Spending" component={Spending} />
         <Stack.Screen name="Feed" component={Feed} />
-        <Stack.Screen name="Profile" component={Profile}/>
+        <Stack.Screen name="Profile" component={Profile} 
+                      options={{headerRight: () => (<SettingsButton/>)}}/>
         <Stack.Screen name="Nav" component={Nav}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="Settings" component={Settings}/>
       {/* </Stack.Group> */}
       </Stack.Navigator>
     </NavigationContainer>
