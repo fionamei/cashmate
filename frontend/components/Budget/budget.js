@@ -86,7 +86,7 @@ export default function Budget() {
             setBudget(input)
             update(input)
             getRecentlyCreatedBudget()
-            navigation.navigate('Spending')
+            navigation.replace('Spending')
             }
             } >
           <Text style={styles.continue}>Continue</Text>

@@ -6,7 +6,7 @@ import Nav from '../Navbar/navbar';
 export default function Feed() {
     return (
         <View style={styles.container}>
-            <Text>Hi. This is the feed.</Text>
+            <Text>Hi. This is the feed. We are currently under construction ...</Text>
             <Nav/>
         </View>
     )
