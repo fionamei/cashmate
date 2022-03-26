@@ -10,6 +10,7 @@ const remaining = 88
 const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
+
 export default function remainbudget() {
     const navigation = useNavigation()
 
@@ -23,15 +24,17 @@ export default function remainbudget() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
-                <Text style={styles.subtitle1}>remaining: </Text>
-            </TouchableOpacity>
-
+            <Text style={styles.subtitle1}>remaining: </Text>
             <Text style={styles.subtitle2}>{percentage}%</Text>
             <View style={styles.progressBar}>
                 <View style={styles.fill}/>
             </View>
-            <Text style={styles.subtitle3}>weekly budget: ${budget}</Text>
+            <TouchableOpacity
+                onPress={() => navigation.replace("Budget")}
+            >
+                <Text style={styles.subtitle3}>weekly budget: ${budget}</Text>
+            </TouchableOpacity>
+            
             <Text style={styles.subtitle4}>${remaining} remaining</Text>
         </View>
     )
@@ -77,6 +80,7 @@ const styles = StyleSheet.create({
     subtitle4: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/50,
+        marginBottom: '3%'
         // margin:"3%"
     },
 

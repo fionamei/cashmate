@@ -10,6 +10,7 @@ import Nav from './components/Navbar/navbar';
 import LoginScreen from './components/Login/loginscreen';
 import SettingsButton from './components/Settings/settingsButton';
 import Settings from './components/Settings/settings'
+import Signup from './components/Login/signup';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name="Nav" component={Nav}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>
+        <Stack.Screen name="Signup" component={Signup}/>
       {/* </Stack.Group> */}
       </Stack.Navigator>
     </NavigationContainer>

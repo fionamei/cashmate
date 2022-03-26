@@ -8,6 +8,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
 import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import Signup from './signup.js';
 
 
 export default function LoginScreen() {
@@ -27,24 +28,7 @@ export default function LoginScreen() {
     return unsubscribe
   }, [])
 
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      const id = user.uid;
-      setDoc(doc(db, "user", id), {
-          uid: user.uid,
-          email: email,
-          password: password
-      })
-    })
-    .catch((error) => {
-      alert(error.message)
-      // const errorCode = error.code;
-      // const errorMessage = error.message;
-      // ..
-  });
-  }
+
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -75,40 +59,40 @@ export default function LoginScreen() {
     // >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.loginContainer}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputSubtitle}>username:</Text>
-        <TextInput
-          placeholder="Email@email.com"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.inputText}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputSubtitle}>password:</Text>
-        <TextInput
-          placeholder="Password :D"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.inputText}
-          secureTextEntry
-        />
-      </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputSubtitle}>username:</Text>
+          <TextInput
+            placeholder="Email@email.com"
+            value={email}
+            onChangeText={text => setEmail(text)}
+            style={styles.inputText}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputSubtitle}>password:</Text>
+          <TextInput
+            placeholder="Password :D"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={styles.inputText}
+            secureTextEntry
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
-          >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={styles.button}
-          >
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={styles.button}
+            >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Signup')}
+            style={styles.button}
+            >
+            <Text style={styles.buttonText}>I don't have an account</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       </TouchableWithoutFeedback>
     // {/* </KeyboardAvoidingView> */}

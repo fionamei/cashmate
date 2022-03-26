@@ -37,7 +37,7 @@ export default function Profile() {
         auth.signOut()
           .then(() => {
             console.log("logging out")
-            navigation.navigate("LoginScreen")
+            navigation.replace("LoginScreen")
           })
           .catch(
               console.log("no"),
