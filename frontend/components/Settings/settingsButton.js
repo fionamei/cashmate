@@ -7,8 +7,7 @@ export default function SettingsButton() {
     return (
         <TouchableOpacity
             onPress={() => navigation.navigate("Settings")}
-            title="Info"
-            color="#00cc00">
+            title="Settings">
             <Image source={require('../../assets/settings.png')} style={styles.settings}/>
         </TouchableOpacity>
     )

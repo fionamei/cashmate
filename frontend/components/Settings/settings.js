@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View,Text,TouchableOpacity, Button, Image, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from '@use-expo/font';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 export default function Settings () {
 
@@ -18,11 +18,14 @@ export default function Settings () {
     const handleSignOut = () => {
         auth.signOut()
           .then(() => {
-            console.log("logging out")
-            navigation.navigate("LoginScreen")
+            console.log("logging out from settings")
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'LoginScreen' }],
+              });
           })
           .catch(
-              console.log("no"),
+              console.log("no. error."),
               error => alert(error.message))
     }
 
@@ -32,10 +35,6 @@ export default function Settings () {
                 <TouchableOpacity style={styles.buttonContainer}>
                     <Text style={styles.text}>Edit Profile</Text>
                 </TouchableOpacity>
-            
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleSignOut}>
-                    <Text style={styles.text}>Log Out</Text>
-                </TouchableOpacity>
 
                 <TouchableOpacity style={styles.buttonContainer}>
                     <Text style={styles.text}>Contact Us</Text>
@@ -43,6 +42,10 @@ export default function Settings () {
 
                 <TouchableOpacity style={styles.buttonContainer}>
                     <Text style={styles.text}>About</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buttonContainer} onPress={handleSignOut}>
+                    <Text style={styles.text}>Log Out</Text>
                 </TouchableOpacity>
             </View>
         </View>
