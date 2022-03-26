@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import Nav from './nav';
+import Nav from '../Navbar/navbar';
 
 export default function Feed() {
     return (
