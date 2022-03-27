@@ -22,6 +22,10 @@ export default function remainbudget() {
         return null;
     } 
 
+    var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
+
+    // console.log(prn2);
+
     return (
         <View style={styles.container}>
             <Text style={styles.subtitle1}>remaining: </Text>
@@ -31,8 +35,8 @@ export default function remainbudget() {
             </View>
             <TouchableOpacity
                 onPress={() => navigation.replace("Budget")}
-            >
-                <Text style={styles.subtitle3}>weekly budget: ${budget}</Text>
+            >   
+                <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text>
             </TouchableOpacity>
             
             <Text style={styles.subtitle4}>${remaining} remaining</Text>
