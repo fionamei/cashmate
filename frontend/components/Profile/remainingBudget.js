@@ -1,21 +1,112 @@
 import * as React from 'react';
-import { useState, setState } from 'react';
+import { useState, setState, useEffect, useRef } from 'react';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { budgetId } from '../Budget/budget.js';
-import { useEffect } from 'react/cjs/react.production.min';
 
-const budget = 100
-const remaining = 88
-const percentage = remaining / budget * 100
-const stringpercent = `${percentage}%`
+// const budget = 100
+// const remaining = 88
+// const percentage = remaining / budget * 100
+// const stringpercent = `${percentage}%`
 
-// var stringpercent;
+// var budget;
+// var remaining;
+// var percentage;
+var stringpercent;
+
+// function useBudget(id) {
+//     const [budget, setBudget] = useState('');
+//     const [remaining, setRemaining] = useState('');
+//     const [percentage, setPercentage] = useState('');
+//     let _isMounted = true;
+
+    // useEffect(() => {
+    //     const docRef = doc(db, "user", id, "budget", budgetId);
+    //     const execute = getDoc(docRef).then((docSnap) => {
+    //         if (_isMounted)
+    //         setBudget(docSnap.data()['amount'])
+    //         setRemaining(docSnap.data()['remainingAmt'])
+    //         setPercentage(Number(remaining) / Number(budget) * 100)
+
+    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+    //     })
+    // }, [uid])
+
+//     return {budget, remaining, percentage}, () => {
+//         _isMounted = false;
+//     };
+// }
 
 export default function RemainBudget() {
-    // const [uid, setUID] = useState('');
+    const [uid, setUID] = useState('');
+    // const {budget, remaining, percentage} = useBudget(uid["uid"]);
+    const [BUDGETID, setBUDGETID] = useState('')
+    const [budget, setBudget] = useState('');
+    const [remaining, setRemaining] = useState('');
+    const [percentage, setPercentage] = useState('');
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const uid = user.uid;
+        setUID(uid)
+        console.log("test uid", uid)
+
+        const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+        const q2 = getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setBUDGETID(doc.id)
+        })
+        })
+
+        console.log("test BUDGET ID", BUDGETID)
+
+        const docRef = doc(db, "user", uid, "budget", BUDGETID);
+        console.log("test docref", docRef)
+        getDoc(docRef).then((docSnap) => {
+            setBudget(docSnap.data()['amount'])
+            setRemaining(docSnap.data()['remainingAmt'])
+            setPercentage(Number(remaining) / Number(budget) * 100)
+
+            console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+            console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+        })
+
+    stringpercent = `${percentage}%`
+
+    } else {
+        console.log("NO USER SIGNED IN")
+    }
+    });
+
+    // useEffect(() => {
+    //     const docRef = doc(db, "user", id, "budget", budgetId);
+    //     const execute = getDoc(docRef).then((docSnap) => {
+    //         setBudget(docSnap.data()['amount'])
+    //         setRemaining(docSnap.data()['remainingAmt'])
+    //         setPercentage(Number(remaining) / Number(budget) * 100)
+
+    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+    //     })
+    // }, [])
+
+    // const docRef = doc(db, "user", uid, "budget", budgetId);
+    // getDoc(docRef).then((docSnap) => {
+    //     setBudget(docSnap.data()['amount'])
+    //     setRemaining(docSnap.data()['remainingAmt'])
+    //     setPercentage(Number(remaining) / Number(budget) * 100)
+
+    //     console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+    //     console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+    // })
+
+    // stringpercent = `${percentage}%`
     // const [budget, setBudget] = useState('');
     // const [remaining, setRemaining] = useState('');
     // const [percentage, setPercentage] = useState('');
@@ -41,29 +132,17 @@ export default function RemainBudget() {
     /*     recent one                                  */
     /***************************************************/
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const id = user.uid;
-        setUID(id)
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    // if (user) {
+    //     const id = user.uid;
+    //     // setUID(id)
+    //     uid = id;
 
-    // useEffect(() => {
-    //     const docRef = doc(db, "user", uid, "budget", budgetId);
-    //     const execute = getDoc(docRef).then((docSnap) => {
-    //         setBudget(docSnap.data()['amount'])
-    //         setRemaining(docSnap.data()['remainingAmt'])
-    //         setPercentage(Number(remaining) / Number(budget) * 100)
-
-    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
-
-    //         stringpercent = `${percentage}%`
-    //     })
-    // }, [uid])
+    // } else {
+    //     console.log("NO USER SIGNED IN")
+    // }
+    // });
 
     return (
         <View style={styles.container}>

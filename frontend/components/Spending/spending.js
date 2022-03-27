@@ -1,7 +1,7 @@
 import { useState, setState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
 import { budgetId } from '../Budget/budget.js';
 import iconImages from './images';
@@ -20,6 +20,7 @@ export default function Spending() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
     const [uid, setUID] = useState('');
+    const [BUDGETID, setBUDGETID] = useState('')
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
@@ -29,11 +30,11 @@ export default function Spending() {
     } 
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
-    
+
     async function updateRemaining(id, value) {
       console.log(id)
       console.log(value)
-      const ref = doc(db, "user", uid, "budget", id)
+      const ref = doc(db, "user", uid, "budget", BUDGETID)
       const change =  await getDoc(ref).then((docSnap) => {
         // console.log(Number(docSnap.data()['remainingAmt']))
         updateDoc(ref, {
@@ -43,13 +44,13 @@ export default function Spending() {
     }
   
     function create(num, det, cat, id) {
-      const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
+      const ref = doc(collection(db, "user", uid, "budget", BUDGETID, "spending"))
       setDoc(ref, {
         amount: num,
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: id
+        budget_id: BUDGETID
       });
     }
     
@@ -78,6 +79,14 @@ export default function Spending() {
     if (user) {
         const id = user.uid;
         setUID(id)
+
+        const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+        const q2 = getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setBUDGETID(doc.id)
+        })
+        })
+
     } else {
         console.log("NO USER SIGNED IN")
     }
@@ -189,8 +198,8 @@ export default function Spending() {
           <TouchableOpacity style={styles.continueButton} 
             onPress={() => {
               setSpending(input)
-              create(value, info, category, budgetId)
-              updateRemaining(budgetId, value)
+              create(value, info, category, BUDGETID)
+              updateRemaining(BUDGETID, value)
               spendAmt = value
               navigation.navigate('Profile')
             }

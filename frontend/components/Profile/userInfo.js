@@ -2,15 +2,19 @@ import * as React from 'react';
 import { useState, setState } from 'react';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
+import { db } from '../../backend/Firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
-const name = "Daniel Chen"
 const friends = 4
 const streak = 6
 
 export default function UserInfo() {
+    const [uid, setUID] = useState('')
+    const [first, setFirst] = useState('')
+    const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
     // const [name, setName] = useState('');
 
@@ -19,6 +23,23 @@ export default function UserInfo() {
     //     const lastRef = doc(db, "user", uid, "lastName")
     //     setName(firstRef, lastRef)
     // }
+
+    const user = getAuth().currentUser;
+    if (uid == '') {
+        setUID(user.uid)
+    } else {
+        
+        if (first == '') {
+            const firstRef = doc(db, "user", uid)
+        
+            getDoc(firstRef).then((docSnap) => {
+                setFirst(docSnap.data()['firstName'])
+                setLast(docSnap.data()['lastName'])
+            })
+        }
+        console.log("hello",uid,first,last)
+    }
+    const full_name = first + " " + last
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -57,7 +78,7 @@ export default function UserInfo() {
             
             <View style={styles.descriptions}>
                 <Text style={styles.name}>
-                    {name}
+                    {full_name}
                 </Text>
                 <View style={styles.subprofile}>
                     <TouchableOpacity> 

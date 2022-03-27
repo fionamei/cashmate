@@ -12,6 +12,7 @@ import UserInfo from "./userInfo";
 
 export default function Profile() {
     const navigation = useNavigation()
+    const [uid, setUID] = useState('')
 
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
@@ -28,6 +29,7 @@ export default function Profile() {
     onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
+        setUID(uid)
     } else {
         console.log("NO USER SIGNED IN")
     }
@@ -44,14 +46,21 @@ export default function Profile() {
               error => alert(error.message))
     }
 
+    function refreshPage() {
+        window.location.reload(false);
+      }
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
                     <UserInfo />
-                    <RemainingBudget />
+                    <RemainingBudget uid={uid}/>
                     <Timeline />
-                    <TouchableOpacity onPress={handleSignOut}>
+                    <TouchableOpacity onPress={() => {
+                        refreshPage
+                        handleSignOut()}
+                        }>
                         <Text> signout </Text>
                     </TouchableOpacity>
                 </View>
