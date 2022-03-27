@@ -15,7 +15,7 @@ const stringpercent = `${percentage}%`
 // var stringpercent;
 
 export default function RemainBudget() {
-    // const [uid, setUID] = useState('');
+    const [uid, setUID] = useState('');
     // const [budget, setBudget] = useState('');
     // const [remaining, setRemaining] = useState('');
     // const [percentage, setPercentage] = useState('');

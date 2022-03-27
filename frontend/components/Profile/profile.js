@@ -12,6 +12,7 @@ import UserInfo from "./userInfo";
 
 export default function Profile() {
     const navigation = useNavigation()
+    const [uid, setUID] = useState('')
 
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
@@ -26,11 +27,12 @@ export default function Profile() {
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const uid = user.uid;
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
+        if (user) {
+            const id = user.uid;
+            setUID(id)
+        } else {
+            console.log("NO USER SIGNED IN")
+        }
     });
 
     const handleSignOut = () => {

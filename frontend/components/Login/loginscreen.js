@@ -21,7 +21,9 @@ export default function LoginScreen() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.replace("Profile")
+        const uid = user.uid
+        console.log("we're in login. the uid is",uid)
+        navigation.replace("Profile", {uid:uid})
       }
     })
 
