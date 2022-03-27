@@ -21,7 +21,7 @@ export default function Signup() {
         const unsubscribe = auth.onAuthStateChanged(user => {
         if (user) {
             navigation.pop()
-            navigation.replace("Profile")
+            navigation.replace("Budget")
         }
         })
         return unsubscribe
