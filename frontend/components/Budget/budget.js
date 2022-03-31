@@ -1,5 +1,5 @@
 import { useState, setState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import { Alert, StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
@@ -11,7 +11,7 @@ var budgetId;
 
 export default function Budget() {
   const [input, setInput] = useState('')
-  const [budget, setBudget] = useState('')
+  const [budget, setBudget] = useState()
   const [uid, setUID] = useState('')
   const navigation = useNavigation();
 
@@ -78,22 +78,33 @@ export default function Budget() {
             editable 
             placeholder="0"
             maxLength={7}
-            onChangeText={(text)=>setInput(text)}/>
+            onChangeText={(text)=>{
+              setInput(text)
+              setBudget(text)
+              }}/>
         </View>
         <Text style={styles.display}>this week</Text>
         <TouchableOpacity style={styles.continueButton} 
           onPress={() => {
-            setBudget(input)
-            update(input)
-            getRecentlyCreatedBudget()
-            navigation.navigate('Spending')
+            // setBudget(input)
+            if (budget) {
+              setBudget(input)
+              update(input)
+              getRecentlyCreatedBudget()
+              navigation.replace('Spending')
+            } else {
+              Alert.alert("Please input a budget")
             }
-            } >
+            // setBudget(input)
+            // update(input)
+            // getRecentlyCreatedBudget()
+            // navigation.replace('Spending')}
+            }} >
           <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
 
         
-        <Nav />
+        {/* <Nav /> */}
       </View>
     </TouchableWithoutFeedback>
   );

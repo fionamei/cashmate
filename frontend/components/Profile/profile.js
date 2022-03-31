@@ -9,6 +9,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
+import Warning from "./warning";
 
 export default function Profile() {
     const navigation = useNavigation()
@@ -46,10 +47,14 @@ export default function Profile() {
               error => alert(error.message))
     }
 
+    var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
+                    {/* {prn2 === "Sunday" ? <Warning /> : {}} */}
+                    
                     <UserInfo />
                     <RemainingBudget />
                     <Timeline />

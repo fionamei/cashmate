@@ -12,14 +12,8 @@ const remaining = 88
 const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
-// var stringpercent;
 
-export default function RemainBudget() {
-    const [uid, setUID] = useState('');
-    // const [budget, setBudget] = useState('');
-    // const [remaining, setRemaining] = useState('');
-    // const [percentage, setPercentage] = useState('');
-
+export default function remainingbudget() {
     const navigation = useNavigation()
 
     const [isLoaded] = useFonts({
@@ -64,18 +58,23 @@ export default function RemainBudget() {
     //         stringpercent = `${percentage}%`
     //     })
     // }, [uid])
+    var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
+
+    // console.log(prn2);
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
-                <Text style={styles.subtitle1}>remaining: </Text>
-            </TouchableOpacity>
-
+            <Text style={styles.subtitle1}>remaining: </Text>
             <Text style={styles.subtitle2}>{percentage}%</Text>
             <View style={styles.progressBar}>
                 <View style={styles.fill}/>
             </View>
-            <Text style={styles.subtitle3}>weekly budget: ${budget}</Text>
+            <TouchableOpacity
+                onPress={() => navigation.replace("Budget")}
+            >   
+                <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text>
+            </TouchableOpacity>
+            
             <Text style={styles.subtitle4}>${remaining} remaining</Text>
         </View>
     )
@@ -121,6 +120,7 @@ const styles = StyleSheet.create({
     subtitle4: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/50,
+        marginBottom: '3%'
         // margin:"3%"
     },
 
