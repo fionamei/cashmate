@@ -48,11 +48,11 @@ export default function Budget() {
   /****************** UID ******************/
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-  if (user) {
-      const id = user.uid;
-      setUID(id)
-  } else {
-      console.log("NO USER SIGNED IN")
+    if (user) {
+        const id = user.uid;
+        setUID(id)
+    } else {
+        console.log("NO USER SIGNED IN")
     }
   });
   

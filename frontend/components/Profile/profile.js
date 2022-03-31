@@ -6,14 +6,15 @@ import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-import Remainingbudget from "./remainbudget";
+import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
 import Warning from "./warning";
 
 export default function Profile() {
     const navigation = useNavigation()
-    
+    const [uid, setUID] = useState('')
+
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
     /*                                                 */
@@ -27,11 +28,12 @@ export default function Profile() {
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const uid = user.uid;
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
+        if (user) {
+            const id = user.uid;
+            setUID(id)
+        } else {
+            console.log("NO USER SIGNED IN")
+        }
     });
 
     const handleSignOut = () => {
@@ -54,7 +56,7 @@ export default function Profile() {
                     {/* {prn2 === "Sunday" ? <Warning /> : {}} */}
                     
                     <UserInfo />
-                    <Remainingbudget />
+                    <RemainingBudget />
                     <Timeline />
                     <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>

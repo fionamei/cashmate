@@ -35,7 +35,9 @@ export default function Signup() {
           setDoc(doc(db, "user", id), {
               uid: user.uid,
               email: email,
-              password: password
+              password: password,
+              firstName: first,
+              lastName: last
           })
         })
         .catch((error) => {
