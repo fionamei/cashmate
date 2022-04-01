@@ -23,8 +23,8 @@ export default function Nav() {
             <TouchableOpacity
                 // title="Go to Spending"
                 onPress={() => {
-                    if (route.name != "Budget") {
-                        navigation.replace('Budget')
+                    if (route.name != "Feed") {
+                        navigation.replace('Feed')
                     }
                 }}
             >
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
         bottom: "0%",
         display:'flex',
         justifyContent: "space-evenly",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        width:Dimensions.get('window').width
     },
     icons: {
         width: 35,
