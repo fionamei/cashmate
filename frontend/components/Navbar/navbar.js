@@ -17,7 +17,9 @@ export default function Nav() {
                     }
                 }}
             >
-                <Image source={require('../../assets/navicon/add.png')} style={styles.icons} />
+                {route.name === 'Spending' ? <Image source={require('../../assets/navicon/adddot.png')} style={styles.icons} /> : 
+                <Image source={require('../../assets/navicon/add.png')} style={styles.icons} />}
+
             </TouchableOpacity>
             
             <TouchableOpacity
@@ -27,8 +29,9 @@ export default function Nav() {
                         navigation.replace('Feed')
                     }
                 }}
-            >
-                <Image source={require('../../assets/navicon/home.png')} style={styles.icons} />
+            >   
+                {route.name === 'Feed' ? <Image source={require('../../assets/navicon/homedot.png')} style={styles.icons} /> : 
+                <Image source={require('../../assets/navicon/home.png')} style={styles.icons} /> }
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -39,7 +42,8 @@ export default function Nav() {
                     }
                 }}
             >
-                <Image source={require('../../assets/navicon/user.png')} style={styles.icons} />
+                {route.name === 'Profile' ? <Image source={require('../../assets/navicon/userdot.png')} style={styles.icons} /> : 
+                <Image source={require('../../assets/navicon/user.png')} style={styles.icons} />}
             </TouchableOpacity>
 
         </View>
@@ -57,12 +61,18 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        width:Dimensions.get('window').width
+        width:Dimensions.get('window').width,
+        // height: 50
     },
     icons: {
-        width: 35,
-        height: 35,
+        width: 45,
+        height: 45,
         resizeMode:'contain',
-        margin: Dimensions.get('window').width * 0.1
-    }
+        margin: Dimensions.get('window').width * 0.05
+    },
+    // filled: {
+    //     height: 35,
+    //     width: 35,
+    //     // backgroundColor: 'black'
+    // }
 })
