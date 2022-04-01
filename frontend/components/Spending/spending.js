@@ -201,7 +201,11 @@ export default function Spending() {
               create(value, info, category, BUDGETID)
               updateRemaining(BUDGETID, value)
               spendAmt = value
-              navigation.navigate('Profile')
+              const check = onSnapshot(doc(db, "user", uid, "budget", BUDGETID), (doc) => {
+                  navigation.navigate('Profile')
+                }
+              )
+              // navigation.navigate('Profile')
             }
               } >
             <Text style={styles.continue}>Continue</Text>

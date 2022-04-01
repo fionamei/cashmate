@@ -67,17 +67,18 @@ export default function RemainBudget() {
         console.log("test BUDGET ID", BUDGETID)
 
         const docRef = doc(db, "user", uid, "budget", BUDGETID);
-        console.log("test docref", docRef)
+        // console.log("test docref", docRef)
         getDoc(docRef).then((docSnap) => {
             setBudget(docSnap.data()['amount'])
             setRemaining(docSnap.data()['remainingAmt'])
             setPercentage(Number(remaining) / Number(budget) * 100)
 
-            console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-            console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+            // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+            // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
         })
 
     stringpercent = `${percentage}%`
+    console.log(stringpercent)
 
     } else {
         console.log("NO USER SIGNED IN")
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     fill: {
         ...StyleSheet.absoluteFill,
         backgroundColor: "#000000",
-        // width: "50%"
+        // width: "60%"
         width: stringpercent,
     },
 
