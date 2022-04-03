@@ -30,7 +30,6 @@ export default function UserInfo() {
                 setLast(docSnap.data()['lastName'])
             })
         }
-        console.log("hello",uid,first,last)
     }
     const full_name = first + " " + last
     
@@ -43,7 +42,7 @@ export default function UserInfo() {
         quality: 1,
         });
 
-        console.log(result);
+        // console.log(result);
 
         if (!result.cancelled) {
         setImage(result.uri);

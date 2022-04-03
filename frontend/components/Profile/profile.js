@@ -13,7 +13,7 @@ import Warning from "./warning";
 
 export default function Profile() {
     const navigation = useNavigation()
-    const [uid, setUID] = useState('')
+    // const [uid, setUID] = useState('')
 
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
@@ -26,15 +26,15 @@ export default function Profile() {
     /*     recent one                                  */
     /***************************************************/
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const id = user.uid;
-            setUID(id)
-        } else {
-            console.log("NO USER SIGNED IN")
-        }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         const id = user.uid;
+    //         setUID(id)
+    //     } else {
+    //         console.log("NO USER SIGNED IN")
+    //     }
+    // });
 
     const handleSignOut = () => {
         auth.signOut()
@@ -58,9 +58,9 @@ export default function Profile() {
                     <UserInfo />
                     <RemainingBudget />
                     <Timeline />
-                    <TouchableOpacity onPress={handleSignOut}>
+                    {/* <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </ScrollView>
             <Nav/>

@@ -8,7 +8,7 @@ import { budgetId } from '../Budget/budget.js';
 import { useEffect } from 'react/cjs/react.production.min';
 
 const budget = 100
-const remaining = 88
+const remaining = 100
 const percentage = remaining / budget * 100
 const stringpercent = `${percentage}%`
 
@@ -35,15 +35,15 @@ export default function remainingbudget() {
     /*     recent one                                  */
     /***************************************************/
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const id = user.uid;
-        setUID(id)
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    // if (user) {
+    //     const id = user.uid;
+    //     setUID(id)
+    // } else {
+    //     console.log("NO USER SIGNED IN")
+    // }
+    // });
 
     // useEffect(() => {
     //     const docRef = doc(db, "user", uid, "budget", budgetId);
