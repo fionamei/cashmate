@@ -9,6 +9,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
+import Timeline2 from "./timeline2"
 
 export default function Profile() {
     const navigation = useNavigation()
