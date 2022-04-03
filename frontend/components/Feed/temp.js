@@ -4,10 +4,9 @@ import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView
 import { useFonts } from '@use-expo/font';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Nav from '../Navbar/navbar';
-import Temp from './temp';
 
 
-export default function Feed() {
+export default function Temp() {
     const [clicked, isClicked] = useState(false)
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -18,46 +17,69 @@ export default function Feed() {
     } 
     
     return (
+    
+        
         <View style={styles.container}>
-            <ScrollView style={styles.scroll}>
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <View style={styles.container}>
-                    {/* keep this here or it all breaks :DD */}
-                </View> 
-                
-            </ScrollView>
-            <Nav/>
-        </View>
+            
+            <View style={styles.postContainer}>
+                <View style={styles.imageContainer}>
+                    <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/>
+                </View>
+                <View style={styles.heading}>
+                    <Text style={styles.name}>Daniel Chen</Text>
+                    <Text style={styles.price}>$12.00</Text>
+
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() =>
+                                isClicked(!clicked)
+                            }
+                        >
+                            <Text>20 </Text>
+                            {clicked ? 
+                                <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
+                                <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttons}>
+                            <Text>5 </Text>
+                            <Image source={require("../../assets/feedicons/comment.png")} style={styles.iconTwo}/>
+                        </TouchableOpacity>
+                        <Text style={styles.category}>food</Text>
+                    </View>
+                </View>   
+
+                <View style={styles.aboutContainer}>
+                     <Text style={styles.date}>3/1/22 5:23 PM</Text>
+                     <Text style={styles.description}>sushi and boba</Text>
+                </View>
+            </View>
+            
+            {/* <Nav/> */}
+        </View> 
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1, 
-        // flexDirection: 'row',
-        // justifyContent:'space-between',
+        flex: 1, 
+        flexDirection: 'row',
+        justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        paddingTop:"5%",
-        // backgroundColor: 'green'
+        // backgroundColor: 'black'
         backgroundColor:"#FFFFFF",
-        width: Dimensions.get('window').width,
-        paddingBottom:"15%"
         
     },
     postContainer: {
+        borderBottomColor:'black',
+        borderBottomWidth:1,
         flex:1,
         flexDirection:'row',
         justifyContent:'space-evenly',
         height: Dimensions.get("window").height * 0.15,
-        maxWidth: Dimensions.get('window').width * 0.9,
+        maxWidth: Dimensions.get('window').width * .9,
+        paddingTop: '3%'
 
         // borderTopColor: 'black'
         // backgroundColor: 'red'
@@ -76,13 +98,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         
         // width: 20,
-        width: '60%'
+        // width: '60%'
         
-    },
-    scroll: {
-        // padding: "10%",
-        paddingBottom:"30%",
-        // backgroundColor: 'blue'
     },
     image: {
         width: 55,

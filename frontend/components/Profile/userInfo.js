@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useState, setState } from 'react';
+import { useState, useEffect, setState } from 'react';
+import { useNavigation, useNavigationParam } from '@react-navigation/native'
+import { db } from '../../backend/Firebase.js';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import * as ImagePicker from 'expo-image-picker';
-import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
-import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
 
 const friends = 4
 const streak = 6
@@ -16,13 +16,6 @@ export default function UserInfo() {
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
-    // const [name, setName] = useState('');
-
-    // function displayName(id) {
-    //     const firstRef = doc(db, "user", uid, "firstName")
-    //     const lastRef = doc(db, "user", uid, "lastName")
-    //     setName(firstRef, lastRef)
-    // }
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -40,7 +33,7 @@ export default function UserInfo() {
         console.log("hello",uid,first,last)
     }
     const full_name = first + " " + last
-
+    
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({

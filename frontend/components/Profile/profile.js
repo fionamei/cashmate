@@ -9,7 +9,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
-import Timeline2 from "./timeline2"
+import Warning from "./warning";
 
 export default function Profile() {
     const navigation = useNavigation()
@@ -28,12 +28,12 @@ export default function Profile() {
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const uid = user.uid;
-        setUID(uid)
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
+        if (user) {
+            const id = user.uid;
+            setUID(id)
+        } else {
+            console.log("NO USER SIGNED IN")
+        }
     });
 
     const handleSignOut = () => {
@@ -47,14 +47,14 @@ export default function Profile() {
               error => alert(error.message))
     }
 
-    function refreshPage() {
-        window.location.reload(false);
-      }
-
+    var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
+    
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
+                    {/* {prn2 === "Sunday" ? <Warning /> : {}} */}
+                    
                     <UserInfo />
                     <RemainingBudget uid={uid}/>
                     <Timeline />

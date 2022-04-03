@@ -12,10 +12,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 var spendAmt; 
 export default function Spending() {
     const [input, setInput] = useState('');
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState();
     const [info, setInfo] = useState('');
-    const [spending, setSpending] = useState('');
-    const [category, setCategory] = useState('');
+    const [spending, setSpending] = useState();
+    const [category, setCategory] = useState();
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
@@ -197,27 +197,18 @@ export default function Spending() {
           </View>
           <TouchableOpacity style={styles.continueButton} 
             onPress={() => {
-              setSpending(input)
-              create(value, info, category, BUDGETID)
-              updateRemaining(BUDGETID, value)
-              spendAmt = value
-              const check = onSnapshot(doc(db, "user", uid, "budget", BUDGETID), (doc) => {
-                  navigation.navigate('Profile')
-                }
-              )
-              // navigation.navigate('Profile')
-            }
-              } >
+              if (value && info && category) {
+                setSpending(input)
+                create(value, info, category, budgetId)
+                updateRemaining(budgetId, value)
+                spendAmt = value
+                navigation.replace('Profile')
+              } else {
+                  Alert.alert("Missing price, place, or category!")
+              }
+            }} >
             <Text style={styles.continue}>Continue</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity 
-                  // title="Go to Input"
-                  onPress={() => navigation.navigate('LoginScreen')}
-              >
-              <Text>Go to Login Screen</Text>
-          </TouchableOpacity>
-          
           <Nav />
         </View>
       </TouchableWithoutFeedback>

@@ -21,7 +21,9 @@ export default function LoginScreen() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.replace("Profile")
+        const uid = user.uid
+        console.log("we're in login. the uid is",uid)
+        navigation.replace("Profile", {uid:uid})
       }
     })
 
@@ -87,7 +89,7 @@ export default function LoginScreen() {
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.replace('Signup')}
+            onPress={() => navigation.navigate('Signup')}
             style={styles.button}
             >
             <Text style={styles.buttonText}>I don't have an account</Text>
