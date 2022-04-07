@@ -14,6 +14,7 @@ import LoginScreen from './components/Login/loginscreen';
 import SettingsButton from './components/Settings/settingsButton';
 import Settings from './components/Settings/settings'
 import Signup from './components/Login/signup';
+import First from './components/Login/first'
 
 const Stack = createNativeStackNavigator();
 
@@ -70,7 +71,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Navigator initialRouteName="First">
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
       <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
       </Stack.Screen>
@@ -83,6 +84,7 @@ export default function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Signup" component={Signup}/>
+        <Stack.Screen name="First" component={First}/>
       {/* </Stack.Group> */}
       </Stack.Navigator>
     </NavigationContainer>

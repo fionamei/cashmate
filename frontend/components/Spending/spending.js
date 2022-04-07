@@ -45,7 +45,7 @@ export default function Spending() {
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: BUDGETID
+        budget_id: budgetId
       });
     }
     
@@ -136,7 +136,7 @@ export default function Spending() {
             <TextInput 
               style={styles.inputLine} 
               editable 
-              placeholder="place"
+              placeholder="description"
               maxLength={20}
               onChangeText={(text)=>{
                 setInput(text)
@@ -165,22 +165,22 @@ export default function Spending() {
                       </View>
                   </View>
               </Modal>
-              
-              {isCategory ? 
-              <Pressable
-                  style={styles.continue}
-                  onPress={() => setModalVisible(true)}
-                  >
-                  <Text style={styles.textStyle}>({category})</Text>
-              </Pressable>
-              : 
-              <Pressable
-                  style={styles.continue}
-                  onPress={() => setModalVisible(true)}
-                  >
-                  <Text style={styles.textStyle}>Pick a Category!</Text>
-              </Pressable>
-              }
+              <View style={styles.underline}>
+                {isCategory ? 
+                <Pressable
+                    style={styles.continue}
+                    onPress={() => setModalVisible(true)}
+                    >
+                    <Text style={styles.chosen}>({category})</Text>
+                </Pressable>
+                : 
+                <Pressable
+                    style={styles.continue}
+                    onPress={() => setModalVisible(true)}
+                    >
+                    <Text style={styles.textStyle}>category</Text>
+                </Pressable>
+              }</View>
 
           </View>
           <TouchableOpacity style={styles.continueButton} 
@@ -196,7 +196,7 @@ export default function Spending() {
                   Alert.alert("Missing price, place, or category!")
               }
             }} >
-            <Text style={styles.continue}>Continue</Text>
+            <Text style={styles.continue}>continue</Text>
           </TouchableOpacity>
           <Nav />
         </View>
@@ -267,9 +267,24 @@ const styles = StyleSheet.create({
         elevation: 5
       },
       textStyle: {
-        color: "black",
+        color: "#bbbbbb",
         padding: 10,
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 30,
+        fontFamily:"Urbanist-Light",
+      },
+      chosen: {
+        color: "#000000",
+        padding: 10,
+        textAlign: "center",
+        fontSize: 30,
+        fontFamily:"Urbanist-Light",
+      },
+      underline: {
+        borderBottomColor:'#000000',
+        borderBottomWidth:2,
+        height: 50,
+        // backgroundColor: 'red'
       },
       modalText: {
         marginBottom: 15,

@@ -22,6 +22,7 @@ export default function LoginScreen() {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         const uid = user.uid
+        navigation.pop()
         navigation.replace("Profile", {uid:uid})
       }
     })
@@ -87,12 +88,12 @@ export default function LoginScreen() {
             >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('Signup')}
             style={styles.button}
             >
             <Text style={styles.buttonText}>I don't have an account</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       </TouchableWithoutFeedback>
