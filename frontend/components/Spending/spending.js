@@ -22,7 +22,7 @@ export default function Spending() {
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
-     
+    
     if (!isLoaded) {
         return null;
     } 
@@ -45,7 +45,7 @@ export default function Spending() {
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: BUDGETID
+        budget_id: budgetId
       });
     }
     

@@ -76,7 +76,7 @@ export default function Timeline() {
     })
 
     useEffect(() => {
-        
+        const getSpendingObj = async () => {
             console.log("BUDGET ID OF MOST RECENT", BUDGETID)
 
             const q3 = query(collection(db, "user", uid, "budget", BUDGETID, "spending"), orderBy("timestamp", "desc"));
@@ -114,18 +114,23 @@ export default function Timeline() {
                     
                 })
             })
-    }, [])
+        }
+        getSpendingObj()
+    }, [BUDGETID])
 
     useEffect(() => {
-        console.log("PREV: ", ...spendings)
-        console.log("CURRENT", updateVal)
-        console.log("ARR TO BE SET", [...spendings, updateVal])
-        if (!(spendings && Object.keys(spendings) === 0)) {
-            setSpending([...spendings, updateVal])
+        const changeSpending = async () => {
+            console.log("PREV: ", ...spendings)
+            console.log("CURRENT", updateVal)
+            console.log("ARR TO BE SET", [...spendings, updateVal])
+            if (!(spendings && Object.keys(spendings) === 0)) {
+                setSpending([...spendings, updateVal])
+            }
+            // setSpending([...spendings, updateVal])
+            // setSpending(arr)
+            console.log("SPENDING:", spendings)
         }
-        // setSpending([...spendings, updateVal])
-        // setSpending(arr)
-        console.log("SPENDING:", spendings)
+        changeSpending()
     }, [updateVal])
 
     if (!isLoaded) {
