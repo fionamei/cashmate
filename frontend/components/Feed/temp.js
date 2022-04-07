@@ -36,13 +36,13 @@ export default function Temp() {
                                 isClicked(!clicked)
                             }
                         >
-                            <Text>20 </Text>
+                            <Text style={styles.category}>20 </Text>
                             {clicked ? 
                                 <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
                                 <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttons}>
-                            <Text>5 </Text>
+                            <Text style={styles.category}>5 </Text>
                             <Image source={require("../../assets/feedicons/comment.png")} style={styles.iconTwo}/>
                         </TouchableOpacity>
                         <Text style={styles.category}>food</Text>
@@ -79,17 +79,15 @@ const styles = StyleSheet.create({
         justifyContent:'space-evenly',
         height: Dimensions.get("window").height * 0.15,
         maxWidth: Dimensions.get('window').width * .9,
-        paddingTop: '3%'
+        paddingTop: '3%',
 
-        // borderTopColor: 'black'
-        // backgroundColor: 'red'
     },
     buttonContainer: {
         flex:1,
         flexDirection:'row',
         justifyContent:'space-between',
         width: Dimensions.get("window").width * 0.3,
-        // backgroundColor: 'black'
+        // backgroundColor: 'red'
     },
     aboutContainer: {
         // flexGrow: 1,
@@ -129,24 +127,33 @@ const styles = StyleSheet.create({
 
     // TEXT
     name: {
-        fontSize:24,
+        // fontSize: 24,
+        fontSize: Dimensions.get('window').height/39,
         fontFamily:'Urbanist-Regular'
     },
     price: {
-        fontSize: 42,
+        // fontSize: 42,
+        fontSize: Dimensions.get('window').height/22,
         fontFamily:'Urbanist-Regular'
     },
     date: {
-        fontSize:24,
+        // fontSize:24,
+        fontSize: Dimensions.get('window').height/39,
         fontFamily:'Urbanist-Regular',
         color:'#BBBBBB'
     },
+    category: {
+        fontFamily:'Urbanist-Regular',
+        fontSize: Dimensions.get('window').height/55,
+    },
     
     description: {
-        fontSize:20,
+        // fontSize:20,
+        fontSize: Dimensions.get('window').height/45,
         fontFamily:'Urbanist-Regular',
         flex: 1, 
         flexWrap: 'wrap',
+    
         // flexShrink: 1,
         // width: 400,
         // overflow: 'breakword'

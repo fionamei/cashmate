@@ -14,6 +14,7 @@ const stringpercent = `${percentage}%`
 
 
 export default function remainingbudget() {
+    const [uid, setUID] = useState('')
     const navigation = useNavigation()
 
     const [isLoaded] = useFonts({
