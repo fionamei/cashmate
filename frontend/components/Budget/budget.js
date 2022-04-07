@@ -9,7 +9,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 var budgetId;
 
-export default function Budget() {
+export default function Budget(props) {
   const [input, setInput] = useState('')
   const [budget, setBudget] = useState()
   const [uid, setUID] = useState('')
@@ -36,8 +36,7 @@ export default function Budget() {
 
   /****************** UPDATE ****************/
   function update(num) {
-    const ref = doc(collection(db, "user", uid, "budget"))
-    // const newData = doc(collection(db, "user", ))
+    const ref = doc(collection(db, "user", props.uID, "budget"))
     setDoc(ref, {
       amount: num,
       timestamp: new Date(),
@@ -46,19 +45,21 @@ export default function Budget() {
   }
 
   /****************** UID ******************/
+  // const auth = getAuth();
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //       const id = user.uid;
+  //       setUID(id)
+  //   } else {
+  //       console.log("NO USER SIGNED IN")
+  //   }
+  // });
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const id = user.uid;
-        setUID(id)
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
-  });
+  const user = auth.currentUser;
   
   /****************** BUDGETID ******************/
   function getRecentlyCreatedBudget() {
-    const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+    const q = query(collection(db, "user", props.uID, "budget"), orderBy("timestamp", "desc"), limit(1));
     const q2 = getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
       budgetId = doc.id

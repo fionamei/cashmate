@@ -9,7 +9,6 @@ import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-var spendAmt; 
 export default function Spending() {
     const [input, setInput] = useState('');
     const [value, setValue] = useState();
@@ -19,8 +18,7 @@ export default function Spending() {
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
-    const [uid, setUID] = useState('');
-    const [BUDGETID, setBUDGETID] = useState('')
+    // const [uid, setUID] = useState('');
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
@@ -32,11 +30,8 @@ export default function Spending() {
     const category2 = ['travel', 'entertainment', 'other']
 
     async function updateRemaining(id, value) {
-      console.log(id)
-      console.log(value)
-      const ref = doc(db, "user", uid, "budget", BUDGETID)
+      const ref = doc(db, "user", user.uid, "budget", id)
       const change =  await getDoc(ref).then((docSnap) => {
-        // console.log(Number(docSnap.data()['remainingAmt']))
         updateDoc(ref, {
           remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
         })
@@ -44,7 +39,7 @@ export default function Spending() {
     }
   
     function create(num, det, cat, id) {
-      const ref = doc(collection(db, "user", uid, "budget", BUDGETID, "spending"))
+      const ref = doc(collection(db, "user", user.uid, "budget", id, "spending"))
       setDoc(ref, {
         amount: num,
         detail: det,
@@ -74,24 +69,17 @@ export default function Spending() {
     /*     recent one                                  */
     /***************************************************/
 
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    // if (user) {
+    //     const id = user.uid;
+    //     setUID(id)
+    // } else {
+    //     console.log("NO USER SIGNED IN")
+    // }
+    // });
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const id = user.uid;
-        setUID(id)
-
-        const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
-        const q2 = getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            setBUDGETID(doc.id)
-        })
-        })
-
-    } else {
-        console.log("NO USER SIGNED IN")
-    }
-    });
-
+    const user = auth.currentUser;
 
     const RowOne = category1.map((c) =>
         <TouchableOpacity 
@@ -198,10 +186,11 @@ export default function Spending() {
           <TouchableOpacity style={styles.continueButton} 
             onPress={() => {
               if (value && info && category) {
+                // console.log("budgetid: ", budgetId)
+                // console.log("uid: ", user.uid)
                 setSpending(input)
                 create(value, info, category, budgetId)
                 updateRemaining(budgetId, value)
-                spendAmt = value
                 navigation.replace('Profile')
               } else {
                   Alert.alert("Missing price, place, or category!")
@@ -303,4 +292,3 @@ const styles = StyleSheet.create({
         paddingTop: 5
       }
     });
- export {spendAmt};

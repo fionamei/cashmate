@@ -5,57 +5,23 @@ import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { budgetId } from '../Budget/budget.js';
 
 const spendings = {
-    1 : {"amount": "12",
+    1: {"amount": "10",
         "category": "food",
         "detail": "Starbucks",
-        "timestamp": "March 13, 2022 at 1:11:23 PM UTC-4"
+        "timestamp": "March 13 12:00 PM"
        },
-     2: {"amount": "16",
-        "category": "food",
-        "detail": "Halal Guys",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
+    2: {"amount": "20",
+        "category": "entertainment",
+        "detail": "JJK movie",
+        "timestamp": "March 13 1:00 PM"
         },
-    3: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    4: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    5: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    6: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    7: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-    },
-    8: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    9: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
-        },
-    10: {"amount": "50",
-        "category": "other",
-        "detail": "gifts",
-        "timestamp": "March 13, 2022 at 2:15:54 PM UTC-4"
+    3: {"amount": "1000",
+        "category": "lifestyle",
+        "detail": "Goose Jacket",
+        "timestamp": "March 13 2:00 PM"
         }
     }
 
@@ -71,6 +37,21 @@ export default function Timeline() {
     const [spendings, setSpending] = useState([])
     // const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    // console.log("uid: ", user.uid)
+    // console.log("budgetID: ", budgetId)
+    // const ref = doc(collection(db, "user", user.uid, "budget", budgetId, "spending"))
+    // const array = []
+
+    // array.push(
+    //     {"amount": "10",
+    //     "category": "food",
+    //     "detail": "Starbucks",
+    //     "timestamp": "March 13 12:00 PM"
+    //    }
+    // )
+    // console.log(array)
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),

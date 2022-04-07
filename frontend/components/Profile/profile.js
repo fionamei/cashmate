@@ -26,15 +26,15 @@ export default function Profile() {
     /*     recent one                                  */
     /***************************************************/
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const id = user.uid;
-            setUID(id)
-        } else {
-            console.log("NO USER SIGNED IN")
-        }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         const id = user.uid;
+    //         setUID(id)
+    //     } else {
+    //         console.log("NO USER SIGNED IN")
+    //     }
+    // });
 
     const handleSignOut = () => {
         auth.signOut()
@@ -58,12 +58,9 @@ export default function Profile() {
                     <UserInfo />
                     <RemainingBudget uid={uid}/>
                     <Timeline />
-                    <TouchableOpacity onPress={() => {
-                        refreshPage
-                        handleSignOut()}
-                        }>
+                    {/* <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </ScrollView>
             <Nav/>
