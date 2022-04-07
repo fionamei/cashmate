@@ -8,7 +8,19 @@ export default function Nav() {
 
     return (
         <View style={styles.container}>
-        
+            
+            <TouchableOpacity
+                // title="Go to Spending"
+                onPress={() => {
+                    if (route.name != "Feed") {
+                        navigation.replace('Feed')
+                    }
+                }}
+            >   
+                {route.name === 'Feed' ? <Image source={require('../../assets/navicon/homedot.png')} style={styles.icons} /> : 
+                <Image source={require('../../assets/navicon/home.png')} style={styles.icons} /> }
+            </TouchableOpacity>
+            
             <TouchableOpacity 
                 // title="Go to Input"
                 onPress={() => {
@@ -22,7 +34,7 @@ export default function Nav() {
 
             </TouchableOpacity>
             
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 // title="Go to Spending"
                 onPress={() => {
                     if (route.name != "Feed") {
@@ -32,7 +44,7 @@ export default function Nav() {
             >   
                 {route.name === 'Feed' ? <Image source={require('../../assets/navicon/homedot.png')} style={styles.icons} /> : 
                 <Image source={require('../../assets/navicon/home.png')} style={styles.icons} /> }
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
                 // title="Go to Spending"
