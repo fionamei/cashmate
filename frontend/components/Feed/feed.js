@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         // justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        paddingTop:"5%",
+        // paddingTop:"5%",
         // backgroundColor: 'green'
         backgroundColor:"#FFFFFF",
         width: Dimensions.get('window').width,

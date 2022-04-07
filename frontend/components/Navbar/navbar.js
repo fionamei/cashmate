@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "rgb(255,255,255)",
         // backgroundColor: 'red',
         position: 'absolute',
         bottom: "0%",
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         flexWrap: "wrap",
         width:Dimensions.get('window').width,
+        // backgroundColor: 'transparent'
         // height: 50
     },
     icons: {
