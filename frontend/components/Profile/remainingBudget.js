@@ -21,6 +21,7 @@ export default function remainingbudget() {
     const [budget, setBudget] = useState('');
     const [remaining, setRemaining] = useState('');
     const [percentage, setPercentage] = useState('');
+    const [stringpercent, setStringpercent] = useState('100%')
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -49,8 +50,8 @@ export default function remainingbudget() {
             // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
         })
 
-    stringpercent = `${percentage}%`
-    console.log(stringpercent)
+    setStringpercent(`${percentage}%`)
+    // console.log("this is the stringpercent",stringpercent)
 
     } else {
         console.log("NO USER SIGNED IN")
@@ -154,7 +155,9 @@ export default function remainingbudget() {
             <Text style={styles.subtitle1}>remaining: </Text>
             <Text style={styles.subtitle2}>{percentage}%</Text>
             <View style={styles.progressBar}>
-                <View style={styles.fill}/>
+                <View style={{...StyleSheet.absoluteFill,
+                              backgroundColor: "#000000",
+                              width: stringpercent}}/>
             </View>
             <TouchableOpacity
                 onPress={() => navigation.replace("Budget")}
