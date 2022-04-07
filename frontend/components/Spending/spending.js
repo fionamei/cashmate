@@ -1,7 +1,7 @@
 import { useState, setState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
 import { budgetId } from '../Budget/budget.js';
 import iconImages from './images';
@@ -28,7 +28,7 @@ export default function Spending() {
     } 
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
-    
+
     async function updateRemaining(id, value) {
       const ref = doc(db, "user", user.uid, "budget", id)
       const change =  await getDoc(ref).then((docSnap) => {
@@ -45,7 +45,7 @@ export default function Spending() {
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: id
+        budget_id: BUDGETID
       });
     }
     

@@ -13,7 +13,7 @@ import Warning from "./warning";
 
 export default function Profile() {
     const navigation = useNavigation()
-    // const [uid, setUID] = useState('')
+    const [uid, setUID] = useState('')
 
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
@@ -48,7 +48,7 @@ export default function Profile() {
     }
 
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
-
+    
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
@@ -56,7 +56,7 @@ export default function Profile() {
                     {/* {prn2 === "Sunday" ? <Warning /> : {}} */}
                     
                     <UserInfo />
-                    <RemainingBudget />
+                    <RemainingBudget uid={uid}/>
                     <Timeline />
                     {/* <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>

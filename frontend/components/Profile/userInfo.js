@@ -5,8 +5,8 @@ import { db } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const friends = 4
 const streak = 6
