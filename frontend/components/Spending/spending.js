@@ -45,7 +45,7 @@ export default function Spending() {
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: BUDGETID
+        budget_id: budgetId
       });
     }
     
