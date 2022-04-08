@@ -6,7 +6,7 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useNavigation } from '@react-navigation/native';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { budgetId } from '../Budget/budget.js';
+// import { budgetId } from '../Budget/budget.js';
 
 const budget = 100
 const remaining = 100
