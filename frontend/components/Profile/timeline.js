@@ -6,29 +6,12 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 
-// const spendings = {
-//     1: {"amount": "10",
-//         "category": "food",
-//         "detail": "Starbucks",
-//         "timestamp": "March 13 12:00 PM"
-//        },
-//     2: {"amount": "20",
-//         "category": "entertainment",
-//         "detail": "JJK movie",
-//         "timestamp": "March 13 1:00 PM"
-//         },
-//     3: {"amount": "1000",
-//         "category": "lifestyle",
-//         "detail": "Goose Jacket",
-//         "timestamp": "March 13 2:00 PM"
-//         }
-//     }
-
 export default function Timeline() {
     const [uid, setUID] = useState('');
     const [BUDGETID, setBUDGETID] = useState('')
     const [budget, setBudget] = useState('');
     const [spendings, setSpending] = useState([])
+    const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
 
     const [isLoaded] = useFonts({
@@ -48,16 +31,19 @@ export default function Timeline() {
                     setBUDGETID(doc.id)
                 })
             })
+
+            setCounter(1)
         }
     })
 
     useEffect(() => {
-        
+        const getSpendingObj = async () => {
             console.log("BUDGET ID OF MOST RECENT", BUDGETID)
 
             const q3 = query(collection(db, "user", uid, "budget", BUDGETID, "spending"), orderBy("timestamp", "desc"));
             const q4 = getDocs(q3).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
+
                     let update = {
                         "amount": doc.data()["amount"],
                         "category": doc.data()["category"],
@@ -69,24 +55,35 @@ export default function Timeline() {
                     if (!(update && Object.keys(update) === 0)) {
                         setUpdateVal(update)
                     }
+                    
                 })
             })
+        }
+        getSpendingObj()
+        setCounter(counter + 1)
     }, [BUDGETID])
 
     useEffect(() => {
-        console.log("PREV: ", ...spendings)
-        console.log("CURRENT", updateVal)
-        console.log("ARR TO BE SET", [...spendings, updateVal])
-        if (!(spendings && Object.keys(spendings) === 0)) {
-            setSpending([...spendings, updateVal])
+        const changeSpending = async () => {
+            console.log("PREV: ", ...spendings)
+            console.log("CURRENT", updateVal)
+            console.log("ARR TO BE SET", [...spendings, updateVal])
+            console.log("COUNTER:", counter)
+            if (counter == 1) {
+                setSpending([updateVal])
+            } else {
+                setSpending([...spendings, updateVal])
+            }
+            console.log("SPENDING:", spendings)
         }
-        console.log("SPENDING:", spendings)
+        setCounter(counter+1)
+        changeSpending()
     }, [updateVal])
 
     if (!isLoaded) {
         return null;
     } 
-
+    
      const history = spendings.map((spending,key) => {
             // console.log("one spending", spending)
             return(
@@ -102,6 +99,7 @@ export default function Timeline() {
                 </View>
             )
      })
+
     if (spendings.length != 0) {
         return (
             <View>{history}</View>
@@ -111,6 +109,7 @@ export default function Timeline() {
             <View></View>
         )
     }
+
 }
 const styles = StyleSheet.create({
 
