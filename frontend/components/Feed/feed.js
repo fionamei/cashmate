@@ -1,22 +1,107 @@
 import * as React from 'react';
-import { useState, setState } from 'react';
+import { useState, setState, useEffect } from 'react';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db } from '../../backend/Firebase.js';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import Nav from '../Navbar/navbar';
 import Temp from './temp';
 
 
 export default function Feed() {
     const [clicked, isClicked] = useState(false)
+    const [listUID, setListUID] = useState([])
+    const [listBudgetID, setListBudgetID] = useState([])
+    const [feed, setFeed] = useState([])
+    const [counter, setCounter] = useState(0)
+    const [updateVal, setUpdateVal] = useState({})
+
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
     })
+
+    useEffect(() => {
+        const querySnapshot = getDocs(collection(db, "user")).then((querySnapshot) => {
+            let temp = []
+            querySnapshot.forEach((doc) => {
+                temp.push(doc.id)
+            });
+            setListUID(temp)
+        })
+    }, [])
+
+    useEffect(() => {
+        let tempBudget = []
+        const getBudgetIDs = async () => {
+            for (let i = 0; i < listUID.length; i++) {
+                const q = query(collection(db, "user", listUID[i], "budget"), orderBy("timestamp", "desc"), limit(1));
+                const q2 = getDocs(q).then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
+                        tempBudget.push(doc.id)
+                        // setListBudgetID([...listBudgetID, doc.id])
+                    })
+                    if (i == listUID.length-1) {
+                        setListBudgetID(tempBudget)
+                    }
+                })
+            }
+        }
+        getBudgetIDs()
+    }, [listUID])
+
+    useEffect(() => {
+        let tempFeed = []
+        const getSpendingObj = async () => {
+            for (let i = 0; i < listUID.length; i++) {
+                const q3 = query(collection(db, "user", listUID[i], "budget", listBudgetID[i], "spending"), orderBy("timestamp", "desc"));
+                const q4 = getDocs(q3).then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        let update = {
+                            "amount": doc.data()["amount"],
+                            "category": doc.data()["category"],
+                            "detail": doc.data()["detail"],
+                        }
+
+                        tempFeed.push(update)
+                        
+                    })
+                    if (i == listUID.length-1) {
+                        setFeed(tempFeed)
+                    }
+                })
+            }
+        }
+        getSpendingObj()
+    }, [listBudgetID])
+
+    useEffect(() => {
+        const changeFeed = async () => {
+            console.log("PREV: ", ...spendings)
+            console.log("CURRENT", updateVal)
+            console.log("ARR TO BE SET", [...spendings, updateVal])
+            console.log("COUNTER:", counter)
+            if (counter == 1) {
+                setSpending([updateVal])
+            } else {
+                setSpending([...spendings, updateVal])
+            }
+            console.log("SPENDING:", spendings)
+        }
+        setCounter(counter+1)
+        changeFeed()
+    }, [updateVal])
+
     if (!isLoaded) {
         return null;
     } 
     
+    console.log("LIST UID", listUID)
+    console.log("LIST BUDGET ID", listBudgetID)
+    console.log("FEED", feed)
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scroll}>
