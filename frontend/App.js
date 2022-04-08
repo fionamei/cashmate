@@ -12,9 +12,11 @@ import Home from './Home';
 import Nav from './components/Navbar/navbar';
 import LoginScreen from './components/Login/loginscreen';
 import SettingsButton from './components/Settings/settingsButton';
-import Settings from './components/Settings/settings'
+import Settings from './components/Settings/settings';
+import AddFriendButton from './components/Search/addFriendButton';
+import Search from './components/Search/search';
 import Signup from './components/Login/signup';
-import First from './components/Login/first'
+import FirstScreen from './components/Login/first'
 
 const Stack = createNativeStackNavigator();
 
@@ -42,36 +44,9 @@ export default function App() {
     }
   });
 
-  // function getUserID() {
-  //   return user.uid
-  // }
-
-  // function getBudgetID() {
-  //   const id = ""
-  //   const ref = query(collection(db, "user", user.uid, "budget"), orderBy("timestamp", "desc"), limit(1));
-  //   getDocs(ref).then((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //      id = doc.id
-  //     })
-  //   })
-  //   return id
-  // }
-
-  // function getSpendingID() {
-  //   const ref = doc(collection(db, "user", user.uid, "budget", budgetID, "spending"))
-
-  // }
-
-  // useEffect(() => {
-  //   // getUserID().then((value) => setUID(value));
-  //   console.log(uID)
-  //   // getBudgetID().then((value) => setBudgetID(value));
-  //   console.log(budgetID)
-  // }, [uID, budgetID])
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="First">
+      <Stack.Navigator initialRouteName="FirstScreen">
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
       <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
       </Stack.Screen>
@@ -79,13 +54,14 @@ export default function App() {
         <Stack.Screen name="Spending" component={Spending}/>
         <Stack.Screen name="Feed" component={Feed} />
         <Stack.Screen name="Profile" component={Profile} 
-                      options={{headerRight: () => (<SettingsButton/>)}}/>
+                      options={{headerRight: () => (<SettingsButton/>), 
+                                headerLeft: ()=> (<AddFriendButton/>)}}/>
         <Stack.Screen name="Nav" component={Nav}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Signup" component={Signup}/>
-        <Stack.Screen name="First" component={First}/>
-      {/* </Stack.Group> */}
+        <Stack.Screen name="FirstScreen" component={FirstScreen}/>
+        <Stack.Screen name="Search" component={Search}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

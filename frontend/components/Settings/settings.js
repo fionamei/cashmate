@@ -21,7 +21,7 @@ export default function Settings () {
             console.log("logging out from settings")
             navigation.reset({
                 index: 0,
-                routes: [{ name: 'First' }],
+                routes: [{ name: 'FirstScreen' }],
               });
           })
           .catch(
