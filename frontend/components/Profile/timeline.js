@@ -35,7 +35,7 @@ export default function Timeline() {
     const [budget, setBudget] = useState('');
     // const [spendings2, setSpending] = useState([])
     const [spendings, setSpending] = useState([])
-    // const [counter, setCounter] = useState(0)
+    const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
     // const auth = getAuth();
     // const user = auth.currentUser;
@@ -71,6 +71,8 @@ export default function Timeline() {
                 })
             })
 
+            setCounter(1)
+
             // console.log("test uid", uid)
         }
     })
@@ -101,6 +103,8 @@ export default function Timeline() {
                         setUpdateVal(update)
                     }
 
+                    // setCounter(counter + 1)
+
                     // setSpending([...spendings, updateVal])
                     // const arr = [...spendings, updateVal]
                     // console.log("PREV: ", ...spendings)
@@ -116,6 +120,7 @@ export default function Timeline() {
             })
         }
         getSpendingObj()
+        setCounter(counter + 1)
     }, [BUDGETID])
 
     useEffect(() => {
@@ -123,13 +128,20 @@ export default function Timeline() {
             console.log("PREV: ", ...spendings)
             console.log("CURRENT", updateVal)
             console.log("ARR TO BE SET", [...spendings, updateVal])
-            if (!(spendings && Object.keys(spendings) === 0)) {
+            console.log("COUNTER:", counter)
+            if (counter == 1) {
+                setSpending([updateVal])
+            } else {
                 setSpending([...spendings, updateVal])
             }
+            // if (!(spendings && Object.keys(spendings) === 0)) {
+            //     setSpending([...spendings, updateVal])
+            // }
             // setSpending([...spendings, updateVal])
             // setSpending(arr)
             console.log("SPENDING:", spendings)
         }
+        setCounter(counter+1)
         changeSpending()
     }, [updateVal])
 
