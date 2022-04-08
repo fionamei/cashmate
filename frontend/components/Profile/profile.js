@@ -56,7 +56,7 @@ export default function Profile() {
                     {/* {prn2 === "Sunday" ? <Warning /> : {}} */}
                     
                     <UserInfo />
-                    <RemainingBudget uid={uid}/>
+                    <RemainingBudget />
                     <Timeline />
                     {/* <TouchableOpacity onPress={handleSignOut}>
                         <Text> signout </Text>

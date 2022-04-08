@@ -1,30 +1,10 @@
 import * as React from 'react';
 import { useState, setState, useEffect } from 'react';
-import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
-import { useFonts } from '@use-expo/font';
-import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { budgetId } from '../Budget/budget.js';
-
-const spendings = {
-    1: {"amount": "10",
-        "category": "food",
-        "detail": "Starbucks",
-        "timestamp": "March 13 12:00 PM"
-       },
-    2: {"amount": "20",
-        "category": "entertainment",
-        "detail": "JJK movie",
-        "timestamp": "March 13 1:00 PM"
-        },
-    3: {"amount": "1000",
-        "category": "lifestyle",
-        "detail": "Goose Jacket",
-        "timestamp": "March 13 2:00 PM"
-        }
-    }
-
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
+import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import { useFonts } from '@use-expo/font';
 
 export default function Timeline() {
     const [uid, setUID] = useState('');
@@ -63,12 +43,11 @@ export default function Timeline() {
             const q3 = query(collection(db, "user", uid, "budget", BUDGETID, "spending"), orderBy("timestamp", "desc"));
             const q4 = getDocs(q3).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-        
+
                     let update = {
                         "amount": doc.data()["amount"],
                         "category": doc.data()["category"],
                         "detail": doc.data()["detail"],
-                        // "timestamp": doc.data()["timestamp"]
                     }
 
                     console.log("BEFORE SETTING UPDATE VAL:", update)
@@ -120,7 +99,6 @@ export default function Timeline() {
                 </View>
             )
      })
-    
 
     if (spendings.length != 0) {
         return (
@@ -133,7 +111,6 @@ export default function Timeline() {
     }
 
 }
-
 const styles = StyleSheet.create({
 
     // text:

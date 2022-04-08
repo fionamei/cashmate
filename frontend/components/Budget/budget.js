@@ -7,7 +7,7 @@ import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-var budgetId;
+// var budgetId;
 
 export default function Budget(props) {
   const [input, setInput] = useState('')
@@ -58,14 +58,14 @@ export default function Budget(props) {
   const user = auth.currentUser;
   
   /****************** BUDGETID ******************/
-  function getRecentlyCreatedBudget() {
-    const q = query(collection(db, "user", props.uID, "budget"), orderBy("timestamp", "desc"), limit(1));
-    const q2 = getDocs(q).then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-      budgetId = doc.id
-      })
-    })
-  }
+  // function getRecentlyCreatedBudget() {
+  //   const q = query(collection(db, "user", props.uID, "budget"), orderBy("timestamp", "desc"), limit(1));
+  //   const q2 = getDocs(q).then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //     budgetId = doc.id
+  //     })
+  //   })
+  // }
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -91,7 +91,6 @@ export default function Budget(props) {
             if (budget) {
               setBudget(input)
               update(input)
-              getRecentlyCreatedBudget()
               navigation.replace('Spending')
             } else {
               Alert.alert("Please input a budget")
@@ -150,4 +149,4 @@ const styles = StyleSheet.create({
   }
   });
 
-  export {budgetId};
+  // export {budgetId};
