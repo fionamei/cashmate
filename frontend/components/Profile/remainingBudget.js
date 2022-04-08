@@ -44,7 +44,7 @@ export default function remainingbudget() {
         getDoc(docRef).then((docSnap) => {
             setBudget(docSnap.data()['amount'])
             setRemaining(docSnap.data()['remainingAmt'])
-            setPercentage(Number(remaining) / Number(budget) * 100)
+            setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
 
             // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
             // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);

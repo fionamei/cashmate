@@ -22,7 +22,7 @@ export default function Spending() {
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
-     
+    
     if (!isLoaded) {
         return null;
     } 
