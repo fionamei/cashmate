@@ -91,7 +91,7 @@ export default function Budget(props) {
             if (budget) {
               setBudget(input)
               update(input)
-              navigation.replace('Spending')
+              navigation.replace('Profile')
             } else {
               Alert.alert("Please input a budget")
             }
