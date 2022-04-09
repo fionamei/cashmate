@@ -49,7 +49,8 @@ export default function remainingbudget() {
             // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
             // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
         })
-
+    
+    
     setStringpercent(`${percentage}%`)
     // console.log("this is the stringpercent",stringpercent)
 
@@ -57,33 +58,6 @@ export default function remainingbudget() {
         console.log("NO USER SIGNED IN")
     }
     });
-
-    // useEffect(() => {
-    //     const docRef = doc(db, "user", id, "budget", budgetId);
-    //     const execute = getDoc(docRef).then((docSnap) => {
-    //         setBudget(docSnap.data()['amount'])
-    //         setRemaining(docSnap.data()['remainingAmt'])
-    //         setPercentage(Number(remaining) / Number(budget) * 100)
-
-    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
-    //     })
-    // }, [])
-
-    // const docRef = doc(db, "user", uid, "budget", budgetId);
-    // getDoc(docRef).then((docSnap) => {
-    //     setBudget(docSnap.data()['amount'])
-    //     setRemaining(docSnap.data()['remainingAmt'])
-    //     setPercentage(Number(remaining) / Number(budget) * 100)
-
-    //     console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-    //     console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
-    // })
-
-    // stringpercent = `${percentage}%`
-    // const [budget, setBudget] = useState('');
-    // const [remaining, setRemaining] = useState('');
-    // const [percentage, setPercentage] = useState('');
 
     const navigation = useNavigation()
 
@@ -95,77 +69,32 @@ export default function remainingbudget() {
         return null;
     } 
 
-    /***************************************************/
-    /* THESE ARE THE FIREBASE-RELATED METHODS          */
-    /*                                                 */
-    /* Methods included in this file:                  */
-    /*   create() => sets new spending within 'budget' */
-    /*   onAuthStateChanged() => handles login         */
-    /*   getRecentlyCreatedBudget()  => sets           */
-    /*     global variable budget id to the most       */
-    /*     recent one                                  */
-    /***************************************************/
-
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    // if (user) {
-    //     const id = user.uid;
-    //     setUID(id)
-    // } else {
-    //     console.log("NO USER SIGNED IN")
-    // }
-    // });
-
-    // } else {
-    //     console.log("NO USER SIGNED IN")
-    // }
-    // });
-
-
-    /***************************************************/
-    /* THESE ARE THE FIREBASE-RELATED METHODS          */
-    /*                                                 */
-    /* Methods included in this file:                  */
-    /*   create() => sets new spending within 'budget' */
-    /*   onAuthStateChanged() => handles login         */
-    /*   getRecentlyCreatedBudget()  => sets           */
-    /*     global variable budget id to the most       */
-    /*     recent one                                  */
-    /***************************************************/
-
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    // if (user) {
-    //     const id = user.uid;
-    //     // setUID(id)
-    //     uid = id;
-
-    //         console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-    //         console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
-
-    //         stringpercent = `${percentage}%`
-    //     })
-    // }, [uid])
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
 
-    // console.log(prn2);
+    console.log("remain: ", remaining)
 
     return (
         <View style={styles.container}>
             <Text style={styles.subtitle1}>remaining: </Text>
-            <Text style={styles.subtitle2}>{percentage}%</Text>
-            <View style={styles.progressBar}>
+            {remaining ? <Text style={styles.subtitle2}>{percentage}%</Text> : <Text style={styles.subtitle2}>100%</Text>}
+            {remaining ? <View style={styles.progressBar}>
                 <View style={{...StyleSheet.absoluteFill,
                               backgroundColor: "#000000",
                               width: stringpercent}}/>
-            </View>
+            </View> : <View style={styles.progressBar}>
+                <View style={{...StyleSheet.absoluteFill,
+                              backgroundColor: "#000000",
+                              width: '100%'}}/>
+            </View> }
             <TouchableOpacity
                 onPress={() => navigation.replace("Budget")}
             >   
                 <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text>
             </TouchableOpacity>
             
-            <Text style={styles.subtitle4}>${remaining} remaining</Text>
+            {remaining ?  <Text style={styles.subtitle4}>${remaining} remaining</Text> : 
+                 <Text style={styles.subtitle4}>${budget} remaining</Text> }
+            {/* <Text style={styles.subtitle4}>${remaining} remaining</Text> */}
         </View>
     )
 
