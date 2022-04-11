@@ -1,12 +1,15 @@
 import React, { useEffect, useState, setState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { useFonts } from '@use-expo/font';
-
+import { db } from '../../backend/Firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 
 export default function Search() {
     const [exist, setExist] = useState(true)  //set true when user is found
-    const [userID, setUserID] = useState()
-    const [name, setName] = useState()
+    const [email, setEmail] = useState('')
+    const [userID, setUserID] = useState('')
+    const [name, setName] = useState('')
     const [pfp, setPfp] = useState()
     const [added, setAdded] = useState(false)
 
@@ -15,6 +18,10 @@ export default function Search() {
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
     
+    useEffect(() =>{
+        findUser(email)
+    }, [email])
+
     if (!isLoaded) {
         return null;
     } 
@@ -25,14 +32,24 @@ export default function Search() {
         }
     }
 
-    function findUser(email) {
+    function findUser(input) {
         // if can find user from email... 
-        if (true) {
-            setUserID()
-            setName()
-            setPfp()
-            setExist(true)
-        }
+        const q = query(collection(db, "user"), where("email", "==", input))
+        const q2 = getDocs(q).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setUserID(doc.id)
+                console.log(doc.id)
+                let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
+                setName(nameToBeSet)
+                console.log("USER ID", userID)
+                console.log("NAME", name)
+                setPfp()
+                setExist(true)
+            });
+        })
+        // console.log("UID", userID)
+        // console.log("NAME", name)
+        // console.log("EMAIL", email)
     }
 
     
@@ -41,7 +58,7 @@ export default function Search() {
             <View style={styles.user}>
                 <View style={styles.content}>
                     <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
-                    <Text style={styles.name}>Daniel Chen</Text>
+                    <Text style={styles.name}>{name}</Text>
                 </View>
                 <View>
                     <TouchableOpacity
@@ -67,7 +84,10 @@ export default function Search() {
                     placeholder="enter your friend's email"
                     style={styles.inputbox}
                     onKeyPress={handleKeyDown}
-                    onChangeText={text => findUser(text)}
+                    onChangeText={text => (
+                        setEmail(text)
+                        )
+                    }
                 />
                 {exist ? 
                     <Display />
