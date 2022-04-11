@@ -47,9 +47,6 @@ export default function Search() {
                 setExist(true)
             });
         })
-        // console.log("UID", userID)
-        // console.log("NAME", name)
-        // console.log("EMAIL", email)
     }
 
     
