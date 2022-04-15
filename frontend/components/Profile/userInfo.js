@@ -33,6 +33,19 @@ export default function UserInfo() {
     }
     const full_name = first + " " + last
     
+    const create = (imageURI) => {
+        const ref = doc(db, "user", user.uid)
+        const change =  getDoc(ref).then((docSnap) => {
+            updateDoc(ref, {
+              image: imageURI
+            })
+        })
+    }
+
+    useEffect(() => {
+        create(image)
+    }, [image])
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
