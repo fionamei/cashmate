@@ -6,8 +6,8 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useNavigation } from '@react-navigation/native';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { LinearGradient } from 'expo-linear-gradient';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 
 // import { budgetId } from '../Budget/budget.js';
 
@@ -26,7 +26,9 @@ export default function remainingbudget() {
     const [percentage, setPercentage] = useState('');
     const [stringpercent, setStringpercent] = useState('100%')
     const [color, setColor] = useState('#000000')
-    const [progress, setProgress] = useState('#000000') //color for progress
+    const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
+    const [progress2, setProgress2] = useState('#C4E7FF')
+    
 
 
     const auth = getAuth();
@@ -34,7 +36,7 @@ export default function remainingbudget() {
     if (user) {
         const uid = user.uid;
         setUID(uid)
-        console.log("test uid", uid)
+        // console.log("test uid", uid)
 
         const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
         const q2 = getDocs(q).then((querySnapshot) => {
@@ -43,7 +45,7 @@ export default function remainingbudget() {
         })
         })
 
-        console.log("test BUDGET ID", BUDGETID)
+        // console.log("test BUDGET ID", BUDGETID)
 
         const docRef = doc(db, "user", uid, "budget", BUDGETID);
         // console.log("test docref", docRef)
@@ -51,6 +53,7 @@ export default function remainingbudget() {
             setBudget(docSnap.data()['amount'])
             setRemaining((docSnap.data()['remainingAmt']).toFixed(2))
             setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
+            // console.log(percentage)
 
             // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
             // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
@@ -60,6 +63,8 @@ export default function remainingbudget() {
     if (remaining == '') {
         setStringpercent(`${percentage}%`)
         setColor('#000000')
+        // setProgress1('#D8C8F6')
+        // setProgress2('#C4E7FF')
     } 
     else if (remaining <= 0) {
         setStringpercent("0%")
@@ -68,7 +73,24 @@ export default function remainingbudget() {
         setStringpercent(`${percentage}%`)
         setColor('#000000')
     }
+
+
+// setting the progressbar color ranges
+    if (percentage >= 80) {
+        setProgress2('#D8C8F6')
+        setProgress1('#C4E7FF')
+    } else if (percentage >= 40) {
+        setProgress2('#C4E7FF')
+        setProgress1('#FFEDAD')
+    } else if (percentage > 0){
+        setProgress2('#FFEDAD')
+        setProgress1('#FFBFC3')
+    } else {
+        setProgress2('#D8C8F6')
+        setProgress1('#C4E7FF')
+    }
     
+    // console.log(progress1, progress2)
     // console.log("this is the stringpercent",stringpercent)
 
     } else {
@@ -88,7 +110,7 @@ export default function remainingbudget() {
 
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
 
-    console.log("remain: ", remaining)
+    // console.log("remain: ", remaining)
 
     return (
         <View style={styles.container}>
@@ -112,11 +134,29 @@ export default function remainingbudget() {
                                 borderWidth: 2,
                                 borderRadius: 5,
                                 marginBottom: "3%"}}> 
-                           
-                            <View style={{...StyleSheet.absoluteFill,
+                            <LinearGradient
+                                style={{
+                                    width: stringpercent,
+                                    height: 16,
+                                    bottom: 0,
+                                    right: 0,
+                                    left: 0,
+                                    borderRadius: 2,
+                                    borderColor: color,
+                                }}
+                                useAngle={true}
+                                angle={45}
+                                angleCenter={{x: 0.5, y: 0.5}}
+                                start={{x: 0, y: 0}}
+                                end={{x: 1, y: 0}}
+                                colors={[
+                                    progress1,
+                                    progress2
+                                ]} />
+                            {/* <View style={{...StyleSheet.absoluteFill,
                                 backgroundColor: '#00000',
                                 // background: LinearGradient("90deg", "purple", "orange"),
-                                width: stringpercent}}/>
+                                width: stringpercent}}/> */}
                         </View> 
                         : <View style={{
                                 height: 20,
@@ -126,9 +166,29 @@ export default function remainingbudget() {
                                 borderWidth: 2,
                                 borderRadius: 5,
                                 marginBottom: "3%"}}>
-                            <View style={{...StyleSheet.absoluteFill,
+
+                            <LinearGradient
+                                style={{
+                                    width: '100%',
+                                    height: 16,
+                                    bottom: 0,
+                                    right: 0,
+                                    left: 0,
+                                    borderRadius: 2,
+                                    borderColor: color,
+                                }}
+                                useAngle={true}
+                                angle={45}
+                                angleCenter={{x: 0.5, y: 0.5}}
+                                start={{x: 0, y: 0}}
+                                end={{x: 1, y: 0}}
+                                colors={[
+                                    progress1,
+                                    progress2
+                                ]} />
+                            {/* <View style={{...StyleSheet.absoluteFill,
                                         backgroundColor: progress,
-                                        width: '100%'}}/>
+                                        width: '100%'}}/> */}
                         </View> }
             <TouchableOpacity
                 onPress={() => navigation.replace("Budget")}
