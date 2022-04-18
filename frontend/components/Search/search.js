@@ -17,10 +17,28 @@ export default function Search() {
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
+
+    const user = getAuth().currentUser;
     
     useEffect(() =>{
         findUser(email)
     }, [email])
+
+    // useEffect(() => {
+    //     if (userID != null) {
+    //         setDoc(doc(db, "user", user.uid, "friend", userID), {
+    //             name: name
+    //         })
+    //     }
+    // }, [userID])
+
+    const handleFriend = () => {
+        if (userID != null) {
+            setDoc(doc(db, "user", user.uid, "friend", userID), {
+                name: name
+            })
+        }
+    }
 
     if (!isLoaded) {
         return null;
@@ -60,7 +78,8 @@ export default function Search() {
                 <View>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setAdded(!added)}
+                        onPress={() => {setAdded(!added)
+                                        handleFriend()}}
                     >
                         {added ? 
                             <Image source={require('../../assets/searchicons/remove.png')} style={styles.add}/> :
