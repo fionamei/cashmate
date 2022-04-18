@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 
 export default function Search() {
-    const [exist, setExist] = useState(true)  //set true when user is found
+    const [exist, setExist] = useState(false)  //set true when user is found
     const [email, setEmail] = useState('')
     const [userID, setUserID] = useState('')
     const [name, setName] = useState('')
