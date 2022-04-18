@@ -31,8 +31,8 @@ export default function Settings () {
 
     const budgetAlert = () =>
     Alert.alert(
+      "This will delete ALL of your spendings",
       "Are you sure you want to change your budget?",
-      "This will delete all your spendings",
       [
         {
           text: "Yes",
@@ -53,11 +53,13 @@ export default function Settings () {
                     <Text style={styles.text}>Change Budget</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer}
+                    onPress={() => navigation.navigate("Contact")}>
                     <Text style={styles.text}>Contact Us</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer}
+                    onPress={() => navigation.navigate("About")}>
                     <Text style={styles.text}>About</Text>
                 </TouchableOpacity>
 
