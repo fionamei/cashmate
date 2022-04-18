@@ -10,10 +10,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Temp() {
     const [clicked, isClicked] = useState(false)
-    const [color, setColor] = useState('#000000')
-    const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
-    const [progress2, setProgress2] = useState('#C4E7FF')
-    const [stringpercent, setStringpercent] = useState('80%')
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
@@ -22,6 +18,10 @@ export default function Temp() {
         return null;
     } 
     
+    const color = '#000000'
+    const progress1 = '#D8C8F6'
+    const progress2 = '#C4E7FF'
+    const stringpercent = '80%'
     const name = "Daniel Chen"
     const price = "$12.00"
     const likes = 20
