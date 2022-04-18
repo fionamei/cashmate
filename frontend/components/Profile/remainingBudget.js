@@ -60,6 +60,7 @@ export default function remainingbudget() {
         })
     
     
+    // this sets the color of the bar when its 0
     if (remaining == '') {
         setStringpercent(`${percentage}%`)
         setColor('#000000')

@@ -4,10 +4,16 @@ import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView
 import { useFonts } from '@use-expo/font';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Nav from '../Navbar/navbar';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 
 export default function Temp() {
     const [clicked, isClicked] = useState(false)
+    const [color, setColor] = useState('#000000')
+    const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
+    const [progress2, setProgress2] = useState('#C4E7FF')
+    const [stringpercent, setStringpercent] = useState('80%')
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
@@ -16,6 +22,12 @@ export default function Temp() {
         return null;
     } 
     
+    const name = "Daniel Chen"
+    const price = "$12.00"
+    const likes = 20
+    const category = 'food'
+    const date = '3/1/22 5:23 PM'
+    const description = 'sushi and boba'
     return (
     
         
@@ -26,9 +38,38 @@ export default function Temp() {
                     <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/>
                 </View>
                 <View style={styles.heading}>
-                    <Text style={styles.name}>Daniel Chen</Text>
-                    <Text style={styles.price}>$12.00</Text>
-
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.price}>{price}</Text>
+                    <View style={{
+                                height: 15,
+                                width: '220%',
+                                backgroundColor: 'white',
+                                borderColor: color,
+                                borderWidth: 2,
+                                borderRadius: 5,
+                                // marginLeft: '10%',
+                                marginTop: "6%",
+                                marginBottom: "7%"}}> 
+                            <LinearGradient
+                                style={{
+                                    width: stringpercent,
+                                    height: 11,
+                                    bottom: 0,
+                                    right: 0,
+                                    left: 0,
+                                    borderRadius: 2,
+                                    borderColor: color,
+                                }}
+                                useAngle={true}
+                                angle={45}
+                                angleCenter={{x: 0.5, y: 0.5}}
+                                start={{x: 0, y: 0}}
+                                end={{x: 1, y: 0}}
+                                colors={[
+                                    progress1,
+                                    progress2
+                                ]} />
+                        </View> 
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity 
                             style={styles.buttons}
@@ -36,22 +77,20 @@ export default function Temp() {
                                 isClicked(!clicked)
                             }
                         >
-                            <Text style={styles.category}>20 </Text>
+                            <Text style={styles.category}>{likes} </Text>
                             {clicked ? 
                                 <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
                                 <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttons}>
-                            <Text style={styles.category}>5 </Text>
-                            <Image source={require("../../assets/feedicons/comment.png")} style={styles.iconTwo}/>
-                        </TouchableOpacity>
-                        <Text style={styles.category}>food</Text>
+
+                        <Text style={styles.category}>{category}</Text>
+
                     </View>
                 </View>   
 
                 <View style={styles.aboutContainer}>
-                     <Text style={styles.date}>3/1/22 5:23 PM</Text>
-                     <Text style={styles.description}>sushi and boba</Text>
+                     <Text style={styles.date}>{date}</Text>
+                     <Text style={styles.description}>{description}</Text>
                 </View>
             </View>
             
@@ -77,7 +116,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent:'space-evenly',
-        height: Dimensions.get("window").height * 0.15,
+        height: Dimensions.get("window").height * 0.17,
         maxWidth: Dimensions.get('window').width * .9,
         paddingTop: '3%',
 
