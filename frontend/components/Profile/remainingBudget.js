@@ -190,11 +190,11 @@ export default function remainingbudget() {
                                         backgroundColor: progress,
                                         width: '100%'}}/> */}
                         </View> }
-            <TouchableOpacity
-                onPress={() => navigation.replace("Budget")}
-            >   
-                <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text>
-            </TouchableOpacity>
+            {/* <TouchableOpacity
+                // onPress={() => navigation.replace("Budget")}
+            >    */}
+            <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text>
+            {/* </TouchableOpacity> */}
             
             {remaining ?  <Text style={styles.subtitle4}>${remaining} remaining</Text> : 
                  <Text style={styles.subtitle4}>${budget} remaining</Text> }
