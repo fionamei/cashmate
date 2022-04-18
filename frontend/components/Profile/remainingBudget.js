@@ -6,6 +6,9 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useNavigation } from '@react-navigation/native';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { LinearGradient } from 'expo-linear-gradient';
+import LinearGradient from 'react-native-linear-gradient';
+
 // import { budgetId } from '../Budget/budget.js';
 
 const budget = 100
@@ -22,6 +25,9 @@ export default function remainingbudget() {
     const [remaining, setRemaining] = useState('');
     const [percentage, setPercentage] = useState('');
     const [stringpercent, setStringpercent] = useState('100%')
+    const [color, setColor] = useState('#000000')
+    const [progress, setProgress] = useState('#000000') //color for progress
+
 
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -51,7 +57,18 @@ export default function remainingbudget() {
         })
     
     
-    setStringpercent(`${percentage}%`)
+    if (remaining == '') {
+        setStringpercent(`${percentage}%`)
+        setColor('#000000')
+    } 
+    else if (remaining <= 0) {
+        setStringpercent("0%")
+        setColor('#E94646')
+    } else {
+        setStringpercent(`${percentage}%`)
+        setColor('#000000')
+    }
+    
     // console.log("this is the stringpercent",stringpercent)
 
     } else {
@@ -76,16 +93,43 @@ export default function remainingbudget() {
     return (
         <View style={styles.container}>
             <Text style={styles.subtitle1}>remaining: </Text>
-            {remaining ? <Text style={styles.subtitle2}>{percentage}%</Text> : <Text style={styles.subtitle2}>100%</Text>}
-            {remaining ? <View style={styles.progressBar}>
-                <View style={{...StyleSheet.absoluteFill,
-                              backgroundColor: "#000000",
-                              width: stringpercent}}/>
-            </View> : <View style={styles.progressBar}>
-                <View style={{...StyleSheet.absoluteFill,
-                              backgroundColor: "#000000",
-                              width: '100%'}}/>
-            </View> }
+            {remaining ? <Text style={{ 
+                            fontFamily:'Urbanist-Medium',
+                            fontSize: Dimensions.get('window').height/13,
+                            color: color}}>
+                                {percentage}%</Text> 
+                        : <Text style={{ 
+                            fontFamily:'Urbanist-Medium',
+                            fontSize: Dimensions.get('window').height/13,
+                            color: color}}>
+                                100%</Text>}
+            {/* this is bc nothing loads if someone forgets to put a spending --> when budget is 100% so we need this if conditional */}
+            {remaining ? <View style={{
+                                height: 20,
+                                width: '65%',
+                                backgroundColor: 'white',
+                                borderColor: color,
+                                borderWidth: 2,
+                                borderRadius: 5,
+                                marginBottom: "3%"}}> 
+                           
+                            <View style={{...StyleSheet.absoluteFill,
+                                backgroundColor: '#00000',
+                                // background: LinearGradient("90deg", "purple", "orange"),
+                                width: stringpercent}}/>
+                        </View> 
+                        : <View style={{
+                                height: 20,
+                                width: '65%',
+                                backgroundColor: 'white',
+                                borderColor: color,
+                                borderWidth: 2,
+                                borderRadius: 5,
+                                marginBottom: "3%"}}>
+                            <View style={{...StyleSheet.absoluteFill,
+                                        backgroundColor: progress,
+                                        width: '100%'}}/>
+                        </View> }
             <TouchableOpacity
                 onPress={() => navigation.replace("Budget")}
             >   
@@ -102,26 +146,34 @@ export default function remainingbudget() {
 
 const styles = StyleSheet.create({
 
-    progressBar: {
-        height: 20,
-        width: '65%',
-        backgroundColor: 'white',
-        // borderColor: "black",
-        borderColor: '#000',
-        borderWidth: 2,
-        borderRadius: 5,
-        marginBottom: "3%"
+    // progressBar: {
+    //     height: 20,
+    //     width: '65%',
+    //     backgroundColor: 'white',
+    //     // borderColor: "black",
+    //     borderColor: '#000',
+    //     borderWidth: 2,
+    //     borderRadius: 5,
+    //     marginBottom: "3%"
 
-    },
+    // },
 
-    fill: {
-        ...StyleSheet.absoluteFill,
-        backgroundColor: "#000000",
-        // width: "60%"
-        width: stringpercent,
-    },
+    // fill: {
+    //     ...StyleSheet.absoluteFill,
+    //     backgroundColor: "#000000",
+    //     // width: "60%"
+    //     width: stringpercent,
+    // },
 
     // text:
+    box: {
+        width: 300,
+        height: 30,
+        marginVertical: 20,
+        borderColor: '#000000',
+        borderWidth: 1,
+        borderRadius: 7.0,
+      },
     subtitle1: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/30,
