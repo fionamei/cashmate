@@ -42,7 +42,7 @@ export default function Search() {
     // }
 
     function findUser(input) {
-        console.log("looking for the user",input)
+        // console.log("looking for the user",input)
         // if can find user from email... 
         const q = query(collection(db, "user"), where("email", "==", input))
         const q2 = getDocs(q).then((querySnapshot) => {
@@ -101,12 +101,13 @@ export default function Search() {
                         dismissKeyboard()
                         setEmail(email)
                         findUser(email)
-                        console.log("entered")
+                        // console.log("entered")
                     }}
                     onChangeText={text => 
                         {setEmail(text);
                         setExist(false);
-                        console.log(text)}
+                        // console.log(text)
+                        }
                     }
                 />
                 { emailEntered ?
