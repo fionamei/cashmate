@@ -16,6 +16,7 @@ export default function UserInfo() {
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
+    const [loadImage, setLoadImage] = useState(false);
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -40,11 +41,33 @@ export default function UserInfo() {
               image: imageURI
             })
         })
+        console.log("CALL 2")
+    }
+
+    const getImage = () => {
+        const ref = doc(db, "user", user.uid)
+        const change =  getDoc(ref).then((docSnap) => {
+            if (docSnap.data()['image'] != null) {
+                setImage(docSnap.data()['image'])
+            }
+        })
+        console.log("CALL 3")
     }
 
     useEffect(() => {
+        // if (image == null) {
+        //     create(image)
+        // } else {
+        //     getImage()
+        // }
+        // getImage()
         create(image)
+        setLoadImage(true)
     }, [image])
+
+    useEffect(() => {
+        getImage()
+    }, [loadImage])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -59,6 +82,8 @@ export default function UserInfo() {
 
         if (!result.cancelled) {
         setImage(result.uri);
+        console.log("IMAGE ONCE CHOSEN:", image)
+        console.log("CALL 1")
         }
     };
 
