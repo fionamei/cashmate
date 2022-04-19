@@ -83,6 +83,7 @@ export default function Search() {
         const q2 = getDocs(q).then((querySnapshot) => {
             if (querySnapshot.empty) {
                 setExist(false)
+                setEmailEntered(true)
             } else {
                 querySnapshot.forEach((doc) => {
                     setUserID(doc.id)
@@ -162,6 +163,7 @@ export default function Search() {
                     onChangeText={text => 
                         {setEmail(text);
                         setExist(false);
+                        setEmailEntered(false)
                         // console.log(text)
                         }
                     }
