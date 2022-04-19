@@ -103,9 +103,13 @@ export default function UserInfo() {
             const imageName = 'image_' + user.uid + ".jpg"
             const storageRef = ref(storage, imageName);      // how image will be addressed inside the storage
 
-            uploadImage(result.uri)
+            uploadImage(result.uri).then(() => {
+                getDownloadURL(storageRef).then((url) => {
+                    setImage(url)
+                })
+            })
 
-            setImage(result.uri);
+            // setImage(result.uri);
             console.log("IMAGE ONCE CHOSEN:", image)
             console.log("CALL 1")
         }
