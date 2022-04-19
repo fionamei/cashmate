@@ -41,6 +41,36 @@ export default function Search() {
     //     }
     // }
 
+    const user = getAuth().currentUser;
+
+    // useEffect(() =>{
+    //     findUser(email)
+    // }, [email])
+
+    // useEffect(() => {
+    //     if (userID != null) {
+    //         setDoc(doc(db, "user", user.uid, "friend", userID), {
+    //             name: name
+    //         })
+    //     }
+    // }, [userID])
+
+    const handleFriend = () => {
+        if (userID != null) {
+            let currentName;
+            const ref = doc(db, "user", user.uid)
+            getDoc(ref).then((docSnap) => {
+                currentName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
+                setDoc(doc(db, "user", userID, "friend", user.uid), {
+                    name: currentName
+                })
+            })
+            setDoc(doc(db, "user", user.uid, "friend", userID), {
+                name: name
+            })
+        }
+    }
+
     function findUser(input) {
         // console.log("looking for the user",input)
         // if can find user from email... 
@@ -80,7 +110,10 @@ export default function Search() {
                         :
                         <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setAdded(!added)}>
+                        onPress={() => {
+                            setAdded(!added)
+                            handleFriend()
+                        }}>
                             <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
                         </TouchableOpacity>
                     }
