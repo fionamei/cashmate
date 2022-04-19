@@ -30,15 +30,15 @@ export default function Feed() {
         const querySnapshot = getDocs(collection(db, "user", user.uid, "friend")).then((querySnapshot) => {
             let temp = []
             let tempName = []
-            // let tempPfp = []
+            let tempPfp = []
             querySnapshot.forEach((doc) => {
                 temp.push(doc.id)
                 tempName.push(doc.data()['name'])
-                // tempPfp.push(doc.data()['image'])
+                tempPfp.push(doc.data()['image'])
             });
             setListUID(temp)
             setListNames(tempName)
-            // setListPfps(tempPfp)
+            setListPfps(tempPfp)
         })
     }, [])
 
