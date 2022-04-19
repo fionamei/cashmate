@@ -89,15 +89,16 @@ export default function Search() {
                 </View>
                 <View>
                     { added ? 
-                        <TouchableOpacity
+                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/> 
+                        :<TouchableOpacity
                             style={styles.button}
-                            onPress={() => {setAdded(!added)
+                            onPress={() => {setAdded(true)
                                             handleFriend()}}
                         >
                             <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
                         </TouchableOpacity>
-                        :
-                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
+                        // :
+                        // <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
                     }
                 </View>
             </View>
