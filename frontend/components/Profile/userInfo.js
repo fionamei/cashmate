@@ -16,6 +16,7 @@ export default function UserInfo() {
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
+    const navigation = useNavigation()
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -33,6 +34,19 @@ export default function UserInfo() {
     }
     const full_name = first + " " + last
     
+    const create = (imageURI) => {
+        const ref = doc(db, "user", user.uid)
+        const change =  getDoc(ref).then((docSnap) => {
+            updateDoc(ref, {
+              image: imageURI
+            })
+        })
+    }
+
+    useEffect(() => {
+        create(image)
+    }, [image])
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -73,7 +87,7 @@ export default function UserInfo() {
                     {full_name}
                 </Text>
                 <View style={styles.subprofile}>
-                    <TouchableOpacity> 
+                    <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
                         <Text style={styles.pfptxt}>{friends} friends</Text>
                     </TouchableOpacity>
                     <Text style={styles.pfptxt}> streak: {streak} </Text>

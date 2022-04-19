@@ -8,6 +8,7 @@ import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 
 export default function Search() {
     const [exist, setExist] = useState(false)  //set true when user is found
+    const [emailEntered, setEmailEntered] = useState(false)
     const [email, setEmail] = useState('')
     const [userID, setUserID] = useState('')
     const [name, setName] = useState('')
@@ -18,6 +19,11 @@ export default function Search() {
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
+    
+    // useEffect(() =>{
+    //     findUser(email)
+    // }, [email])
+
     if (!isLoaded) {
         return null;
     } 
@@ -51,6 +57,18 @@ export default function Search() {
             })
         }
     }
+    // function handleKeyDown(e) {
+    //     console.log("input:",input)
+    //     if (e.nativeEvent.key == "x"){
+    //         console.log("entered")
+    //         dismissKeyboard();
+    //         findUser(email)
+    //         console.log("entered")
+    //     }
+    //     else {
+    //         setEmail('')
+    //     }
+    // }
 
     // function handleKeyDown(e) {
     //     if (e.nativeEvent.key == "Enter"){
@@ -59,6 +77,7 @@ export default function Search() {
     // }
 
     function findUser(input) {
+        // console.log("looking for the user",input)
         // if can find user from email... 
         const q = query(collection(db, "user"), where("email", "==", input))
         const q2 = getDocs(q).then((querySnapshot) => {
@@ -76,6 +95,10 @@ export default function Search() {
                     setExist(true)
                 });
             }
+        })
+        .catch(err =>{
+            console.log(err)
+            setExist(false)
         })
     }
 
@@ -99,6 +122,18 @@ export default function Search() {
                         </TouchableOpacity>
                         // :
                         // <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
+
+                    // {  added ?
+                    //     <View style={styles.pendingText}>
+                    //         <Text>Pending</Text>
+                    //     </View>
+                    //     :
+                    //     <TouchableOpacity
+                    //     style={styles.button}
+                    //     onPress={() => setAdded(!added)}>
+                    //         <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
+                    //     </TouchableOpacity>
+
                     }
                 </View>
             </View>
@@ -114,6 +149,7 @@ export default function Search() {
                     placeholder="enter your friend's email"
                     style={styles.inputbox}
                     // onKeyPress={handleKeyDown}
+
                     multiline={false}
                     onSubmitEditing={() => {
                         dismissKeyboard()
@@ -121,15 +157,21 @@ export default function Search() {
                         findUser(email)
                         // console.log("entered")
                     }}
-                    onChangeText={text => (
-                        setEmail(text)
-                        )
+
+                    onChangeText={text => 
+                        {setEmail(text);
+                        setExist(false);
+                        // console.log(text)
+                        }
                     }
                 />
+                { emailEntered ?
+                    <Text style={styles.error}>404: user not found :(</Text> : <></>
+                }
                 {exist ? 
                     <Display />
                     :
-                    <Text style={styles.error}>404: user not found :(</Text>
+                    <></>
                 }
             </View>
         
@@ -184,11 +226,6 @@ const styles = StyleSheet.create({
         padding: '5%',
         // backgroundColor: 'red'
     },
-    add: {
-        width: Dimensions.get('window').width * .12,
-        resizeMode:'contain',
-        // justifyContent: 'flex-end'
-    },
     content: {
         width: Dimensions.get('window').width * .67,
         height: Dimensions.get('window').width * .20,
@@ -196,7 +233,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems:'center',
     },
+    // add button
     button: {
         flexDirection:'row'
-    }
+    },
+    pendingText: {
+        borderColor: 'black',
+        borderWidth:2,
+        padding:10, 
+        borderRadius:10,
+        paddingRight:20
+    },
+    add: {
+        width: Dimensions.get('window').width * .12,
+        resizeMode:'contain',
+        // justifyContent: 'flex-end'
+    },
 })

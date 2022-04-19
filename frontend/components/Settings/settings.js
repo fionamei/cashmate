@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View,Text,TouchableOpacity, Button, Image, StyleSheet, Dimensions } from 'react-native';
+import { View,Text,TouchableOpacity, Button, Image, StyleSheet, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from '@use-expo/font';
 import { getAuth } from "firebase/auth";
@@ -29,18 +29,37 @@ export default function Settings () {
               error => alert(error.message))
     }
 
+    const budgetAlert = () =>
+    Alert.alert(
+      "This will delete ALL of your spendings",
+      "Are you sure you want to change your budget?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            navigation.pop()
+            navigation.replace("Budget")
+          },
+        },
+        { text: "Cancel", style: "cancel" }
+      ]
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.allButtonsContainer}>
-                <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={styles.text}>Edit Profile</Text>
+                <TouchableOpacity style={styles.buttonContainer}
+                        onPress={() => budgetAlert()}                                    >
+                    <Text style={styles.text}>Change Budget</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer}
+                    onPress={() => navigation.navigate("Contact")}>
                     <Text style={styles.text}>Contact Us</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer}
+                    onPress={() => navigation.navigate("About")}>
                     <Text style={styles.text}>About</Text>
                 </TouchableOpacity>
 
