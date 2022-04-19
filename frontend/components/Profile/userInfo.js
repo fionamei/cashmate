@@ -16,6 +16,7 @@ export default function UserInfo() {
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
+    const navigation = useNavigation()
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -86,7 +87,7 @@ export default function UserInfo() {
                     {full_name}
                 </Text>
                 <View style={styles.subprofile}>
-                    <TouchableOpacity> 
+                    <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
                         <Text style={styles.pfptxt}>{friends} friends</Text>
                     </TouchableOpacity>
                     <Text style={styles.pfptxt}> streak: {streak} </Text>
