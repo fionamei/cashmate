@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect, setState } from 'react';
 import { useNavigation, useNavigationParam } from '@react-navigation/native'
-import { db } from '../../backend/Firebase.js';
+import { db, app, storage } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const friends = 4
 const streak = 6
@@ -54,6 +55,15 @@ export default function UserInfo() {
         console.log("CALL 3")
     }
 
+    // const onFileChange = (e) => {
+    //     const file = e.target.files[0]
+    //     const storageRef = app.storage().ref()
+    //     const fileRef = storageRef.child(file.name)
+    //     fileRef.put(file).then(() => {
+    //         console.log("Uploaded file", file.name)
+    //     })
+    // }
+
     useEffect(() => {
         // if (image == null) {
         //     create(image)
@@ -63,6 +73,7 @@ export default function UserInfo() {
         // getImage()
         create(image)
         setLoadImage(true)
+        // onFileChange()
     }, [image])
 
     useEffect(() => {
@@ -79,11 +90,24 @@ export default function UserInfo() {
         });
 
         // console.log(result);
+        const uploadImage = async(ImageURI) => {
+            const imageName = 'image_' + user.uid + ".jpg"
+            const img = await fetch(result.uri);
+            const bytes = await img.blob();
+
+            const newRef = ref(storage, imageName)
+            await uploadBytes(newRef, bytes);
+        }
 
         if (!result.cancelled) {
-        setImage(result.uri);
-        console.log("IMAGE ONCE CHOSEN:", image)
-        console.log("CALL 1")
+            const imageName = 'image_' + user.uid + ".jpg"
+            const storageRef = ref(storage, imageName);      // how image will be addressed inside the storage
+
+            uploadImage(result.uri)
+
+            setImage(result.uri);
+            console.log("IMAGE ONCE CHOSEN:", image)
+            console.log("CALL 1")
         }
     };
 
