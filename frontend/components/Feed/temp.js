@@ -9,7 +9,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Temp() {
-    const [clicked, isClicked] = useState(false)
+    const [heartClicked, heartIsClicked] = useState(false)
+    const [smileClicked, smileIsClicked] = useState(false)
+    const [sadClicked, sadIsClicked] = useState(false)
+    const [angryClicked, angryIsClicked] = useState(false)
+    const [woahClicked, woahIsClicked] = useState(false)
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
@@ -24,7 +28,6 @@ export default function Temp() {
     const stringpercent = '80%'
     const name = "Daniel Chen"
     const price = "$12.00"
-    const likes = 20
     const category = 'food'
     const date = '3/1/22 5:23 PM'
     const description = 'sushi and boba'
@@ -74,14 +77,61 @@ export default function Temp() {
                         <TouchableOpacity 
                             style={styles.buttons}
                             onPress={() =>
-                                isClicked(!clicked)
+                                heartIsClicked(!heartClicked)
                             }
                         >
-                            <Text style={styles.category}>{likes} </Text>
-                            {clicked ? 
+                            {/* <Text style={styles.category}>{likes} </Text> */}
+                            {heartClicked ? 
                                 <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
                                 <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
                         </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() =>
+                                smileIsClicked(!smileClicked)
+                            }
+                        >
+                            {smileClicked ? 
+                                <Image source={require("../../assets/feedicons/smilefilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> }
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() =>
+                                sadIsClicked(!sadClicked)
+                            }
+                        >
+                            {sadClicked ? 
+                                <Image source={require("../../assets/feedicons/sadfilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> }
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() =>
+                                angryIsClicked(!angryClicked)
+                            }
+                        >
+                            {angryClicked ? 
+                                <Image source={require("../../assets/feedicons/angryfilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> }
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() =>
+                                woahIsClicked(!woahClicked)
+                            }
+                        >
+                            {woahClicked ? 
+                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> }
+                        </TouchableOpacity>
+
+
+
 
                         <Text style={styles.category}>{category}</Text>
 
@@ -152,12 +202,15 @@ const styles = StyleSheet.create({
         // flexWrap:'wrap'
     },
     iconOne: {
-        width:20.19,
-        height:18
+        width:18,
+        height:16,
+        marginTop:3,
     },
     iconTwo: {
         width:18,
-        height:18
+        height:18,
+        margin:2,
+        marginLeft:5
     },
     buttons: {
         flexDirection: 'row',
@@ -184,6 +237,7 @@ const styles = StyleSheet.create({
     category: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/55,
+        marginLeft: "10%",
     },
     
     description: {
