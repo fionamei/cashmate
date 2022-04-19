@@ -54,7 +54,8 @@ export default function Search() {
                 console.log("USER ID", userID)
                 console.log("NAME", name)
                 setPfp()
-                setExist(true)
+                setExist(true) 
+                setAdded(false)
             });
         })
         .catch(err =>{
@@ -101,7 +102,7 @@ export default function Search() {
                         dismissKeyboard()
                         setEmail(email)
                         findUser(email)
-                        // console.log("entered")
+                        console.log("entered")
                     }}
                     onChangeText={text => 
                         {setEmail(text);
