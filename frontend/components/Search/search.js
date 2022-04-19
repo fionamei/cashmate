@@ -1,7 +1,7 @@
 import React, { useEffect, useState, setState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { useFonts } from '@use-expo/font';
-import { db } from '../../backend/Firebase.js';
+import { db, storage } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
@@ -92,7 +92,8 @@ export default function Search() {
                     setName(nameToBeSet)
                     console.log("USER ID", userID)
                     console.log("NAME", name)
-                    setPfp()
+
+                    setPfp(doc.data()['image'])
                     setExist(true)
                     setAdded(false)
                 });
@@ -109,7 +110,10 @@ export default function Search() {
         return (
             <View style={styles.user}>
                 <View style={styles.content}>
-                    <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                    {pfp  
+                        ? <Image source={{ uri: pfp }} style={styles.image} />
+                        : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                    }
                     <Text style={styles.name}>{name}</Text>
                 </View>
                 <View>
