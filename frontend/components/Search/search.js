@@ -48,12 +48,16 @@ export default function Search() {
             const ref = doc(db, "user", user.uid)
             getDoc(ref).then((docSnap) => {
                 currentName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
+                imageURL = docSnap.data()['image']
+                console.log(imageURL)
                 setDoc(doc(db, "user", userID, "friend", user.uid), {
-                    name: currentName
+                    name: currentName,
+                    image: imageURL
                 })
             })
             setDoc(doc(db, "user", user.uid, "friend", userID), {
-                name: name
+                name: name,
+                image: pfp
             })
         }
     }

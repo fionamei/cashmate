@@ -12,6 +12,8 @@ import Temp from './temp';
 export default function Feed() {
     const [clicked, isClicked] = useState(false)
     const [listUID, setListUID] = useState([])
+    const [listNames, setListNames] = useState([])
+    const [listPfps, setListPfps] = useState([])
     const [listBudgetID, setListBudgetID] = useState([])
     const [feed, setFeed] = useState([])
     const [counter, setCounter] = useState(0)
@@ -22,13 +24,21 @@ export default function Feed() {
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
     })
 
+    const user = getAuth().currentUser;
+
     useEffect(() => {
-        const querySnapshot = getDocs(collection(db, "user")).then((querySnapshot) => {
+        const querySnapshot = getDocs(collection(db, "user", user.uid, "friend")).then((querySnapshot) => {
             let temp = []
+            let tempName = []
+            let tempPfp = []
             querySnapshot.forEach((doc) => {
                 temp.push(doc.id)
+                tempName.push(doc.data()['name'])
+                tempPfp.push(doc.data()['image'])
             });
             setListUID(temp)
+            setListNames(tempName)
+            setListPfps(tempPfp)
         })
     }, [])
 
@@ -99,6 +109,7 @@ export default function Feed() {
     } 
     
     console.log("LIST UID", listUID)
+    console.log("LIST NAMES", listNames)
     console.log("LIST BUDGET ID", listBudgetID)
     console.log("FEED", feed)
 
