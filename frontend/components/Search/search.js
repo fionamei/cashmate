@@ -79,7 +79,7 @@ export default function Search() {
     function findUser(input) {
         // console.log("looking for the user",input)
         // if can find user from email... 
-        const q = query(collection(db, "user"), where("email", "==", input))
+        const q = query(collection(db, "user"), where("email", "==", input.toLowerCase()))
         const q2 = getDocs(q).then((querySnapshot) => {
             if (querySnapshot.empty) {
                 setExist(false)

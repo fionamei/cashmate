@@ -34,7 +34,7 @@ export default function Signup() {
           const id = user.uid;
           setDoc(doc(db, "user", id), {
               uid: user.uid,
-              email: email,
+              email: email.toLowerCase(),
               password: password,
               firstName: first,
               lastName: last
