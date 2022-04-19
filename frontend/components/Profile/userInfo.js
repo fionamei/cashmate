@@ -9,7 +9,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const friends = 4
-const streak = 6
 
 export default function UserInfo() {
     const [uid, setUID] = useState('')
@@ -88,9 +87,8 @@ export default function UserInfo() {
                 </Text>
                 <View style={styles.subprofile}>
                     <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
-                        <Text style={styles.pfptxt}>{friends} friends</Text>
+                        <Text style={styles.pfptxt}>Friends: {friends}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.pfptxt}> streak: {streak} </Text>
                 </View>
             </View>
         </View>
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
         flex: 1, 
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: "black"
+        // backgroundColor: "black",
         backgroundColor:"#FFFFFF" 
     },
     progressBar: {
@@ -159,7 +157,7 @@ const styles = StyleSheet.create({
 
     profile: {
         alignItems: "flex-start",
-        width: Dimensions.get("window").width * 0.75,
+        width: Dimensions.get("window").width * 0.8,
         flexDirection: "row",
         // backgroundColor: "red",
         paddingBottom: "5%",
@@ -174,7 +172,7 @@ const styles = StyleSheet.create({
     },
 
     descriptions: {
-        paddingLeft: 20
+        paddingLeft: '8%'
     },
 
     name: {

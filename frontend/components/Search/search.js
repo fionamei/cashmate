@@ -75,7 +75,7 @@ export default function Search() {
     //         dismissKeyboard();
     //     }
     // }
-
+    
     function findUser(input) {
         // console.log("looking for the user",input)
         // if can find user from email... 
@@ -93,6 +93,7 @@ export default function Search() {
                     console.log("NAME", name)
                     setPfp()
                     setExist(true)
+                    setAdded(false)
                 });
             }
         })
@@ -155,7 +156,7 @@ export default function Search() {
                         dismissKeyboard()
                         setEmail(email)
                         findUser(email)
-                        // console.log("entered")
+                        console.log("entered")
                     }}
 
                     onChangeText={text => 
