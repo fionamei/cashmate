@@ -22,8 +22,10 @@ export default function Feed() {
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
     })
 
+    const user = getAuth().currentUser;
+
     useEffect(() => {
-        const querySnapshot = getDocs(collection(db, "user")).then((querySnapshot) => {
+        const querySnapshot = getDocs(collection(db, "user", user.uid, "friend")).then((querySnapshot) => {
             let temp = []
             querySnapshot.forEach((doc) => {
                 temp.push(doc.id)
