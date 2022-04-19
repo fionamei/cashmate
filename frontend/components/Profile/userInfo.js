@@ -10,14 +10,14 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const friends = 4
-const streak = 6
 
 export default function UserInfo() {
     const [uid, setUID] = useState('')
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
-    const [loadImage, setLoadImage] = useState(false);
+    const [loadImage, setLoadImage] = useState(null)
+    const navigation = useNavigation()
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -135,10 +135,9 @@ export default function UserInfo() {
                     {full_name}
                 </Text>
                 <View style={styles.subprofile}>
-                    <TouchableOpacity> 
-                        <Text style={styles.pfptxt}>{friends} friends</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
+                        <Text style={styles.pfptxt}>Friends: {friends}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.pfptxt}> streak: {streak} </Text>
                 </View>
             </View>
         </View>
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
         flex: 1, 
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: "black"
+        // backgroundColor: "black",
         backgroundColor:"#FFFFFF" 
     },
     progressBar: {
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
 
     profile: {
         alignItems: "flex-start",
-        width: Dimensions.get("window").width * 0.75,
+        width: Dimensions.get("window").width * 0.8,
         flexDirection: "row",
         // backgroundColor: "red",
         paddingBottom: "5%",
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
     },
 
     descriptions: {
-        paddingLeft: 20
+        paddingLeft: '8%'
     },
 
     name: {

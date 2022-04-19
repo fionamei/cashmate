@@ -17,6 +17,9 @@ import AddFriendButton from './components/Search/addFriendButton';
 import Search from './components/Search/search';
 import Signup from './components/Login/signup';
 import FirstScreen from './components/Login/first'
+import FriendsList from './components/Profile/friendsList';
+import Contact from './components/Settings/contact'
+import About from './components/Settings/about'
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +65,9 @@ export default function App() {
         <Stack.Screen name="Signup" component={Signup}/>
         <Stack.Screen name="FirstScreen" component={FirstScreen}/>
         <Stack.Screen name="Search" component={Search}/>
+        <Stack.Screen name="FriendsList" component={FriendsList}/>
+        <Stack.Screen name="Contact" component={Contact}/>
+        <Stack.Screen name="About" component={About}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,9 +4,11 @@ import { useFonts } from '@use-expo/font';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 
 export default function Search() {
-    const [exist, setExist] = useState(true)  //set true when user is found
+    const [exist, setExist] = useState(false)  //set true when user is found
+    const [emailEntered, setEmailEntered] = useState(false)
     const [email, setEmail] = useState('')
     const [userID, setUserID] = useState('')
     const [name, setName] = useState('')
@@ -18,34 +20,87 @@ export default function Search() {
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
     
-    useEffect(() =>{
-        findUser(email)
-    }, [email])
+    // useEffect(() =>{
+    //     findUser(email)
+    // }, [email])
 
     if (!isLoaded) {
         return null;
     } 
 
-    function handleKeyDown(e) {
-        if (e.nativeEvent.key == "Enter"){
-            dismissKeyboard();
+    const user = getAuth().currentUser;
+    
+    // useEffect(() =>{
+    //     findUser(email)
+    // }, [email])
+
+    // useEffect(() => {
+    //     if (userID != null) {
+    //         setDoc(doc(db, "user", user.uid, "friend", userID), {
+    //             name: name
+    //         })
+    //     }
+    // }, [userID])
+
+    const handleFriend = () => {
+        if (userID != null) {
+            let currentName;
+            const ref = doc(db, "user", user.uid)
+            getDoc(ref).then((docSnap) => {
+                currentName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
+                setDoc(doc(db, "user", userID, "friend", user.uid), {
+                    name: currentName
+                })
+            })
+            setDoc(doc(db, "user", user.uid, "friend", userID), {
+                name: name
+            })
         }
     }
+    // function handleKeyDown(e) {
+    //     console.log("input:",input)
+    //     if (e.nativeEvent.key == "x"){
+    //         console.log("entered")
+    //         dismissKeyboard();
+    //         findUser(email)
+    //         console.log("entered")
+    //     }
+    //     else {
+    //         setEmail('')
+    //     }
+    // }
 
+    // function handleKeyDown(e) {
+    //     if (e.nativeEvent.key == "Enter"){
+    //         dismissKeyboard();
+    //     }
+    // }
+    
     function findUser(input) {
+        // console.log("looking for the user",input)
         // if can find user from email... 
         const q = query(collection(db, "user"), where("email", "==", input))
         const q2 = getDocs(q).then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                setUserID(doc.id)
-                console.log(doc.id)
-                let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
-                setName(nameToBeSet)
-                console.log("USER ID", userID)
-                console.log("NAME", name)
-                setPfp()
-                setExist(true)
-            });
+            if (querySnapshot.empty) {
+                setExist(false)
+                setEmailEntered(true)
+            } else {
+                querySnapshot.forEach((doc) => {
+                    setUserID(doc.id)
+                    console.log(doc.id)
+                    let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
+                    setName(nameToBeSet)
+                    console.log("USER ID", userID)
+                    console.log("NAME", name)
+                    setPfp()
+                    setExist(true)
+                    setAdded(false)
+                });
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+            setExist(false)
         })
     }
 
@@ -58,15 +113,30 @@ export default function Search() {
                     <Text style={styles.name}>{name}</Text>
                 </View>
                 <View>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => setAdded(!added)}
-                    >
-                        {added ? 
-                            <Image source={require('../../assets/searchicons/remove.png')} style={styles.add}/> :
+                    { added ? 
+                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/> 
+                        :<TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {setAdded(true)
+                                            handleFriend()}}
+                        >
                             <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
-                        }
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                        // :
+                        // <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
+
+                    // {  added ?
+                    //     <View style={styles.pendingText}>
+                    //         <Text>Pending</Text>
+                    //     </View>
+                    //     :
+                    //     <TouchableOpacity
+                    //     style={styles.button}
+                    //     onPress={() => setAdded(!added)}>
+                    //         <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
+                    //     </TouchableOpacity>
+
+                    }
                 </View>
             </View>
         )
@@ -80,16 +150,31 @@ export default function Search() {
                 <TextInput 
                     placeholder="enter your friend's email"
                     style={styles.inputbox}
-                    onKeyPress={handleKeyDown}
-                    onChangeText={text => (
-                        setEmail(text)
-                        )
+                    // onKeyPress={handleKeyDown}
+
+                    multiline={false}
+                    onSubmitEditing={() => {
+                        dismissKeyboard()
+                        setEmail(email)
+                        findUser(email)
+                        console.log("entered")
+                    }}
+
+                    onChangeText={text => 
+                        {setEmail(text);
+                        setExist(false);
+                        setEmailEntered(false)
+                        // console.log(text)
+                        }
                     }
                 />
+                { emailEntered ?
+                    <Text style={styles.error}>404: user not found :(</Text> : <></>
+                }
                 {exist ? 
                     <Display />
                     :
-                    <Text style={styles.error}>404: user not found :(</Text>
+                    <></>
                 }
             </View>
         
@@ -144,11 +229,6 @@ const styles = StyleSheet.create({
         padding: '5%',
         // backgroundColor: 'red'
     },
-    add: {
-        width: Dimensions.get('window').width * .12,
-        resizeMode:'contain',
-        // justifyContent: 'flex-end'
-    },
     content: {
         width: Dimensions.get('window').width * .67,
         height: Dimensions.get('window').width * .20,
@@ -156,7 +236,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems:'center',
     },
+    // add button
     button: {
         flexDirection:'row'
-    }
+    },
+    pendingText: {
+        borderColor: 'black',
+        borderWidth:2,
+        padding:10, 
+        borderRadius:10,
+        paddingRight:20
+    },
+    add: {
+        width: Dimensions.get('window').width * .12,
+        resizeMode:'contain',
+        // justifyContent: 'flex-end'
+    },
 })
