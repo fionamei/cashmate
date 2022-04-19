@@ -104,9 +104,7 @@ export default function Search() {
                 </View>
                 <View>
                     {  added ?
-                        <View style={styles.pendingText}>
-                            <Text>Pending</Text>
-                        </View>
+                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
                         :
                         <TouchableOpacity
                         style={styles.button}
