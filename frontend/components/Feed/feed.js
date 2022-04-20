@@ -79,6 +79,8 @@ export default function Feed() {
                             "amount": doc.data()["amount"],
                             "category": doc.data()["category"],
                             "detail": doc.data()["detail"],
+                            "percentage": Number(doc.data()['percentage']),
+                            "string_percent": doc.data()['percentage'] + "%",
                             "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
                         }
 
