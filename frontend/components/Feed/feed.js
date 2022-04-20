@@ -73,6 +73,7 @@ export default function Feed() {
                             "amount": doc.data()["amount"],
                             "category": doc.data()["category"],
                             "detail": doc.data()["detail"],
+                            "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
                         }
 
                         tempFeed.push(update)
@@ -112,6 +113,17 @@ export default function Feed() {
     console.log("LIST NAMES", listNames)
     console.log("LIST BUDGET ID", listBudgetID)
     console.log("FEED", feed)
+
+
+    const sorted = feed.sort((a,b)=>{
+        const dateA = new Date(`${a.timestamp}`).valueOf();
+        const dateB = new Date(`${b.timestamp}`).valueOf();
+        if(dateA > dateB){
+          return 1; // return -1 here for DESC order
+        }
+        return -1 // return 1 here for DESC Order
+      });
+      console.log("SORTED IS", sorted)
 
     return (
         <View style={styles.container}>
