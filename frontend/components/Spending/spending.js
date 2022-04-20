@@ -1,4 +1,4 @@
-import { useState, setState } from 'react';
+import { useState, setState, useEffect } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
@@ -14,6 +14,8 @@ export default function Spending() {
     const [value, setValue] = useState();
     const [info, setInfo] = useState('');
     const [BUDGETID, setBUDGETID] = useState('')
+    const [budget, setBudget] = useState(0);
+    const [remaining, setRemaining] = useState(0);
     const [uid, setUID] = useState('');
     const [spending, setSpending] = useState();
     const [category, setCategory] = useState();
@@ -21,6 +23,7 @@ export default function Spending() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
     // const [uid, setUID] = useState('');
+
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
     })
@@ -42,12 +45,14 @@ export default function Spending() {
   
     function create(num, det, cat, id) {
       const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
+      let percent = ((Number(remaining) - Number(value))/ Number(budget) * 100).toFixed(2)
       setDoc(ref, {
         amount: num,
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: BUDGETID
+        budget_id: BUDGETID,
+        percentage: percent
       });
     }
     
@@ -81,6 +86,8 @@ export default function Spending() {
             const q2 = getDocs(q).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     setBUDGETID(doc.id)
+                    setBudget(doc.data()['amount'])
+                    setRemaining(doc.data()['remainingAmt'])
                 })
             })
         }
