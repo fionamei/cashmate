@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
-const friends = 4
+// const friends = 4
 
 export default function UserInfo() {
     const [uid, setUID] = useState('')
@@ -140,7 +140,7 @@ export default function UserInfo() {
                 </Text>
                 <View style={styles.subprofile}>
                     <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
-                        <Text style={styles.pfptxt}>Friends: {friends}</Text>
+                        <Text style={styles.pfptxt}>View Your Friends</Text>
                     </TouchableOpacity>
                 </View>
             </View>
