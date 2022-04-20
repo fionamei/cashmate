@@ -66,10 +66,16 @@ export default function Feed() {
         let tempFeed = []
         const getSpendingObj = async () => {
             for (let i = 0; i < listUID.length; i++) {
+                let currentName = listNames[i]
+                let currentUID = listUID[i]
+                let currentBudgetID = listBudgetID[i] 
                 const q3 = query(collection(db, "user", listUID[i], "budget", listBudgetID[i], "spending"), orderBy("timestamp", "desc"));
                 const q4 = getDocs(q3).then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         let update = {
+                            "name": currentName,
+                            "uid": currentUID,
+                            "budget_id": currentBudgetID,
                             "amount": doc.data()["amount"],
                             "category": doc.data()["category"],
                             "detail": doc.data()["detail"],
