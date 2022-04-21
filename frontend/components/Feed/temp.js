@@ -35,20 +35,6 @@ export default function Temp(props) {
         }
     }, [])
 
-    // if (props.percentage >= 80) {
-    //     setProgress2('#D8C8F6')
-    //     setProgress1('#C4E7FF')
-    // } else if (props.percentage >= 40) {
-    //     setProgress2('#C4E7FF')
-    //     setProgress1('#FFEDAD')
-    // } else if (props.percentage > 0){
-    //     setProgress2('#FFEDAD')
-    //     setProgress1('#FFBFC3')
-    // } else {
-    //     setProgress2('#D8C8F6')
-    //     setProgress1('#C4E7FF')
-    // }
-
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
@@ -76,7 +62,11 @@ export default function Temp(props) {
             
             <View style={styles.postContainer}>
                 <View style={styles.imageContainer}>
-                    <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/>
+                    {props.image  
+                        ? <Image source={{ uri: props.image }} style={styles.image} />
+                        : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                    }
+                    {/* <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/> */}
                 </View>
                 <View style={styles.heading}>
                     <Text style={styles.name}>{props.name}</Text>

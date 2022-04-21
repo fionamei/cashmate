@@ -119,14 +119,6 @@ export default function Feed() {
     if (!isLoaded) {
         return null;
     } 
-
-    function getFormattedDate(date) {
-        let year = date.getFullYear();
-        let month = (1 + date.getMonth()).toString().padStart(2, '0');
-        let day = date.getDate().toString().padStart(2, '0');
-      
-        return month + '/' + day + '/' + year;
-    }
     
     console.log("LIST UID", listUID)
     console.log("LIST NAMES", listNames)
@@ -144,9 +136,6 @@ export default function Feed() {
       });
       console.log("SORTED IS", sorted)
 
-    // const everything = sorted.map( (props, index) => 
-    //   <Temp key={index} props={props}/>
-    // )
 
     const everything = sorted.map((post) => 
       <Temp name={post.name} 
@@ -155,6 +144,7 @@ export default function Feed() {
             date = {post.timestamp}
             stringpercent={post.string_percent}
             numpercent={post.percentage}
+            image = {post.image}
             detail={post.detail}/>
     )
 
