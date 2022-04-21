@@ -137,8 +137,9 @@ export default function Feed() {
       console.log("SORTED IS", sorted)
 
 
-    const everything = sorted.map((post) => 
-      <Temp name={post.name} 
+    const everything = sorted.map((post, index) => 
+      <Temp key={index}
+            name={post.name} 
             category={post.category} 
             price={post.amount} 
             date = {post.timestamp}
