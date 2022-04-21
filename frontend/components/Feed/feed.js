@@ -83,7 +83,8 @@ export default function Feed() {
                             "detail": doc.data()["detail"],
                             "percentage": Number(doc.data()['percentage']),
                             "string_percent": doc.data()['percentage'] + "%",
-                            "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
+                            "timestamp": (doc.data()["timestamp"]).toDate().toLocaleDateString() + " " + (doc.data()["timestamp"]).toDate().toTimeString().substring(0,5)
+                            // "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
                         }
 
                         tempFeed.push(update)
@@ -118,6 +119,14 @@ export default function Feed() {
     if (!isLoaded) {
         return null;
     } 
+
+    function getFormattedDate(date) {
+        let year = date.getFullYear();
+        let month = (1 + date.getMonth()).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+      
+        return month + '/' + day + '/' + year;
+    }
     
     console.log("LIST UID", listUID)
     console.log("LIST NAMES", listNames)
@@ -128,24 +137,32 @@ export default function Feed() {
     const sorted = feed.sort((a,b)=>{
         const dateA = new Date(`${a.timestamp}`).valueOf();
         const dateB = new Date(`${b.timestamp}`).valueOf();
-        if(dateA > dateB){
+        if(dateA <= dateB){
           return 1; // return -1 here for DESC order
         }
         return -1 // return 1 here for DESC Order
       });
       console.log("SORTED IS", sorted)
 
+    // const everything = sorted.map( (props, index) => 
+    //   <Temp key={index} props={props}/>
+    // )
+
+    const everything = sorted.map((post) => 
+      <Temp name={post.name} 
+            category={post.category} 
+            price={post.amount} 
+            date = {post.timestamp}
+            stringpercent={post.string_percent}
+            numpercent={post.percentage}
+            detail={post.detail}/>
+    )
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scroll}>
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
-                <Temp />
+                {everything}
+                
                 <View style={styles.container}>
                     {/* keep this here or it all breaks :DD */}
                 </View> 

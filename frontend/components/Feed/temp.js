@@ -1,36 +1,74 @@
 import * as React from 'react';
-import { useState, setState } from 'react';
+import { useState, setState, useEffect } from 'react';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Nav from '../Navbar/navbar';
 import { LinearGradient } from 'expo-linear-gradient';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 
 
-
-export default function Temp() {
+export default function Temp(props) {
     const [heartClicked, heartIsClicked] = useState(false)
     const [smileClicked, smileIsClicked] = useState(false)
     const [sadClicked, sadIsClicked] = useState(false)
     const [angryClicked, angryIsClicked] = useState(false)
     const [woahClicked, woahIsClicked] = useState(false)
+    const [progress1, setProgress1] = useState('#D8C8F6')
+    const [progress2, setProgress2] = useState('#C4E7FF')
+    const [color, setColor] = useState('#000000')
+
+    useEffect(() => {
+        if (props.numpercent >= 80) {
+            setProgress2('#D8C8F6')
+            setProgress1('#C4E7FF')
+        } else if (props.numpercent >= 40) {
+            setProgress2('#C4E7FF')
+            setProgress1('#FFEDAD')
+        } else if (props.numpercent > 0){
+            setProgress2('#FFEDAD')
+            setProgress1('#FFBFC3')
+        } else {
+            setProgress2('#D8C8F6')
+            setProgress1('#C4E7FF')
+            setColor('#E94646')
+        }
+    }, [])
+
+    // if (props.percentage >= 80) {
+    //     setProgress2('#D8C8F6')
+    //     setProgress1('#C4E7FF')
+    // } else if (props.percentage >= 40) {
+    //     setProgress2('#C4E7FF')
+    //     setProgress1('#FFEDAD')
+    // } else if (props.percentage > 0){
+    //     setProgress2('#FFEDAD')
+    //     setProgress1('#FFBFC3')
+    // } else {
+    //     setProgress2('#D8C8F6')
+    //     setProgress1('#C4E7FF')
+    // }
+
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
         "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
     })
+
     if (!isLoaded) {
         return null;
     } 
     
-    const color = '#000000'
-    const progress1 = '#D8C8F6'
-    const progress2 = '#C4E7FF'
-    const stringpercent = '80%'
-    const name = "Daniel Chen"
-    const price = "$12.00"
-    const category = 'food'
-    const date = '3/1/22 5:23 PM'
-    const description = 'sushi and boba'
+    // const color = '#000000'
+    // const progress1 = '#D8C8F6'
+    // const progress2 = '#C4E7FF'
+    // const [color, setColor] = useState('#000000')
+    // const stringpercent = '80%'
+    // const name = "Daniel Chen"
+    // const price = "$12.00"
+    // const category = 'food'
+    // const date = '3/1/22 5:23 PM'
+    // const description = 'sushi and boba'
+    
     return (
     
         
@@ -41,8 +79,8 @@ export default function Temp() {
                     <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/>
                 </View>
                 <View style={styles.heading}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.price}>{price}</Text>
+                    <Text style={styles.name}>{props.name}</Text>
+                    <Text style={styles.price}>${props.price}</Text>
                     <View style={{
                                 height: 15,
                                 width: '220%',
@@ -55,7 +93,7 @@ export default function Temp() {
                                 marginBottom: "7%"}}> 
                             <LinearGradient
                                 style={{
-                                    width: stringpercent,
+                                    width: props.stringpercent,
                                     height: 11,
                                     bottom: 0,
                                     right: 0,
@@ -133,14 +171,14 @@ export default function Temp() {
 
 
 
-                        <Text style={styles.category}>{category}</Text>
+                        <Text style={styles.category}>{props.category}</Text>
 
                     </View>
                 </View>   
 
                 <View style={styles.aboutContainer}>
-                     <Text style={styles.date}>{date}</Text>
-                     <Text style={styles.description}>{description}</Text>
+                     <Text style={styles.date}>{props.date}</Text>
+                     <Text style={styles.description}>{props.detail}</Text>
                 </View>
             </View>
             
