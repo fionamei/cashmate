@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, setState } from 'react';
+import { useState, useEffect, setState, AsyncStorage } from 'react';
 import { useNavigation, useNavigationParam } from '@react-navigation/native'
 import { db, app, storage } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
@@ -18,6 +18,7 @@ export default function UserInfo() {
     const [image, setImage] = useState(null);
     const [loadImage, setLoadImage] = useState(null)
     const navigation = useNavigation()
+    // const [test, setTest] = useState()
 
     const user = getAuth().currentUser;
     if (uid == '') {
@@ -42,7 +43,7 @@ export default function UserInfo() {
               image: imageURI
             })
         })
-        console.log("CALL 2")
+        // console.log("CALL 2")
     }
 
     const getImage = () => {
@@ -52,7 +53,7 @@ export default function UserInfo() {
                 setImage(docSnap.data()['image'])
             }
         })
-        console.log("CALL 3")
+        // console.log("CALL 3")
     }
 
     // const onFileChange = (e) => {
@@ -80,6 +81,33 @@ export default function UserInfo() {
         getImage()
     }, [loadImage])
 
+    // const save = async () => {
+    //     try {
+    //         await AsyncStorage.setItem("mypfp", "hi")
+    //         // console.log("got image!!", image)
+    //     } catch (err) {
+    //         // console.log("SAVE NOT WOKRING", image)
+    //         alert(err)
+    //     }
+    // }
+
+    // const load = async () => {
+    //     try {
+    //         let test = await AsyncStorage.getItem("mypfp")
+    //         // console.log("loading item!!", image)
+    //         if (test != null) {
+    //             setTest(test)
+    //         }
+    //     } catch (err) {
+    //         console.log("LOAD NOT WORKING")
+    //         alert(err)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     load()
+    // }, [])
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,6 +125,7 @@ export default function UserInfo() {
 
             const newRef = ref(storage, imageName)
             await uploadBytes(newRef, bytes);
+            // save()
         }
 
         if (!result.cancelled) {
@@ -106,12 +135,14 @@ export default function UserInfo() {
             uploadImage(result.uri).then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     setImage(url)
+                    
+                    // console.log("IMAGE", image)
                 })
             })
-
+            
             // setImage(result.uri);
-            console.log("IMAGE ONCE CHOSEN:", image)
-            console.log("CALL 1")
+            // console.log("IMAGE ONCE CHOSEN:", image)
+            // console.log("CALL 1")
         }
     };
 
@@ -122,6 +153,8 @@ export default function UserInfo() {
     if (!isLoaded) {
         return null;
     } 
+
+
 
     return (
         <View style={styles.profile}>

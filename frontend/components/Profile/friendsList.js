@@ -17,7 +17,7 @@ export default function FriendsList() {
         setUID(user.uid)
     } else {
         if (friends == '') {
-            console.log("uid",uid)
+            // console.log("uid",uid)
             const q = query(collection(db, "user", uid, "friend"))
             let newF = []
             let names = []
@@ -73,9 +73,9 @@ export default function FriendsList() {
             console.log(err)
         })
     }
-    console.log('FRIENDS LIST', friends)
-    console.log('NAME LIST', nameList)
-    console.log('IMAGE LIST', imageList)
+    // console.log('FRIENDS LIST', friends)
+    // console.log('NAME LIST', nameList)
+    // console.log('IMAGE LIST', imageList)
 
     const Display = nameList.map((name, index) => 
             // const image = imageList[index];
@@ -84,7 +84,7 @@ export default function FriendsList() {
             >
                 
                 <View style={styles.content}>
-                    {console.log("name:",name)}
+                    {/* {console.log("name:",name)} */}
                     <Image source={{uri: imageList[index]}} style={styles.image}/>
                     <Text style={styles.name}>{name}</Text>
                 </View>

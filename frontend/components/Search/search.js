@@ -49,7 +49,7 @@ export default function Search() {
             getDoc(ref).then((docSnap) => {
                 currentName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
                 imageURL = docSnap.data()['image']
-                console.log(imageURL)
+                // console.log(imageURL)
                 setDoc(doc(db, "user", userID, "friend", user.uid), {
                     name: currentName,
                     image: imageURL
@@ -91,11 +91,11 @@ export default function Search() {
             } else {
                 querySnapshot.forEach((doc) => {
                     setUserID(doc.id)
-                    console.log(doc.id)
+                    // console.log(doc.id)
                     let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
                     setName(nameToBeSet)
-                    console.log("USER ID", userID)
-                    console.log("NAME", name)
+                    // console.log("USER ID", userID)
+                    // console.log("NAME", name)
 
                     setPfp(doc.data()['image'])
                     setExist(true)
@@ -165,7 +165,7 @@ export default function Search() {
                         dismissKeyboard()
                         setEmail(email)
                         findUser(email)
-                        console.log("entered")
+                        // console.log("entered")
                     }}
 
                     onChangeText={text => 
