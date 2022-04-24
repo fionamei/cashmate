@@ -9,6 +9,7 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Signup from './signup.js';
+import { setItem } from '../../backend/asyncstorage'
 
 
 export default function LoginScreen() {
@@ -37,6 +38,8 @@ export default function LoginScreen() {
         .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        console.log(user)
+        // setItem('')
         // ...
         })
         .catch((error) => {

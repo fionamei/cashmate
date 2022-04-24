@@ -73,7 +73,7 @@ export default function Temp(props) {
                     <Text style={styles.price}>${props.price}</Text>
                     <View style={{
                                 height: 15,
-                                width: '220%',
+                                width: "220%",
                                 backgroundColor: 'white',
                                 borderColor: color,
                                 borderWidth: 2,
@@ -211,6 +211,8 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         // flexShrink: 1,
         flexWrap: 'wrap',
+        // backgroundColor:'blue',
+        maxWidth:Dimensions.get("window").width * 0.4,
         
         // width: 20,
         // width: '60%'
@@ -221,11 +223,13 @@ const styles = StyleSheet.create({
         height: 55,
         borderRadius: 100,
         alignItems:'center',
-        marginTop: '25%'
+        marginTop: '25%',
     },  
     heading: {
         // flexDirection: 'row',
         justifyContent:'flex-start',
+        backgroundColor:'red',
+        maxWidth:Dimensions.get("window").width * 0.5,
         // backgroundColor: 'black'
         // flexWrap:'wrap'
     },
