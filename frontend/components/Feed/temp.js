@@ -73,7 +73,7 @@ export default function Temp(props) {
                     <Text style={styles.price}>${props.price}</Text>
                     <View style={{
                                 height: 15,
-                                width: '220%',
+                                width: '210%',
                                 backgroundColor: 'white',
                                 borderColor: color,
                                 borderWidth: 2,
@@ -211,7 +211,9 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         // flexShrink: 1,
         flexWrap: 'wrap',
-        
+        // backgroundColor: 'green',
+        width: Dimensions.get("window").width * 0.4,
+        // justifyContent:'flex-end',
         // width: 20,
         // width: '60%'
         
@@ -221,12 +223,14 @@ const styles = StyleSheet.create({
         height: 55,
         borderRadius: 100,
         alignItems:'center',
-        marginTop: '25%'
+        marginTop: '25%',
+        marginLeft: '2%'
     },  
     heading: {
         // flexDirection: 'row',
         justifyContent:'flex-start',
-        // backgroundColor: 'black'
+        // backgroundColor: 'red',
+        width: Dimensions.get("window").width * 0.35,
         // flexWrap:'wrap'
     },
     iconOne: {
@@ -258,7 +262,7 @@ const styles = StyleSheet.create({
     },
     date: {
         // fontSize:24,
-        fontSize: Dimensions.get('window').height/39,
+        fontSize: Dimensions.get('window').height/42,
         fontFamily:'Urbanist-Regular',
         color:'#BBBBBB'
     },
