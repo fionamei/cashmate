@@ -27,10 +27,21 @@ export default function Feed() {
     const user = getAuth().currentUser;
 
     useEffect(() => {
+        let temp = []
+        let tempName = []
+        let tempPfp = []
+
+        const userSnapshot = getDoc(doc(db, "user", user.uid)).then((docSnap) => {
+            temp.push(user.uid)
+            const name = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
+            tempName.push(name)
+            tempPfp.push(docSnap.data()['image'])
+        })
+
         const querySnapshot = getDocs(collection(db, "user", user.uid, "friend")).then((querySnapshot) => {
-            let temp = []
-            let tempName = []
-            let tempPfp = []
+            // let temp = []
+            // let tempName = []
+            // let tempPfp = []
             querySnapshot.forEach((doc) => {
                 temp.push(doc.id)
                 tempName.push(doc.data()['name'])
