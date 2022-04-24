@@ -8,6 +8,7 @@ import { useFonts } from '@use-expo/font';
 import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { getItem, setItem } from '../../backend/asyncstorage.js';
 
 // const friends = 4
 
@@ -19,21 +20,35 @@ export default function UserInfo() {
     const [loadImage, setLoadImage] = useState(null)
     const navigation = useNavigation()
 
-    const user = getAuth().currentUser;
-    if (uid == '') {
-        setUID(user.uid)
-    } else {
-        
-        if (first == '') {
-            const firstRef = doc(db, "user", uid)
-        
-            getDoc(firstRef).then((docSnap) => {
-                setFirst(docSnap.data()['firstName'])
-                setLast(docSnap.data()['lastName'])
-            })
+    React.useEffect(() => {
+        const doTest = async () => {
+            getItem('UserUID').then((value) => setUID(value))
+            getItem('firstName').then((value) => setFirst(value))
+            getItem('lastName').then((value) => setLast(value))
+            getItem('pfp').then((value) => setImage(value))
         }
-    }
+        doTest();
+    }, [])
+
+    const user = getAuth().currentUser;
+    // if (uid == '') {
+    //     setUID(user.uid)
+    // } else {
+        
+    //     if (first == '') {
+    //         const firstRef = doc(db, "user", uid)
+        
+    //         getDoc(firstRef).then((docSnap) => {
+    //             setFirst(docSnap.data()['firstName'])
+    //             setLast(docSnap.data()['lastName'])
+    //         })
+    //     }
+    // }
     const full_name = first + " " + last
+    // console.log(uid)
+    // console.log(first)
+    // console.log(last)
+    console.log('image !!!! ', image)
     
     const create = (imageURI) => {
         const ref = doc(db, "user", user.uid)
@@ -41,19 +56,24 @@ export default function UserInfo() {
             updateDoc(ref, {
               image: imageURI
             })
+            setItem("pfp", imageURI)
+            // setItem
         })
-        console.log("CALL 2")
+        // set item image
+        // console.log("CALL 2")
     }
 
-    const getImage = () => {
-        const ref = doc(db, "user", user.uid)
-        const change =  getDoc(ref).then((docSnap) => {
-            if (docSnap.data()['image'] != null) {
-                setImage(docSnap.data()['image'])
-            }
-        })
-        console.log("CALL 3")
-    }
+    // const getImage = () => {
+    //     const ref = doc(db, "user", user.uid)
+    //     const change =  getDoc(ref).then((docSnap) => {
+    //         if (docSnap.data()['image'] != null) {
+    //             // setImage(docSnap.data()['image'])
+    //             setItem('pfp',docSnap.data()['image'])
+    //         }
+    //     })
+    //     // getItem
+    //     // console.log("CALL 3")
+    // }
 
     // const onFileChange = (e) => {
     //     const file = e.target.files[0]
@@ -76,9 +96,9 @@ export default function UserInfo() {
         // onFileChange()
     }, [image])
 
-    useEffect(() => {
-        getImage()
-    }, [loadImage])
+    // useEffect(() => {
+    //     getImage()
+    // }, [loadImage])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -105,13 +125,15 @@ export default function UserInfo() {
 
             uploadImage(result.uri).then(() => {
                 getDownloadURL(storageRef).then((url) => {
+                    console.log("changing to",url)
+                    // setItem("pfp", url)
                     setImage(url)
                 })
             })
 
             // setImage(result.uri);
-            console.log("IMAGE ONCE CHOSEN:", image)
-            console.log("CALL 1")
+            // console.log("IMAGE ONCE CHOSEN:", image)
+            // console.log("CALL 1")
         }
     };
 
@@ -122,7 +144,6 @@ export default function UserInfo() {
     if (!isLoaded) {
         return null;
     } 
-
     return (
         <View style={styles.profile}>
             <TouchableOpacity onPress={pickImage}>

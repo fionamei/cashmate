@@ -4,7 +4,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LogBox } from 'react-native';
 import Budget from './components/Budget/budget';
 import Spending from './components/Spending/spending';
 import Feed from './components/Feed/feed';
@@ -21,6 +20,7 @@ import FirstScreen from './components/Login/first'
 import FriendsList from './components/Profile/friendsList';
 import Contact from './components/Settings/contact'
 import About from './components/Settings/about'
+import { setItem } from './backend/asyncstorage.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,11 +28,13 @@ export default function App() {
   const auth = getAuth();
   const [uID, setUID] = useState('');
   const [budgetID, setBudgetID] = useState('');
-  // // const [spendingID, setSpendingID] = useState('');
+  // const [spendingID, setSpendingID] = useState('');
 
-  LogBox.ignoreAllLogs();
+  React.useEffect(() => {
+  })
 
   onAuthStateChanged(auth, (user) => {
+    // if logged in 
     if (user) {
       setUID(user.uid)
       const ref = query(collection(db, "user", user.uid, "budget"), orderBy("timestamp", "desc"), limit(1));
@@ -41,8 +43,16 @@ export default function App() {
           setBudgetID(doc.id)
         })
       })
-      console.log("logged in uid: ",uID)
-      console.log("logged in budgetid: ",budgetID)
+      setItem('UserUID',user.uid)
+
+      const firstRef = doc(db, "user", user.uid)
+      getDoc(firstRef).then((docSnap) => {
+          setItem('firstName',docSnap.data()['firstName'])
+          setItem('lastName',docSnap.data()['lastName'])
+          console.log('stored hopefully')
+      })
+      // console.log("logged in uid: ",uID)
+      // console.log("logged in budgetid: ",budgetID)
     } else {
       console.log("logged out")
       // User is signed out

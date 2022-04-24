@@ -60,7 +60,7 @@ export default function Feed() {
                 const q = query(collection(db, "user", listUID[i], "budget"), orderBy("timestamp", "desc"), limit(1));
                 const q2 = getDocs(q).then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
+                        // console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
                         tempBudget.push(doc.id)
                         // setListBudgetID([...listBudgetID, doc.id])
                     })
@@ -112,16 +112,16 @@ export default function Feed() {
 
     useEffect(() => {
         const changeFeed = async () => {
-            console.log("PREV: ", ...spendings)
-            console.log("CURRENT", updateVal)
-            console.log("ARR TO BE SET", [...spendings, updateVal])
-            console.log("COUNTER:", counter)
+            // console.log("PREV: ", ...spendings)
+            // console.log("CURRENT", updateVal)
+            // console.log("ARR TO BE SET", [...spendings, updateVal])
+            // console.log("COUNTER:", counter)
             if (counter == 1) {
                 setSpending([updateVal])
             } else {
                 setSpending([...spendings, updateVal])
             }
-            console.log("SPENDING:", spendings)
+            // console.log("SPENDING:", spendings)
         }
         setCounter(counter+1)
         changeFeed()
@@ -131,10 +131,10 @@ export default function Feed() {
         return null;
     } 
     
-    console.log("LIST UID", listUID)
-    console.log("LIST NAMES", listNames)
-    console.log("LIST BUDGET ID", listBudgetID)
-    console.log("FEED", feed)
+    // console.log("LIST UID", listUID)
+    // console.log("LIST NAMES", listNames)
+    // console.log("LIST BUDGET ID", listBudgetID)
+    // console.log("FEED", feed)
 
 
     const sorted = feed.sort((a,b)=>{
@@ -145,7 +145,7 @@ export default function Feed() {
         }
         return -1 // return 1 here for DESC Order
       });
-      console.log("SORTED IS", sorted)
+    //   console.log("SORTED IS", sorted)
 
 
     const everything = sorted.map((post, index) => 
