@@ -3,6 +3,8 @@ import { useState, setState, useEffect } from 'react';
 import { Button, Platform, View, Image, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db } from '../../backend/Firebase.js';
+import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import Nav from '../Navbar/navbar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { setStatusBarBackgroundColor } from 'expo-status-bar';
@@ -17,6 +19,11 @@ export default function Temp(props) {
     const [progress1, setProgress1] = useState('#D8C8F6')
     const [progress2, setProgress2] = useState('#C4E7FF')
     const [color, setColor] = useState('#000000')
+    const [like, setLike] = useState(0)
+    const [smile, setSmile] = useState(0)
+    const [sad, setSad] = useState(0)
+    const [angry, setAngry] = useState(0)
+    const [woah, setWoah] = useState(0)
 
     useEffect(() => {
         if (props.numpercent >= 80) {
@@ -33,7 +40,208 @@ export default function Temp(props) {
             setProgress1('#C4E7FF')
             setColor('#E94646')
         }
+
     }, [])
+
+    // useEffect(() => {
+    //     if (heartClicked) {
+    //         console.log("LIKED")
+    //         addLike(props.uid, props.budget_id, props.spending_id)
+    //     } else {
+    //         console.log("UNLIKED")
+    //         removeLike(props.uid, props.budget_id, props.spending_id)
+    //     }
+    // }, [heartClicked])
+
+    // useEffect(() => {
+    //     if (smileClicked) {
+    //         console.log("SMILE CLICKED")
+    //         addSmile(props.uid, props.budget_id, props.spending_id)
+    //     } else {
+    //         console.log("SMILE UNCLIKED")
+    //         removeSmile(props.uid, props.budget_id, props.spending_id)
+    //     }
+    // }, [smileClicked])
+
+    // useEffect(() => {
+    //     if (sadClicked) {
+    //         console.log("SAD CLICKED")
+    //         addSad(props.uid, props.budget_id, props.spending_id)
+    //     } else {
+    //         console.log("SAD UNCLIKED")
+    //         removeSad(props.uid, props.budget_id, props.spending_id)
+    //     }
+    // }, [sadClicked])
+
+    // useEffect(() => {
+    //     if (angryClicked) {
+    //         console.log("ANGRY CLICKED")
+    //         addAngry(props.uid, props.budget_id, props.spending_id)
+    //     } else {
+    //         console.log("ANGRY UNCLICKED")
+    //         removeAngry(props.uid, props.budget_id, props.spending_id)
+    //     }
+    // }, [angryClicked])
+
+    // useEffect(() => {
+    //     if (woahClicked) {
+    //         console.log("WOAH CLICKED")
+    //         addWoah(props.uid, props.budget_id, props.spending_id)
+    //     } else {
+    //         console.log("WOAH UNCLICKED")
+    //         removeWoah(props.uid, props.budget_id, props.spending_id)
+    //     }
+    // }, [woahClicked])
+
+    const checkHeart = () => {
+        if (!heartClicked) {
+            console.log("LIKED")
+            addLike(props.uid, props.budget_id, props.spending_id)
+        } else {
+            console.log("UNLIKED")
+            removeLike(props.uid, props.budget_id, props.spending_id)
+        }
+    }
+
+    const checkSmile = () => {
+        if (!smileClicked) {
+            console.log("SMILE CLICKED")
+            addSmile(props.uid, props.budget_id, props.spending_id)
+        } else {
+            console.log("SMILE UNCLICKED")
+            removeSmile(props.uid, props.budget_id, props.spending_id)
+        }
+    }
+
+    const checkSad = () => {
+        if (!sadClicked) {
+            console.log("SAD CLICKED")
+            addSad(props.uid, props.budget_id, props.spending_id)
+        } else {
+            console.log("SAD UNCLICKED")
+            removeSad(props.uid, props.budget_id, props.spending_id)
+        }
+    }
+
+    const checkAngry = () => {
+        if (!angryClicked) {
+            console.log("ANGRY CLICKED")
+            addAngry(props.uid, props.budget_id, props.spending_id)
+        } else {
+            console.log("ANGRY UNCLICKED")
+            removeAngry(props.uid, props.budget_id, props.spending_id)
+        }
+    }
+
+    const checkWoah = () => {
+        if (!woahClicked) {
+            console.log("WOAH CLICKED")
+            addWoah(props.uid, props.budget_id, props.spending_id)
+        } else {
+            console.log("WOAH UNCLICKED")
+            removeWoah(props.uid, props.budget_id, props.spending_id)
+        }
+    }
+
+    const addLike = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                like: docSnap.data()['like'] + 1
+            })
+        })
+    }
+
+    const removeLike = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['like'] != 0) {
+                updateDoc(docRef, {
+                    like: docSnap.data()['like'] - 1
+                })
+            }
+        })
+    }
+
+    const addSmile = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                smile: docSnap.data()['smile'] + 1
+            })
+        })
+    }
+
+    const removeSmile = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['smile'] != 0) {
+                updateDoc(docRef, {
+                    smile: docSnap.data()['smile'] - 1
+                })
+            }
+        })
+    }
+
+    const addSad = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                sad: docSnap.data()['sad'] + 1
+            })
+        })
+    }
+
+    const removeSad = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['sad'] != 0) {
+                updateDoc(docRef, {
+                    sad: docSnap.data()['sad'] - 1
+                })
+            }
+        })
+    }
+
+    const addAngry = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                angry: docSnap.data()['angry'] + 1
+            })
+        })
+    }
+
+    const removeAngry = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['angry'] != 0) {
+                updateDoc(docRef, {
+                    angry: docSnap.data()['angry'] - 1
+                })
+            }
+        })
+    }
+
+    const addWoah = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                woah: docSnap.data()['woah'] + 1
+            })
+        })
+    }
+
+    const removeWoah = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['woah'] != 0) {
+                updateDoc(docRef, {
+                    woah: docSnap.data()['woah'] - 1
+                })
+            }
+        })
+    }
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -104,8 +312,10 @@ export default function Temp(props) {
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity 
                             style={styles.buttons}
-                            onPress={() =>
+                            onPress={() => {
                                 heartIsClicked(!heartClicked)
+                                checkHeart()
+                            }
                             }
                         >
                             {/* <Text style={styles.category}>{likes} </Text> */}
@@ -116,8 +326,10 @@ export default function Temp(props) {
 
                         <TouchableOpacity 
                             style={styles.buttons}
-                            onPress={() =>
+                            onPress={() => {
                                 smileIsClicked(!smileClicked)
+                                checkSmile()
+                            }
                             }
                         >
                             {smileClicked ? 
@@ -127,8 +339,10 @@ export default function Temp(props) {
 
                         <TouchableOpacity 
                             style={styles.buttons}
-                            onPress={() =>
+                            onPress={() => {
                                 sadIsClicked(!sadClicked)
+                                checkSad()
+                            }
                             }
                         >
                             {sadClicked ? 
@@ -138,8 +352,10 @@ export default function Temp(props) {
 
                         <TouchableOpacity 
                             style={styles.buttons}
-                            onPress={() =>
+                            onPress={() => {
                                 angryIsClicked(!angryClicked)
+                                checkAngry()
+                            }
                             }
                         >
                             {angryClicked ? 
@@ -149,8 +365,10 @@ export default function Temp(props) {
 
                         <TouchableOpacity 
                             style={styles.buttons}
-                            onPress={() =>
+                            onPress={() => {
                                 woahIsClicked(!woahClicked)
+                                checkWoah()
+                            }
                             }
                         >
                             {woahClicked ? 
