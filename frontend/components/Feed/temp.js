@@ -41,6 +41,16 @@ export default function Temp(props) {
             setColor('#E94646')
         }
 
+        const docRef = doc(db, "user", props.uid, "budget", props.budget_id, "spending", props.spending_id)
+        const change = getDoc(docRef).then((docSnap) => {
+            setLike(docSnap.data()['like'])
+            setSmile(docSnap.data()['smile'])
+            setSad(docSnap.data()['sad'])
+            setAngry(docSnap.data()['angry'])
+            setWoah(docSnap.data()['woah'])
+            console.log("INITIAL VALUES:", like, smile, sad, angry, woah)
+        })
+
     }, [])
 
     // useEffect(() => {
@@ -97,9 +107,13 @@ export default function Temp(props) {
         if (!heartClicked) {
             console.log("LIKED")
             addLike(props.uid, props.budget_id, props.spending_id)
+            setLike(like + 1)
         } else {
             console.log("UNLIKED")
             removeLike(props.uid, props.budget_id, props.spending_id)
+            if (like > 0) {
+                setLike(like - 1)
+            }
         }
     }
 
@@ -107,9 +121,13 @@ export default function Temp(props) {
         if (!smileClicked) {
             console.log("SMILE CLICKED")
             addSmile(props.uid, props.budget_id, props.spending_id)
+            setSmile(smile + 1)
         } else {
             console.log("SMILE UNCLICKED")
             removeSmile(props.uid, props.budget_id, props.spending_id)
+            if (smile > 0) {
+                setSmile(smile - 1)
+            }
         }
     }
 
@@ -117,9 +135,13 @@ export default function Temp(props) {
         if (!sadClicked) {
             console.log("SAD CLICKED")
             addSad(props.uid, props.budget_id, props.spending_id)
+            setSad(sad + 1)
         } else {
             console.log("SAD UNCLICKED")
             removeSad(props.uid, props.budget_id, props.spending_id)
+            if (sad > 0) {
+                setSad(sad - 1)
+            }
         }
     }
 
@@ -127,9 +149,13 @@ export default function Temp(props) {
         if (!angryClicked) {
             console.log("ANGRY CLICKED")
             addAngry(props.uid, props.budget_id, props.spending_id)
+            setAngry(angry + 1)
         } else {
             console.log("ANGRY UNCLICKED")
             removeAngry(props.uid, props.budget_id, props.spending_id)
+            if (angry > 0) {
+                setAngry(angry - 1)
+            }
         }
     }
 
@@ -150,6 +176,9 @@ export default function Temp(props) {
                 like: docSnap.data()['like'] + 1
             })
         })
+        // console.log("LIKE BEFORE:" , like)
+        // setLike(like + 1)
+        // console.log("LIKE AFTER:", like)
     }
 
     const removeLike = (uid, budgetID, spendingID) =>  {
@@ -159,6 +188,7 @@ export default function Temp(props) {
                 updateDoc(docRef, {
                     like: docSnap.data()['like'] - 1
                 })
+                // setLike(like - 1)
             }
         })
     }
@@ -169,6 +199,7 @@ export default function Temp(props) {
             updateDoc(docRef, {
                 smile: docSnap.data()['smile'] + 1
             })
+            // setSmile(smile + 1)
         })
     }
 
@@ -179,6 +210,7 @@ export default function Temp(props) {
                 updateDoc(docRef, {
                     smile: docSnap.data()['smile'] - 1
                 })
+                // setSmile(smile - 1)
             }
         })
     }
@@ -189,6 +221,7 @@ export default function Temp(props) {
             updateDoc(docRef, {
                 sad: docSnap.data()['sad'] + 1
             })
+            // setSad(sad + 1)
         })
     }
 
@@ -199,6 +232,7 @@ export default function Temp(props) {
                 updateDoc(docRef, {
                     sad: docSnap.data()['sad'] - 1
                 })
+                // setSad(sad - 1)
             }
         })
     }
@@ -209,6 +243,7 @@ export default function Temp(props) {
             updateDoc(docRef, {
                 angry: docSnap.data()['angry'] + 1
             })
+            // setAngry(angry + 1)
         })
     }
 
@@ -219,6 +254,7 @@ export default function Temp(props) {
                 updateDoc(docRef, {
                     angry: docSnap.data()['angry'] - 1
                 })
+                // setAngry(angry - 1)
             }
         })
     }
@@ -229,6 +265,7 @@ export default function Temp(props) {
             updateDoc(docRef, {
                 woah: docSnap.data()['woah'] + 1
             })
+            // setWoah(woah + 1)
         })
     }
 
@@ -239,6 +276,7 @@ export default function Temp(props) {
                 updateDoc(docRef, {
                     woah: docSnap.data()['woah'] - 1
                 })
+                // setWoah(woah - 1)
             }
         })
     }
@@ -315,6 +353,7 @@ export default function Temp(props) {
                             onPress={() => {
                                 heartIsClicked(!heartClicked)
                                 checkHeart()
+                                console.log("LIKE", like)
                             }
                             }
                         >
@@ -323,6 +362,8 @@ export default function Temp(props) {
                                 <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
                                 <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
                         </TouchableOpacity>
+
+                        <Text style={styles.counter}>{like}</Text>
 
                         <TouchableOpacity 
                             style={styles.buttons}
@@ -337,6 +378,8 @@ export default function Temp(props) {
                                 <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> }
                         </TouchableOpacity>
 
+                        <Text style={styles.counter}>{smile}</Text>
+
                         <TouchableOpacity 
                             style={styles.buttons}
                             onPress={() => {
@@ -349,6 +392,8 @@ export default function Temp(props) {
                                 <Image source={require("../../assets/feedicons/sadfilled.png")} style={styles.iconTwo}/> :
                                 <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> }
                         </TouchableOpacity>
+
+                        <Text style={styles.counter}>{sad}</Text>
 
                         <TouchableOpacity 
                             style={styles.buttons}
@@ -363,6 +408,8 @@ export default function Temp(props) {
                                 <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> }
                         </TouchableOpacity>
 
+                        <Text style={styles.counter}>{angry}</Text>
+
                         <TouchableOpacity 
                             style={styles.buttons}
                             onPress={() => {
@@ -376,8 +423,7 @@ export default function Temp(props) {
                                 <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> }
                         </TouchableOpacity>
 
-
-
+                        <Text style={styles.counter}>{woah}</Text>
 
                         <Text style={styles.category}>{props.category}</Text>
 
@@ -421,7 +467,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent:'space-between',
-        width: Dimensions.get("window").width * 0.3,
+        width: Dimensions.get("window").width * 0.4, // 0.3 initially 
         // backgroundColor: 'red'
     },
     aboutContainer: {
@@ -487,7 +533,13 @@ const styles = StyleSheet.create({
     category: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/55,
-        marginLeft: "10%",
+        marginLeft: "10%",  // originally 10%
+    },
+
+    counter: {
+        fontFamily:'Urbanist-Regular',
+        fontSize: Dimensions.get('window').height/60,
+        marginLeft: "2%"
     },
     
     description: {
