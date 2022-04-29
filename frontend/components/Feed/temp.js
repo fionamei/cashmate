@@ -245,77 +245,77 @@ export default function Temp(props) {
 
     // DEPRECATED FUNCTIONS
 
-    const removeLike = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['like'] != 0) {
-                updateDoc(docRef, {
-                    like: docSnap.data()['like'] - 1
-                })
-                // setLike(like - 1)
-            }
-        })
-    }
+    // const removeLike = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['like'] != 0) {
+    //             updateDoc(docRef, {
+    //                 like: docSnap.data()['like'] - 1
+    //             })
+    //             // setLike(like - 1)
+    //         }
+    //     })
+    // }
 
-    const removeSmile = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['smile'] != 0) {
-                updateDoc(docRef, {
-                    smile: docSnap.data()['smile'] - 1
-                })
-                // setSmile(smile - 1)
-            }
-        })
-    }
+    // const removeSmile = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['smile'] != 0) {
+    //             updateDoc(docRef, {
+    //                 smile: docSnap.data()['smile'] - 1
+    //             })
+    //             // setSmile(smile - 1)
+    //         }
+    //     })
+    // }
 
-    const removeSad = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['sad'] != 0) {
-                updateDoc(docRef, {
-                    sad: docSnap.data()['sad'] - 1
-                })
-                // setSad(sad - 1)
-            }
-        })
-    }
+    // const removeSad = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['sad'] != 0) {
+    //             updateDoc(docRef, {
+    //                 sad: docSnap.data()['sad'] - 1
+    //             })
+    //             // setSad(sad - 1)
+    //         }
+    //     })
+    // }
 
-    const removeAngry = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['angry'] != 0) {
-                updateDoc(docRef, {
-                    angry: docSnap.data()['angry'] - 1
-                })
-                // setAngry(angry - 1)
-            }
-        })
-    }
+    // const removeAngry = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['angry'] != 0) {
+    //             updateDoc(docRef, {
+    //                 angry: docSnap.data()['angry'] - 1
+    //             })
+    //             // setAngry(angry - 1)
+    //         }
+    //     })
+    // }
 
-    const removeWoah = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['woah'] != 0) {
-                updateDoc(docRef, {
-                    woah: docSnap.data()['woah'] - 1
-                })
-                // setWoah(woah - 1)
-            }
-        })
-    }
+    // const removeWoah = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['woah'] != 0) {
+    //             updateDoc(docRef, {
+    //                 woah: docSnap.data()['woah'] - 1
+    //             })
+    //             // setWoah(woah - 1)
+    //         }
+    //     })
+    // }
 
-    const removeLaugh = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            if (docSnap.data()['laugh'] != 0) {
-                updateDoc(docRef, {
-                    woah: docSnap.data()['laugh'] - 1
-                })
-                // setWoah(woah - 1)
-            }
-        })
-    }
+    // const removeLaugh = (uid, budgetID, spendingID) =>  {
+    //     const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+    //     const change =  getDoc(docRef).then((docSnap) => {
+    //         if (docSnap.data()['laugh'] != 0) {
+    //             updateDoc(docRef, {
+    //                 woah: docSnap.data()['laugh'] - 1
+    //             })
+    //             // setWoah(woah - 1)
+    //         }
+    //     })
+    // }
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -470,7 +470,7 @@ export default function Temp(props) {
                             style={styles.buttons}
                             onPress={() => {
                                 angryIsClicked(!angryClicked)
-                                checkAngry()
+                                ANGRY()
                             }
                             }
                         >
