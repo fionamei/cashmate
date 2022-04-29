@@ -24,7 +24,7 @@ export default function LoginScreen() {
       if (user) {
         const uid = user.uid
         navigation.pop()
-        navigation.replace("Profile", {uid:uid})
+        navigation.replace("Spending")
       }
     })
 
@@ -38,8 +38,6 @@ export default function LoginScreen() {
         .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        console.log("USER UID IS !!!", user.uid)
-        setItem('UserUID', user.uid)
         // ...
         })
         .catch((error) => {

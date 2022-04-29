@@ -14,15 +14,7 @@ import { getItem } from '../../backend/asyncstorage';
 
 export default function Profile() {
     const navigation = useNavigation()
-    const [uid, setUID] = useState('')
-    const [test, setTest] = useState()
 
-    React.useEffect(() => {
-        const doTest = async () => {
-            getItem('UserUID').then((value) => console.log('UserUID:',value))
-        }
-        doTest();
-    }, [])
     // console.log("TESTING FOR GET ITEM, TEST IS: ", test)
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */

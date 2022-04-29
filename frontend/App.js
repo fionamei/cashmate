@@ -20,7 +20,7 @@ import FirstScreen from './components/Login/first'
 import FriendsList from './components/Profile/friendsList';
 import Contact from './components/Settings/contact'
 import About from './components/Settings/about'
-import { setItem } from './backend/asyncstorage.js';
+import { getItem, setItem } from './backend/asyncstorage.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,8 +30,18 @@ export default function App() {
   const [budgetID, setBudgetID] = useState('');
   // const [spendingID, setSpendingID] = useState('');
 
-  React.useEffect(() => {
-  })
+  useEffect(() => {
+    const retrieveInfo = async () => {
+      try {
+        getItem('UserUID').then((value) => setUID(value))
+        getItem('budgetID').then((value) => setBudgetID(value))
+      }
+      catch(e) {
+        console.log(e)
+      }
+    }
+    retrieveInfo();
+  }, [uID, budgetID])
 
   onAuthStateChanged(auth, (user) => {
     // if logged in 
@@ -40,6 +50,7 @@ export default function App() {
       const ref = query(collection(db, "user", user.uid, "budget"), orderBy("timestamp", "desc"), limit(1));
       getDocs(ref).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
+          setItem('budgetID',doc.id)
           setBudgetID(doc.id)
         })
       })
@@ -48,15 +59,33 @@ export default function App() {
       const firstRef = doc(db, "user", user.uid)
       getDoc(firstRef).then((docSnap) => {
           setItem('firstName',docSnap.data()['firstName'])
+          // console.log(docSnap.data()['firstName'])
           setItem('lastName',docSnap.data()['lastName'])
-          console.log('stored hopefully')
+          // console.log(docSnap.data()['lastName'])
+          setItem('pfp',docSnap.data()['image'])
+          console.log('pfp thats being stored:',docSnap.data()['image'])
+          // console.log('stored hopefully')
       })
-      // console.log("logged in uid: ",uID)
-      // console.log("logged in budgetid: ",budgetID)
-    } else {
+
+      const docRef = doc(db, "user", user.uid, "budget", budgetID);
+        // console.log("test docref", docRef)
+      getDoc(docRef).then((docSnap) => {
+          const budget_temp = docSnap.data()['amount']
+          const remaining_temp = (docSnap.data()['remainingAmt'])
+          const percentage_temp = (Number(remaining_temp) / Number(budget_temp) * 100).toFixed(2)
+          setItem('budget',String(budget_temp))
+          setItem('remaining',String(remaining_temp))
+          setItem('percentage', String(percentage_temp))
+          setItem('stringpercent', String(percentage_temp + '%'))
+          console.log('remaining should be',remaining_temp)
+          console.log('percentage should be',percentage_temp)
+      }).catch((e) => {
+        console.log("budget was not properly stored",e)
+      })
+      }
+
+     else {
       console.log("logged out")
-      // User is signed out
-      // ...
     }
   });
 

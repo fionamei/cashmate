@@ -18,6 +18,7 @@ export default function Feed() {
     const [feed, setFeed] = useState([])
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
+    const [spendings, setSpending] = useState([])
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
