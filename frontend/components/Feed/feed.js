@@ -85,6 +85,7 @@ export default function Feed() {
                             "name": currentName,
                             "uid": currentUID,
                             "budget_id": currentBudgetID,
+                            "spending_id": doc.id,
                             "image": currentImage,
                             "amount": doc.data()["amount"],
                             "category": doc.data()["category"],
@@ -154,7 +155,11 @@ export default function Feed() {
             stringpercent={post.string_percent}
             numpercent={post.percentage}
             image = {post.image}
-            detail={post.detail}/>
+            detail={post.detail}
+            uid = {post.uid}
+            budget_id = {post.budget_id}
+            spending_id = {post.spending_id}
+            />
     )
 
     return (
