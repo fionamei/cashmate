@@ -57,7 +57,8 @@ export default function Spending() {
         smile: 0,
         sad: 0,
         angry: 0,
-        woah: 0
+        woah: 0,
+        laugh: 0
       });
     }
     

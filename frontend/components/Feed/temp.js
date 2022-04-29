@@ -16,14 +16,16 @@ export default function Temp(props) {
     const [sadClicked, sadIsClicked] = useState(false)
     const [angryClicked, angryIsClicked] = useState(false)
     const [woahClicked, woahIsClicked] = useState(false)
+    const [laughClicked, laughIsClicked] = useState(false)
     const [progress1, setProgress1] = useState('#D8C8F6')
     const [progress2, setProgress2] = useState('#C4E7FF')
     const [color, setColor] = useState('#000000')
     const [like, setLike] = useState(0)
     const [smile, setSmile] = useState(0)
     const [sad, setSad] = useState(0)
-    const [angry, setAngry] = useState(0)
     const [woah, setWoah] = useState(0)
+    const [laugh, setLaugh] = useState(0)
+    const [angry, setAngry] = useState(0)
 
     useEffect(() => {
         if (props.numpercent >= 80) {
@@ -48,7 +50,8 @@ export default function Temp(props) {
             setSad(docSnap.data()['sad'])
             setAngry(docSnap.data()['angry'])
             setWoah(docSnap.data()['woah'])
-            console.log("INITIAL VALUES:", like, smile, sad, angry, woah)
+            setLaugh(docSnap.data()['laugh'])
+            console.log("INITIAL VALUES:", like, smile, sad, angry, woah, laugh)
         })
 
     }, [])
@@ -103,70 +106,79 @@ export default function Temp(props) {
     //     }
     // }, [woahClicked])
 
-    const checkHeart = () => {
-        if (!heartClicked) {
+    const LIKE = () => {
             console.log("LIKED")
             addLike(props.uid, props.budget_id, props.spending_id)
             setLike(like + 1)
-        } else {
-            console.log("UNLIKED")
-            removeLike(props.uid, props.budget_id, props.spending_id)
-            if (like > 0) {
-                setLike(like - 1)
-            }
-        }
+        // else {
+        //     console.log("UNLIKED")
+        //     removeLike(props.uid, props.budget_id, props.spending_id)
+        //     if (like > 0) {
+        //         setLike(like - 1)
+        //     }
+        // }
     }
 
-    const checkSmile = () => {
-        if (!smileClicked) {
+    const SMILE = () => {
             console.log("SMILE CLICKED")
             addSmile(props.uid, props.budget_id, props.spending_id)
             setSmile(smile + 1)
-        } else {
-            console.log("SMILE UNCLICKED")
-            removeSmile(props.uid, props.budget_id, props.spending_id)
-            if (smile > 0) {
-                setSmile(smile - 1)
-            }
-        }
+        // else {
+        //     console.log("SMILE UNCLICKED")
+        //     removeSmile(props.uid, props.budget_id, props.spending_id)
+        //     if (smile > 0) {
+        //         setSmile(smile - 1)
+        //     }
+        // }
     }
 
-    const checkSad = () => {
-        if (!sadClicked) {
+    const SAD = () => {
             console.log("SAD CLICKED")
             addSad(props.uid, props.budget_id, props.spending_id)
             setSad(sad + 1)
-        } else {
-            console.log("SAD UNCLICKED")
-            removeSad(props.uid, props.budget_id, props.spending_id)
-            if (sad > 0) {
-                setSad(sad - 1)
-            }
-        }
+
+        // else {
+        //     console.log("SAD UNCLICKED")
+        //     removeSad(props.uid, props.budget_id, props.spending_id)
+        //     if (sad > 0) {
+        //         setSad(sad - 1)
+        //     }
+        // }
     }
 
-    const checkAngry = () => {
-        if (!angryClicked) {
+    const ANGRY = () => {
             console.log("ANGRY CLICKED")
             addAngry(props.uid, props.budget_id, props.spending_id)
             setAngry(angry + 1)
-        } else {
-            console.log("ANGRY UNCLICKED")
-            removeAngry(props.uid, props.budget_id, props.spending_id)
-            if (angry > 0) {
-                setAngry(angry - 1)
-            }
-        }
+        // else {
+        //     console.log("ANGRY UNCLICKED")
+        //     removeAngry(props.uid, props.budget_id, props.spending_id)
+        //     if (angry > 0) {
+        //         setAngry(angry - 1)
+        //     }
+        // }
     }
 
-    const checkWoah = () => {
-        if (!woahClicked) {
+    const WOAH = () => {
             console.log("WOAH CLICKED")
             addWoah(props.uid, props.budget_id, props.spending_id)
-        } else {
-            console.log("WOAH UNCLICKED")
-            removeWoah(props.uid, props.budget_id, props.spending_id)
-        }
+            setWoah(woah + 1)
+        
+        // else {
+        //     console.log("WOAH UNCLICKED")
+        //     removeWoah(props.uid, props.budget_id, props.spending_id)
+        // }
+    }
+
+    const LAUGH = () => {
+            console.log("LAUGH CLICKED")
+            addLaugh(props.uid, props.budget_id, props.spending_id)
+            setLaugh(laugh + 1)
+        
+        // else {
+        //     console.log("LAUGH UNCLICKED")
+        //     removeLaugh(props.uid, props.budget_id, props.spending_id)
+        // }
     }
 
     const addLike = (uid, budgetID, spendingID) =>  {
@@ -352,15 +364,16 @@ export default function Temp(props) {
                             style={styles.buttons}
                             onPress={() => {
                                 heartIsClicked(!heartClicked)
-                                checkHeart()
+                                LIKE()
                                 console.log("LIKE", like)
                             }
                             }
                         >
+                            <Image source={require("../../assets/feedicons/heart.png")} style={styles.iconOne}/> 
                             {/* <Text style={styles.category}>{likes} </Text> */}
-                            {heartClicked ? 
+                            {/* {heartClicked ? 
                                 <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
-                                <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> }
+                                <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> } */}
                         </TouchableOpacity>
 
                         <Text style={styles.counter}>{like}</Text>
@@ -369,13 +382,14 @@ export default function Temp(props) {
                             style={styles.buttons}
                             onPress={() => {
                                 smileIsClicked(!smileClicked)
-                                checkSmile()
+                                SMILE()
                             }
                             }
                         >
-                            {smileClicked ? 
+                            <Image source={require("../../assets/feedicons/smile.png")} style={styles.iconTwo}/>
+                            {/* {smileClicked ? 
                                 <Image source={require("../../assets/feedicons/smilefilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> }
+                                <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> } */}
                         </TouchableOpacity>
 
                         <Text style={styles.counter}>{smile}</Text>
@@ -384,16 +398,49 @@ export default function Temp(props) {
                             style={styles.buttons}
                             onPress={() => {
                                 sadIsClicked(!sadClicked)
-                                checkSad()
+                                SAD()
                             }
                             }
                         >
-                            {sadClicked ? 
+                            <Image source={require("../../assets/feedicons/sad.png")} style={styles.iconTwo}/>
+                            {/* {sadClicked ? 
                                 <Image source={require("../../assets/feedicons/sadfilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> }
+                                <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> } */}
                         </TouchableOpacity>
 
                         <Text style={styles.counter}>{sad}</Text>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() => {
+                                woahIsClicked(!woahClicked)
+                                WOAH()
+                            }
+                            }
+                        >
+                            <Image source={require("../../assets/feedicons/woah.png")} style={styles.iconTwo}/>
+                            {/* {woahClicked ? 
+                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
+                        </TouchableOpacity>
+
+                        <Text style={styles.counter}>{woah}</Text>
+
+                        <TouchableOpacity 
+                            style={styles.buttons}
+                            onPress={() => {
+                                laughIsClicked(!laughClicked)
+                                LAUGH()
+                            }
+                            }
+                        >
+                            <Image source={require("../../assets/feedicons/laugh.png")} style={styles.iconTwo}/>
+                            {/* {woahClicked ? 
+                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
+                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
+                        </TouchableOpacity>
+
+                        <Text style={styles.counter}>{laugh}</Text>
 
                         <TouchableOpacity 
                             style={styles.buttons}
@@ -403,27 +450,13 @@ export default function Temp(props) {
                             }
                             }
                         >
-                            {angryClicked ? 
+                            <Image source={require("../../assets/feedicons/angry.png")} style={styles.iconTwo}/>
+                            {/* {angryClicked ? 
                                 <Image source={require("../../assets/feedicons/angryfilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> }
+                                <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> } */}
                         </TouchableOpacity>
 
                         <Text style={styles.counter}>{angry}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                woahIsClicked(!woahClicked)
-                                checkWoah()
-                            }
-                            }
-                        >
-                            {woahClicked ? 
-                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> }
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{woah}</Text>
 
                         <Text style={styles.category}>{props.category}</Text>
 
