@@ -193,6 +193,58 @@ export default function Temp(props) {
         // console.log("LIKE AFTER:", like)
     }
 
+    const addSmile = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                smile: docSnap.data()['smile'] + 1
+            })
+            // setSmile(smile + 1)
+        })
+    }
+
+    const addSad = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                sad: docSnap.data()['sad'] + 1
+            })
+            // setSad(sad + 1)
+        })
+    }
+
+    const addAngry = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                angry: docSnap.data()['angry'] + 1
+            })
+            // setAngry(angry + 1)
+        })
+    }
+
+    const addWoah = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                woah: docSnap.data()['woah'] + 1
+            })
+            // setWoah(woah + 1)
+        })
+    }
+
+    const addLaugh = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            updateDoc(docRef, {
+                laugh: docSnap.data()['laugh'] + 1
+            })
+            // setWoah(woah + 1)
+        })
+    }
+
+    // DEPRECATED FUNCTIONS
+
     const removeLike = (uid, budgetID, spendingID) =>  {
         const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
         const change =  getDoc(docRef).then((docSnap) => {
@@ -202,16 +254,6 @@ export default function Temp(props) {
                 })
                 // setLike(like - 1)
             }
-        })
-    }
-
-    const addSmile = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            updateDoc(docRef, {
-                smile: docSnap.data()['smile'] + 1
-            })
-            // setSmile(smile + 1)
         })
     }
 
@@ -227,16 +269,6 @@ export default function Temp(props) {
         })
     }
 
-    const addSad = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            updateDoc(docRef, {
-                sad: docSnap.data()['sad'] + 1
-            })
-            // setSad(sad + 1)
-        })
-    }
-
     const removeSad = (uid, budgetID, spendingID) =>  {
         const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
         const change =  getDoc(docRef).then((docSnap) => {
@@ -246,16 +278,6 @@ export default function Temp(props) {
                 })
                 // setSad(sad - 1)
             }
-        })
-    }
-
-    const addAngry = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            updateDoc(docRef, {
-                angry: docSnap.data()['angry'] + 1
-            })
-            // setAngry(angry + 1)
         })
     }
 
@@ -271,22 +293,24 @@ export default function Temp(props) {
         })
     }
 
-    const addWoah = (uid, budgetID, spendingID) =>  {
-        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
-        const change =  getDoc(docRef).then((docSnap) => {
-            updateDoc(docRef, {
-                woah: docSnap.data()['woah'] + 1
-            })
-            // setWoah(woah + 1)
-        })
-    }
-
     const removeWoah = (uid, budgetID, spendingID) =>  {
         const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
         const change =  getDoc(docRef).then((docSnap) => {
             if (docSnap.data()['woah'] != 0) {
                 updateDoc(docRef, {
                     woah: docSnap.data()['woah'] - 1
+                })
+                // setWoah(woah - 1)
+            }
+        })
+    }
+
+    const removeLaugh = (uid, budgetID, spendingID) =>  {
+        const docRef = doc(db, "user", uid, "budget", budgetID, "spending", spendingID)
+        const change =  getDoc(docRef).then((docSnap) => {
+            if (docSnap.data()['laugh'] != 0) {
+                updateDoc(docRef, {
+                    woah: docSnap.data()['laugh'] - 1
                 })
                 // setWoah(woah - 1)
             }
