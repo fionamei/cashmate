@@ -7,8 +7,7 @@ import { db } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import Nav from '../Navbar/navbar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { setStatusBarBackgroundColor } from 'expo-status-bar';
-
+import ExpoFastImage from 'expo-fast-image'
 
 export default function Temp(props) {
     const [heartClicked, heartIsClicked] = useState(false)
@@ -26,23 +25,30 @@ export default function Temp(props) {
     const [woah, setWoah] = useState(0)
     const [laugh, setLaugh] = useState(0)
     const [angry, setAngry] = useState(0)
+    const [stringP, setStringp] = useState('100%')
 
     useEffect(() => {
         if (props.numpercent >= 80) {
             setProgress2('#D8C8F6')
             setProgress1('#C4E7FF')
+            setStringp(props.stringpercent)
         } else if (props.numpercent >= 40) {
             setProgress2('#C4E7FF')
             setProgress1('#FFEDAD')
+            setStringp(props.stringpercent)
+
         } else if (props.numpercent > 0){
             setProgress2('#FFEDAD')
             setProgress1('#FFBFC3')
+            setStringp(props.stringpercent)
+
         } else {
             setProgress2('#D8C8F6')
             setProgress1('#C4E7FF')
-            setColor('#E94646')
+            setColor('#E94646') 
+            setStringp('0%')
         }
-
+        // console.log("passing in props num percent", props.numpercent)
         const docRef = doc(db, "user", props.uid, "budget", props.budget_id, "spending", props.spending_id)
         const change = getDoc(docRef).then((docSnap) => {
             setLike(docSnap.data()['like'])
@@ -51,7 +57,7 @@ export default function Temp(props) {
             setAngry(docSnap.data()['angry'])
             setWoah(docSnap.data()['woah'])
             setLaugh(docSnap.data()['laugh'])
-            console.log("INITIAL VALUES:", like, smile, sad, angry, woah, laugh)
+            // console.log("INITIAL VALUES:", like, smile, sad, angry, woah, laugh)
         })
 
     }, [])
@@ -107,7 +113,7 @@ export default function Temp(props) {
     // }, [woahClicked])
 
     const LIKE = () => {
-            console.log("LIKED")
+            // console.log("LIKED")
             addLike(props.uid, props.budget_id, props.spending_id)
             setLike(like + 1)
         // else {
@@ -120,7 +126,7 @@ export default function Temp(props) {
     }
 
     const SMILE = () => {
-            console.log("SMILE CLICKED")
+            // console.log("SMILE CLICKED")
             addSmile(props.uid, props.budget_id, props.spending_id)
             setSmile(smile + 1)
         // else {
@@ -133,7 +139,7 @@ export default function Temp(props) {
     }
 
     const SAD = () => {
-            console.log("SAD CLICKED")
+            // console.log("SAD CLICKED")
             addSad(props.uid, props.budget_id, props.spending_id)
             setSad(sad + 1)
 
@@ -147,7 +153,7 @@ export default function Temp(props) {
     }
 
     const ANGRY = () => {
-            console.log("ANGRY CLICKED")
+            // console.log("ANGRY CLICKED")
             addAngry(props.uid, props.budget_id, props.spending_id)
             setAngry(angry + 1)
         // else {
@@ -160,7 +166,7 @@ export default function Temp(props) {
     }
 
     const WOAH = () => {
-            console.log("WOAH CLICKED")
+            // console.log("WOAH CLICKED")
             addWoah(props.uid, props.budget_id, props.spending_id)
             setWoah(woah + 1)
         
@@ -171,7 +177,7 @@ export default function Temp(props) {
     }
 
     const LAUGH = () => {
-            console.log("LAUGH CLICKED")
+            // console.log("LAUGH CLICKED")
             addLaugh(props.uid, props.budget_id, props.spending_id)
             setLaugh(laugh + 1)
         
@@ -339,192 +345,251 @@ export default function Temp(props) {
     
     return (
     
-        
-        <View style={styles.container}>
-            
-            <View style={styles.postContainer}>
-                <View style={styles.imageContainer}>
-                    {props.image  
-                        ? <Image source={{ uri: props.image }} style={styles.image} />
-                        : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
-                    }
-                    {/* <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/> */}
-                </View>
-                <View style={styles.heading}>
-                    <Text style={styles.name}>{props.name}</Text>
-                    <Text style={styles.price}>${props.price}</Text>
-                    <View style={{
-                                height: 15,
-                                width: '210%',
-                                backgroundColor: 'white',
-                                borderColor: color,
-                                borderWidth: 2,
-                                borderRadius: 5,
-                                // marginLeft: '10%',
-                                marginTop: "6%",
-                                marginBottom: "7%"}}> 
-                            <LinearGradient
-                                style={{
-                                    width: props.stringpercent,
-                                    height: 11,
-                                    bottom: 0,
-                                    right: 0,
-                                    left: 0,
-                                    borderRadius: 2,
-                                    borderColor: color,
-                                }}
-                                useAngle={true}
-                                angle={45}
-                                angleCenter={{x: 0.5, y: 0.5}}
-                                start={{x: 0, y: 0}}
-                                end={{x: 1, y: 0}}
-                                colors={[
-                                    progress1,
-                                    progress2
-                                ]} />
-                        </View> 
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                heartIsClicked(!heartClicked)
-                                LIKE()
-                                console.log("LIKE", like)
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/heart.png")} style={styles.iconOne}/> 
-                            {/* <Text style={styles.category}>{likes} </Text> */}
-                            {/* {heartClicked ? 
-                                <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
-                                <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{like}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                smileIsClicked(!smileClicked)
-                                SMILE()
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/smile.png")} style={styles.iconTwo}/>
-                            {/* {smileClicked ? 
-                                <Image source={require("../../assets/feedicons/smilefilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{smile}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                sadIsClicked(!sadClicked)
-                                SAD()
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/sad.png")} style={styles.iconTwo}/>
-                            {/* {sadClicked ? 
-                                <Image source={require("../../assets/feedicons/sadfilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{sad}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                woahIsClicked(!woahClicked)
-                                WOAH()
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/woah.png")} style={styles.iconTwo}/>
-                            {/* {woahClicked ? 
-                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{woah}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                laughIsClicked(!laughClicked)
-                                LAUGH()
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/laugh.png")} style={styles.iconTwo}/>
-                            {/* {woahClicked ? 
-                                <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{laugh}</Text>
-
-                        <TouchableOpacity 
-                            style={styles.buttons}
-                            onPress={() => {
-                                angryIsClicked(!angryClicked)
-                                ANGRY()
-                            }
-                            }
-                        >
-                            <Image source={require("../../assets/feedicons/angry.png")} style={styles.iconTwo}/>
-                            {/* {angryClicked ? 
-                                <Image source={require("../../assets/feedicons/angryfilled.png")} style={styles.iconTwo}/> :
-                                <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> } */}
-                        </TouchableOpacity>
-
-                        <Text style={styles.counter}>{angry}</Text>
-
-                        <Text style={styles.category}>{props.category}</Text>
-
+        <View style={styles.overall}>
+            <View style={styles.container}>
+                
+                <View style={styles.postContainer}>
+                    <View style={styles.imageContainer}>
+                        {props.image  
+                            ? <Image source={{ uri: props.image }} style={styles.image} />
+                            : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                        }
+                        {/* <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/> */}
                     </View>
-                </View>   
+                    <View style={styles.heading}>
+                        <Text style={styles.name}>{props.name}</Text>
+                        <Text style={styles.price}>${props.price}</Text>
+                        <View style={{
+                                    height: 15,
+                                    width: '210%',
+                                    backgroundColor: 'white',
+                                    borderColor: color,
+                                    borderWidth: 2,
+                                    borderRadius: 5,
+                                    // marginLeft: '10%',
+                                    marginTop: "6%",
+                                    marginBottom: "7%"}}> 
+                                <LinearGradient
+                                    style={{
+                                        width: stringP,
+                                        height: 11,
+                                        bottom: 0,
+                                        right: 0,
+                                        left: 0,
+                                        borderRadius: 2,
+                                        borderColor: color,
+                                    }}
+                                    useAngle={true}
+                                    angle={45}
+                                    angleCenter={{x: 0.5, y: 0.5}}
+                                    start={{x: 0, y: 0}}
+                                    end={{x: 1, y: 0}}
+                                    colors={[
+                                        progress1,
+                                        progress2
+                                    ]} />
+                        </View> 
+                       
 
-                <View style={styles.aboutContainer}>
-                     <Text style={styles.date}>{props.date}</Text>
-                     <Text style={styles.description}>{props.detail}</Text>
+                    </View>   
+
+                    <View style={styles.aboutContainer}>
+                        <Text style={styles.date}>{props.date}</Text>
+                        <Text style={styles.description}>{props.detail}</Text>
+                    </View>
                 </View>
+                
+            </View> 
+
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        heartIsClicked(!heartClicked)
+                        LIKE()
+                        // console.log("LIKE", like)
+                    }
+                    }
+                >   
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/heart.png?alt=media&token=0504617b-80a2-4f36-9456-b4bcb14a145f" // image address
+                        cacheKey='1' // could be a unque id
+                        style={styles.iconOne} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/heart.png")} style={styles.iconOne}/>  */}
+                    <Text style={styles.counter}>{like}</Text>
+                    {/* <Text style={styles.category}>{likes} </Text> */}
+                    {/* {heartClicked ? 
+                        <Image source={require("../../assets/feedicons/heartfilled.png")} style={styles.iconOne}/> :
+                        <Image source={require("../../assets/feedicons/heartunfilled.png")} style={styles.iconOne}/> } */}
+                </TouchableOpacity>
+
+                
+
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        smileIsClicked(!smileClicked)
+                        SMILE()
+                    }
+                    }
+                >
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/smile.png?alt=media&token=b5d66c07-75a2-48e8-b9ef-168cb2f0e55e" // image address
+                        cacheKey='2' // could be a unque id
+                        style={styles.iconTwo} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/smile.png")} style={styles.iconTwo}/> */}
+                    <Text style={styles.counter}>{smile}</Text>
+                    {/* {smileClicked ? 
+                        <Image source={require("../../assets/feedicons/smilefilled.png")} style={styles.iconTwo}/> :
+                        <Image source={require("../../assets/feedicons/smileunfilled.png")} style={styles.iconTwo}/> } */}
+                </TouchableOpacity>
+
+                
+
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        sadIsClicked(!sadClicked)
+                        SAD()
+                    }
+                    }
+                >
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/sad.png?alt=media&token=a61de004-cdda-4307-8463-cc2c622e30f6" // image address
+                        cacheKey='3' // could be a unque id
+                        style={styles.iconTwo} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/sad.png")} style={styles.iconTwo}/> */}
+                    <Text style={styles.counter}>{sad}</Text>
+                    {/* {sadClicked ? 
+                        <Image source={require("../../assets/feedicons/sadfilled.png")} style={styles.iconTwo}/> :
+                        <Image source={require("../../assets/feedicons/sadunfilled.png")} style={styles.iconTwo}/> } */}
+                </TouchableOpacity>
+
+                
+
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        woahIsClicked(!woahClicked)
+                        WOAH()
+                    }
+                    }
+                >
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/whoa.png?alt=media&token=594cc05e-f4ee-4f8f-9be6-30badd34d8d0" // image address
+                        cacheKey='4' // could be a unque id
+                        style={styles.iconTwo} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/woah.png")} style={styles.iconTwo}/> */}
+                    <Text style={styles.counter}>{woah}</Text>
+                    {/* {woahClicked ? 
+                        <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
+                        <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
+                </TouchableOpacity>
+
+                
+
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        laughIsClicked(!laughClicked)
+                        LAUGH()
+                    }
+                    }
+                >
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/laugh.png?alt=media&token=e5fd94dc-23d8-4976-ae16-156a796adbdc" // image address
+                        cacheKey='5' // could be a unque id
+                        style={styles.iconTwo} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/laugh.png")} style={styles.iconTwo}/> */}
+                    <Text style={styles.counter}>{laugh}</Text>
+                    {/* {woahClicked ? 
+                        <Image source={require("../../assets/feedicons/whoafilled.png")} style={styles.iconTwo}/> :
+                        <Image source={require("../../assets/feedicons/whoaunfilled.png")} style={styles.iconTwo}/> } */}
+                </TouchableOpacity>
+
+                
+
+                <TouchableOpacity 
+                    style={styles.buttons}
+                    onPress={() => {
+                        angryIsClicked(!angryClicked)
+                        ANGRY()
+                    }
+                    }
+                >
+                    <ExpoFastImage
+                        uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/angry.png?alt=media&token=1204aafe-2f49-4a81-be90-87aca5954790" // image address
+                        cacheKey='6' // could be a unque id
+                        style={styles.iconTwo} // your custom style object
+                        // any supported props by Image
+                        />
+                    {/* <Image source={require("../../assets/feedicons/angry.png")} style={styles.iconTwo}/> */}
+                    <Text style={styles.counter}>{angry}</Text>
+                    {/* {angryClicked ? 
+                        <Image source={require("../../assets/feedicons/angryfilled.png")} style={styles.iconTwo}/> :
+                        <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> } */}
+                </TouchableOpacity>
+
+                
+
+                {/* <Text style={styles.category}>{props.category}</Text> */}
+
             </View>
-            
-            {/* <Nav/> */}
-        </View> 
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    overall : {
+        borderBottomColor:'black',
+        borderBottomWidth:1,
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        // backgroundColor: 'blue',
+        // height: Dimensions.get("window").height * 0.2,
+        // maxWidth: Dimensions.get('window').width * .9,
+    }, 
     container: {
         flex: 1, 
         flexDirection: 'row',
         justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: 'black'
+        // backgroundColor: 'red',
         backgroundColor:"#FFFFFF",
         
     },
+
     postContainer: {
-        borderBottomColor:'black',
-        borderBottomWidth:1,
+        // borderBottomColor:'black',
+        // borderBottomWidth:1,
         flex:1,
         flexDirection:'row',
         justifyContent:'space-evenly',
-        height: Dimensions.get("window").height * 0.17,
+        height: Dimensions.get("window").height * 0.14,
         maxWidth: Dimensions.get('window').width * .9,
         paddingTop: '3%',
+        // backgroundColor: 'pink',
 
     },
     buttonContainer: {
         flex:1,
         flexDirection:'row',
-        justifyContent:'space-between',
-        width: Dimensions.get("window").width * 0.4, // 0.3 initially 
+        justifyContent:'flex-end',
+        // justifyContent:'space-between',
+        width: Dimensions.get("window").width * 0.85, // 0.3 initially 
+        paddingBottom: '1%',
         // backgroundColor: 'red'
     },
     aboutContainer: {
@@ -555,19 +620,26 @@ const styles = StyleSheet.create({
         // flexWrap:'wrap'
     },
     iconOne: {
-        width:18,
-        height:16,
-        marginTop:3,
+        width:Dimensions.get("window").width * 0.05,
+        height:Dimensions.get("window").width * 0.045,
+        // marginTop:3,
+        marginRight: '5%',
+        // backgroundColor: 'red'
+
     },
     iconTwo: {
-        width:18,
-        height:18,
-        margin:2,
-        marginLeft:5
+        width:Dimensions.get("window").width * 0.05,
+        height:Dimensions.get("window").width * 0.05,
+        // margin:2,
+        marginLeft:'15%',
+        marginRight: '5%',
+        // backgroundColor: 'red'
     },
     buttons: {
         flexDirection: 'row',
-        // backgroundColor: 'black'
+        width: Dimensions.get("window").width * 0.12,
+        // backgroundColor: 'pink',
+        
     },
 
     // TEXT
@@ -595,7 +667,7 @@ const styles = StyleSheet.create({
 
     counter: {
         fontFamily:'Urbanist-Regular',
-        fontSize: Dimensions.get('window').height/60,
+        fontSize: Dimensions.get('window').height/50,
         marginLeft: "2%"
     },
     
