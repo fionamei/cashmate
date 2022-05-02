@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 import Budget from './components/Budget/budget';
 import Spending from './components/Spending/spending';
 import Feed from './components/Feed/feed';
@@ -33,6 +34,7 @@ export default function App() {
   // const [spendingID, setSpendingID] = useState('');
 
   useEffect(() => {
+    LogBox.ignoreAllLogs();
     const retrieveInfo = async () => {
       try {
         getItem('UserUID').then((value) => setUID(value))
