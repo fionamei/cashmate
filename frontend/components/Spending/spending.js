@@ -72,8 +72,14 @@ export default function Spending() {
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: budgetID,
-        percentage: percent
+        budget_id: BUDGETID,
+        percentage: percent,
+        like: 0,
+        smile: 0,
+        sad: 0,
+        angry: 0,
+        woah: 0,
+        laugh: 0
       });
     }
     
