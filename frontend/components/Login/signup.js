@@ -30,15 +30,16 @@ export default function Signup() {
     const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
           // Signed in 
-          const user = userCredential.user;
-          const id = user.uid;
-          setDoc(doc(db, "user", id), {
-              uid: user.uid,
-              email: email.toLowerCase(),
-              password: password,
-              firstName: first,
-              lastName: last
-          })
+            const user = userCredential.user;
+            const id = user.uid;
+            setDoc(doc(db, "user", id), {
+                uid: user.uid,
+                email: email.toLowerCase(),
+                password: password,
+                firstName: first,
+                lastName: last
+            })
+            setItem('UserUID', user.uid)
         })
         .catch((error) => {
           alert(error.message)
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       fontWeight: '700',
-      fontSize: 16,
+      fontSize: Dimensions.get('window').height * .02,
       fontFamily:'Urbanist-Light'
     }
   })

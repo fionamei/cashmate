@@ -49,7 +49,7 @@ export default function Search() {
             getDoc(ref).then((docSnap) => {
                 currentName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName']
                 imageURL = docSnap.data()['image']
-                console.log(imageURL)
+                // console.log(imageURL)
                 setDoc(doc(db, "user", userID, "friend", user.uid), {
                     name: currentName,
                     image: imageURL
@@ -165,7 +165,7 @@ export default function Search() {
                         dismissKeyboard()
                         setEmail(email)
                         findUser(email)
-                        console.log("entered")
+                        // console.log("entered")
                     }}
 
                     onChangeText={text => 
