@@ -6,6 +6,7 @@ import { db } from '../../backend/Firebase.js';
 import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { setItem } from '../../backend/asyncstorage.js';
 
 // var budgetId;
 
@@ -42,6 +43,10 @@ export default function Budget(props) {
       timestamp: new Date(),
       remainingAmt: num
     });
+    setItem('budget',String(num))
+    setItem("remaining",String(num))
+    setItem("stringpercent", "100%")
+    setItem("percentage", "100")
   }
 
   /****************** UID ******************/
