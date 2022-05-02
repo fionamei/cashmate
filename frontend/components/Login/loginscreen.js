@@ -9,7 +9,7 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Signup from './signup.js';
-import { setItem } from '../../backend/asyncstorage'
+import { setItem, getItem } from '../../backend/asyncstorage'
 
 
 export default function LoginScreen() {
@@ -24,7 +24,7 @@ export default function LoginScreen() {
       if (user) {
         const uid = user.uid
         navigation.pop()
-        navigation.replace("Profile", {uid:uid})
+        navigation.replace("Spending")
       }
     })
 
@@ -38,8 +38,6 @@ export default function LoginScreen() {
         .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        console.log(user)
-        // setItem('')
         // ...
         })
         .catch((error) => {
@@ -48,6 +46,7 @@ export default function LoginScreen() {
             // const errorMessage = error.message;
         });
   }
+
 
   const [isLoaded] = useFonts({
     "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")

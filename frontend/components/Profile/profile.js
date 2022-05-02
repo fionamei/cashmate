@@ -10,11 +10,12 @@ import RemainingBudget from "./remainingBudget";
 import Timeline from "./timeline";
 import UserInfo from "./userInfo";
 import Warning from "./warning";
+import { getItem } from '../../backend/asyncstorage';
 
 export default function Profile() {
     const navigation = useNavigation()
-    const [uid, setUID] = useState('')
 
+    // console.log("TESTING FOR GET ITEM, TEST IS: ", test)
     /***************************************************/
     /* THESE ARE THE FIREBASE-RELATED METHODS          */
     /*                                                 */
@@ -35,6 +36,7 @@ export default function Profile() {
     //         console.log("NO USER SIGNED IN")
     //     }
     // });
+    
 
     const handleSignOut = () => {
         auth.signOut()

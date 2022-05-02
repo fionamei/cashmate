@@ -1,19 +1,20 @@
-import { useState, setState, useEffect } from 'react';
+import React, { useState, setState, useEffect } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
-// import { budgetId } from '../Budget/budget.js';
 import iconImages from './images';
 import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {getItem, setItem} from '../../backend/asyncstorage.js'; 
 
 export default function Spending() {
+    const navigation = useNavigation();
     const [input, setInput] = useState('');
     const [value, setValue] = useState();
     const [info, setInfo] = useState('');
-    const [BUDGETID, setBUDGETID] = useState('')
+    const [budgetID, setBUDGETID] = useState('')
     const [budget, setBudget] = useState(0);
     const [remaining, setRemaining] = useState(0);
     const [uid, setUID] = useState('');
@@ -21,8 +22,21 @@ export default function Spending() {
     const [category, setCategory] = useState();
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    const navigation = useNavigation();
     // const [uid, setUID] = useState('');
+
+    React.useEffect(() => {
+      const retrieveUserInfo = async() => {
+        try {
+          getItem('budgetID').then((value) => setBUDGETID(value))
+          getItem('budget').then((value) => setBudget(value))
+          getItem('UserUID').then((value) => setUID(value))
+        }
+        catch(e) {
+          console.log("Spendings in Error:",e)
+        }
+      }
+      retrieveUserInfo();
+    }, [])
 
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -40,6 +54,13 @@ export default function Spending() {
         updateDoc(ref, {
           remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
         })
+        const remaining_temp = Number(docSnap.data()["remainingAmt"]) - Number(value)
+        setItem("remaining", String(remaining_temp))
+        setItem("stringpercent", (String((remaining_temp / budget)) + '%'))
+        setItem("percentage", String((remaining_temp * 100 / budget).toFixed(2)) )
+        // console.log(String(((Number(docSnap.data()["remainingAmt"]) - Number(value)) * 100) / budget).toFixed(2))
+        // console.log("string percent and percentage is", percentage, stringPercent)
+        // console.log("in spendings js console loggin string percent", String(Number(docSnap.data()["remainingAmt"]) - Number(value)) + '%')
       })
     }
   
@@ -52,7 +73,13 @@ export default function Spending() {
         category: cat,
         timestamp: new Date(),
         budget_id: BUDGETID,
-        percentage: percent
+        percentage: percent,
+        like: 0,
+        smile: 0,
+        sad: 0,
+        angry: 0,
+        woah: 0,
+        laugh: 0
       });
     }
     
@@ -65,33 +92,33 @@ export default function Spending() {
       'other': iconImages.categories.other
   }
 
-    /***************************************************/
-    /* THESE ARE THE FIREBASE-RELATED METHODS          */
-    /*                                                 */
-    /* Methods included in this file:                  */
-    /*   create() => sets new spending within 'budget' */
-    /*   onAuthStateChanged() => handles login         */
-    /*   getRecentlyCreatedBudget()  => sets           */
-    /*     global variable budget id to the most       */
-    /*     recent one                                  */
-    /***************************************************/
+    // /***************************************************/
+    // /* THESE ARE THE FIREBASE-RELATED METHODS          */
+    // /*                                                 */
+    // /* Methods included in this file:                  */
+    // /*   create() => sets new spending within 'budget' */
+    // /*   onAuthStateChanged() => handles login         */
+    // /*   getRecentlyCreatedBudget()  => sets           */
+    // /*     global variable budget id to the most       */
+    // /*     recent one                                  */
+    // /***************************************************/
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const uid = user.uid;
-            setUID(uid)
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         const uid = user.uid;
+    //         setUID(uid)
 
-            const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
-            const q2 = getDocs(q).then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    setBUDGETID(doc.id)
-                    setBudget(doc.data()['amount'])
-                    setRemaining(doc.data()['remainingAmt'])
-                })
-            })
-        }
-    })
+    //         const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+    //         const q2 = getDocs(q).then((querySnapshot) => {
+    //             querySnapshot.forEach((doc) => {
+    //                 setBUDGETID(doc.id)
+    //                 setBudget(doc.data()['amount'])
+    //                 setRemaining(doc.data()['remainingAmt'])
+    //             })
+    //         })
+    //     }
+    // })
 
     const RowOne = category1.map((c) =>
         <TouchableOpacity 
@@ -201,8 +228,8 @@ export default function Spending() {
                 // console.log("budgetid: ", budgetId)
                 // console.log("uid: ", user.uid)
                 setSpending(input)
-                create(value, info, category, BUDGETID)
-                updateRemaining(BUDGETID, value)
+                create(value, info, category, budgetID)
+                updateRemaining(budgetID, value)
                 navigation.replace('Profile')
               } else {
                   Alert.alert("Missing price, place, or category!")

@@ -38,7 +38,7 @@ export default function Timeline() {
 
     useEffect(() => {
         const getSpendingObj = async () => {
-            console.log("BUDGET ID OF MOST RECENT", BUDGETID)
+            // console.log("BUDGET ID OF MOST RECENT", BUDGETID)
 
             const q3 = query(collection(db, "user", uid, "budget", BUDGETID, "spending"), orderBy("timestamp", "desc"));
             const q4 = getDocs(q3).then((querySnapshot) => {
@@ -50,7 +50,7 @@ export default function Timeline() {
                         "detail": doc.data()["detail"],
                     }
 
-                    console.log("BEFORE SETTING UPDATE VAL:", update)
+                    // console.log("BEFORE SETTING UPDATE VAL:", update)
 
                     if (!(update && Object.keys(update) === 0)) {
                         setUpdateVal(update)
@@ -65,16 +65,16 @@ export default function Timeline() {
 
     useEffect(() => {
         const changeSpending = async () => {
-            console.log("PREV: ", ...spendings)
-            console.log("CURRENT", updateVal)
-            console.log("ARR TO BE SET", [...spendings, updateVal])
-            console.log("COUNTER:", counter)
+            // console.log("PREV: ", ...spendings)
+            // console.log("CURRENT", updateVal)
+            // console.log("ARR TO BE SET", [...spendings, updateVal])
+            // console.log("COUNTER:", counter)
             if (counter == 1) {
                 setSpending([updateVal])
             } else {
                 setSpending([...spendings, updateVal])
             }
-            console.log("SPENDING:", spendings)
+            // console.log("SPENDING:", spendings)
         }
         setCounter(counter+1)
         changeSpending()
