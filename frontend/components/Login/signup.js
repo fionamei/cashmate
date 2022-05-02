@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       fontWeight: '700',
-      fontSize: 16,
+      fontSize: Dimensions.get('window').height * .02,
       fontFamily:'Urbanist-Light'
     }
   })

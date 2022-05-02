@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="FirstScreen">
+      <Stack.Navigator initialRouteName="FirstScreen" options={{headerShown:false}}>
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
       <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
       </Stack.Screen>
@@ -63,10 +63,10 @@ export default function App() {
                       options={{headerRight: () => (<SettingsButton/>), 
                                 headerLeft: ()=> (<AddFriendButton/>)}}/>
         <Stack.Screen name="Nav" component={Nav}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}} />
         <Stack.Screen name="Settings" component={Settings}/>
-        <Stack.Screen name="Signup" component={Signup}/>
-        <Stack.Screen name="FirstScreen" component={FirstScreen}/>
+        <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}} />
+        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Search" component={Search}/>
         <Stack.Screen name="FriendsList" component={FriendsList}/>
         <Stack.Screen name="Contact" component={Contact}/>

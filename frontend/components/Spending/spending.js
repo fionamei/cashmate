@@ -1,5 +1,5 @@
 import { useState, setState, useEffect } from 'react';
-import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Alert, Modal, Pressable, StyleSheet, Image, Button, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView,  SafeAreaView} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
@@ -8,8 +8,12 @@ import iconImages from './images';
 import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useHeaderHeight } from '@react-navigation/elements';
+// import { Header } from 'react-navigation-stack';
 
-export default function Spending() {
+
+const Spending = () => {
+// export default function Spending() {
     const [input, setInput] = useState('');
     const [value, setValue] = useState();
     const [info, setInfo] = useState('');
@@ -33,6 +37,8 @@ export default function Spending() {
     } 
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
+
+    const headerHeight = useHeaderHeight();
 
     async function updateRemaining(id, value) {
       const ref = doc(db, "user", uid, "budget", id)
@@ -130,198 +136,330 @@ export default function Spending() {
     
     
 
-    return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={styles.container}>
-          <Text style={styles.display}>I spent</Text>
-          <View style={styles.input} >
-            <Text style={styles.icon}>$</Text>
-            <TextInput 
-              style={styles.inputLine} 
-              keyboardType="numeric"
-              editable 
-              placeholder="0"
-              maxLength={7}
-              onChangeText={(text)=>{
-                setInput(text)
-                setValue(text)
+//     return (
+//       <KeyboardAvoidingView
+//         behavior={Platform.OS === "ios" ? "padding" : "height"}
+//         keyboardVerticalOffset={headerHeight + 64} 
+//         style={styles.container}
+//       >
+//         <TouchableWithoutFeedback 
+//           onPress={Keyboard.dismiss} 
+//           accessible={false}
+//           // style={styles.container2}
+//           >
+
+//           <View style={styles.content}>
+//             <Text style={styles.display}>I spent</Text>
+//             <View style={styles.input} >
+//               <Text style={styles.icon}>$</Text>
+//               <TextInput 
+//                 style={styles.inputLine} 
+//                 keyboardType="numeric"
+//                 editable 
+//                 placeholder="0"
+//                 maxLength={7}
+//                 onChangeText={(text)=>{
+//                   setInput(text)
+//                   setValue(text)
+//                   }
+//                 }/>
+//             </View>
+//             <Text style={styles.display}>on</Text>
+            
+
+//             <View style={styles.input} >
+//               <TextInput 
+//                 style={styles.inputLine} 
+//                 editable 
+//                 placeholder="description"
+//                 maxLength={20}
+//                 onChangeText={(text)=>{
+//                   setInput(text)
+//                   setInfo(text)
+//                   }
+//                 }/>
+//             </View>
+//             <View >
+//                 <Modal
+//                     transparent={true}
+//                     visible={modalVisible}
+//                     onRequestClose={() => {
+//                     Alert.alert("Modal has been closed.");
+//                     setModalVisible(!modalVisible);
+//                 }}
+//                 >
+
+//                     <View style={styles.popup}>
+//                         <View style={styles.modalView}>
+//                             <View style={styles.buttonsContainer}>
+//                                 {RowOne}
+//                             </View>
+//                             <View style={styles.buttonsContainer}>
+//                                 {RowTwo}
+//                             </View>
+//                         </View>
+//                     </View>
+//                 </Modal>
+//                 <View style={styles.underline}>
+//                   {isCategory ? 
+//                   <Pressable
+//                       style={styles.continue}
+//                       onPress={() => setModalVisible(true)}
+//                       >
+//                       <Text style={styles.chosen}>({category})</Text>
+//                   </Pressable>
+//                   : 
+//                   <Pressable
+//                       style={styles.continue}
+//                       onPress={() => setModalVisible(true)}
+//                       >
+//                       <Text style={styles.textStyle}>category</Text>
+//                   </Pressable>
+//                 }</View>
+
+//             </View>
+//             <TouchableOpacity style={styles.continueButton} 
+//               onPress={() => {
+//                 if (value && info && category) {
+//                   // console.log("budgetid: ", budgetId)
+//                   // console.log("uid: ", user.uid)
+//                   setSpending(input)
+//                   create(value, info, category, BUDGETID)
+//                   updateRemaining(BUDGETID, value)
+//                   navigation.replace('Profile')
+//                 } else {
+//                     Alert.alert("Missing price, place, or category!")
+//                 }
+//               }} >
+//               <Text style={styles.continue}>continue</Text>
+//             </TouchableOpacity>
+            
+//           </View>
+         
+//         </TouchableWithoutFeedback>
+//         <Nav />
+//       </KeyboardAvoidingView>
+//       );
+// }
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+
+          <View style={styles.content}>
+             <Text style={styles.display}>I spent</Text>
+             <View style={styles.input} >
+               <Text style={styles.icon}>$</Text>
+               <TextInput 
+                style={styles.inputLine} 
+                keyboardType="numeric"
+                editable 
+                placeholder="0"
+                maxLength={7}
+                onChangeText={(text)=>{
+                  setInput(text)
+                  setValue(text)
+                  }
+                }/>
+            </View>
+            <Text style={styles.display}>on</Text>
+            
+
+            <View style={styles.input} >
+              <TextInput 
+                style={styles.inputLine} 
+                editable 
+                placeholder="description"
+                maxLength={20}
+                onChangeText={(text)=>{
+                  setInput(text)
+                  setInfo(text)
+                  }
+                }/>
+            </View>
+            <View >
+                <Modal
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+                >
+
+                    <View style={styles.popup}>
+                        <View style={styles.modalView}>
+                            <View style={styles.buttonsContainer}>
+                                {RowOne}
+                            </View>
+                            <View style={styles.buttonsContainer}>
+                                {RowTwo}
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+                <View style={styles.underline}>
+                  {isCategory ? 
+                  <Pressable
+                      style={styles.continue}
+                      onPress={() => setModalVisible(true)}
+                      >
+                      <Text style={styles.chosen}>({category})</Text>
+                  </Pressable>
+                  : 
+                  <Pressable
+                      style={styles.continue}
+                      onPress={() => setModalVisible(true)}
+                      >
+                      <Text style={styles.textStyle}>category</Text>
+                  </Pressable>
+                }</View>
+
+            </View>
+            <TouchableOpacity style={styles.continueButton} 
+              onPress={() => {
+                if (value && info && category) {
+                  // console.log("budgetid: ", budgetId)
+                  // console.log("uid: ", user.uid)
+                  setSpending(input)
+                  create(value, info, category, BUDGETID)
+                  updateRemaining(BUDGETID, value)
+                  navigation.replace('Profile')
+                } else {
+                    Alert.alert("Missing price, place, or category!")
                 }
-              }/>
+              }} >
+              <Text style={styles.continue}>continue</Text>
+            </TouchableOpacity>
+            
           </View>
-          <Text style={styles.display}>on</Text>
 
-          <View style={styles.input} >
-            <TextInput 
-              style={styles.inputLine} 
-              editable 
-              placeholder="description"
-              maxLength={20}
-              onChangeText={(text)=>{
-                setInput(text)
-                setInfo(text)
-                }
-              }/>
-          </View>
-          <View >
-              <Modal
-                  transparent={true}
-                  visible={modalVisible}
-                  onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  setModalVisible(!modalVisible);
-              }}
-              >
-
-                  <View style={styles.popup}>
-                      <View style={styles.modalView}>
-                          <View style={styles.buttonsContainer}>
-                              {RowOne}
-                          </View>
-                          <View style={styles.buttonsContainer}>
-                              {RowTwo}
-                          </View>
-                      </View>
-                  </View>
-              </Modal>
-              <View style={styles.underline}>
-                {isCategory ? 
-                <Pressable
-                    style={styles.continue}
-                    onPress={() => setModalVisible(true)}
-                    >
-                    <Text style={styles.chosen}>({category})</Text>
-                </Pressable>
-                : 
-                <Pressable
-                    style={styles.continue}
-                    onPress={() => setModalVisible(true)}
-                    >
-                    <Text style={styles.textStyle}>category</Text>
-                </Pressable>
-              }</View>
-
-          </View>
-          <TouchableOpacity style={styles.continueButton} 
-            onPress={() => {
-              if (value && info && category) {
-                // console.log("budgetid: ", budgetId)
-                // console.log("uid: ", user.uid)
-                setSpending(input)
-                create(value, info, category, BUDGETID)
-                updateRemaining(BUDGETID, value)
-                navigation.replace('Profile')
-              } else {
-                  Alert.alert("Missing price, place, or category!")
-              }
-            }} >
-            <Text style={styles.continue}>continue</Text>
-          </TouchableOpacity>
-          <Nav />
         </View>
       </TouchableWithoutFeedback>
-      );
-}
-
+      <Nav />
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
+  container: {
+    flex: 1,
+    // backgroundColor: 'red',
+    backgroundColor: '#fff',
+
+  },
+  inner: {
+    // padding: 24,
+    flex: 1,
+    justifyContent: "space-around",
+    paddingBottom: '10%',
+    // backgroundColor: 'pink'
+  },
+  content: {
+    // marginTop: '30%',
+    // paddingTop:  Dimensions.get('window').height - Dimensions.get('window').height*0.85,
+    // width: Dimensions.get('window').width,
+    alignItems: 'center',
+    // backgroundColor: 'blue',
+  },
+  input: {
+    flexDirection: 'row',
+    resizeMode:'contain'
+  },
+  inputLine: {
+    fontSize: 50,
+    fontFamily:"Urbanist-Light",
+    borderBottomColor:'#000000',
+    borderBottomWidth:2
+  },
+  icon: {
+    fontSize: 40,
+  },
+  continueButton: {
+    margin:"2%",
+    borderBottomColor:'#000000',
+    borderBottomWidth:2,
+    marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
+  },
+  continue: {
+    fontFamily:"Urbanist-Light",
+    fontSize:20
+  },
+  display: {
+    paddingTop: 30,
+    alignItems: 'center',
+    fontSize: 30,
+    padding: "7%",
+    fontFamily:"Urbanist-Light",
+  },
+  roundButton: {
+      justifyContent: 'center',
       alignItems: 'center',
-      paddingTop:  Dimensions.get('window').height - Dimensions.get('window').height*0.85,
-    },
-    input: {
-      flexDirection: 'row',
-      resizeMode:'contain'
-    },
-    inputLine: {
-      fontSize: 50,
-      fontFamily:"Urbanist-Light",
-      borderBottomColor:'#000000',
-      borderBottomWidth:2
-    },
-    icon: {
-      fontSize: 40,
-    },
-    continueButton: {
       margin:"2%",
+      borderRadius: 100,
+      
+  },
+  buttonsContainer: {
+      flexDirection: "row",
+  },
+  modalView: {
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    textStyle: {
+      color: "#bbbbbb",
+      padding: 10,
+      textAlign: "center",
+      fontSize: 30,
+      fontFamily:"Urbanist-Light",
+    },
+    chosen: {
+      color: "#000000",
+      padding: 10,
+      textAlign: "center",
+      fontSize: 30,
+      fontFamily:"Urbanist-Light",
+    },
+    underline: {
       borderBottomColor:'#000000',
       borderBottomWidth:2,
-      marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
+      height: 50,
+      // backgroundColor: 'red'
     },
-    continue: {
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center"
+    },
+    popup: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+    }, 
+    icons: {
+      width: 90,
+      height: 90,
+    },
+    icontxt: {
       fontFamily:"Urbanist-Light",
-      fontSize:20
-    },
-    display: {
-      paddingTop: 30,
-      alignItems: 'center',
-      fontSize: 30,
-      padding: "7%",
-      fontFamily:"Urbanist-Light",
-    },
-    roundButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin:"2%",
-        borderRadius: 100,
-        
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-    },
-    modalView: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-      },
-      textStyle: {
-        color: "#bbbbbb",
-        padding: 10,
-        textAlign: "center",
-        fontSize: 30,
-        fontFamily:"Urbanist-Light",
-      },
-      chosen: {
-        color: "#000000",
-        padding: 10,
-        textAlign: "center",
-        fontSize: 30,
-        fontFamily:"Urbanist-Light",
-      },
-      underline: {
-        borderBottomColor:'#000000',
-        borderBottomWidth:2,
-        height: 50,
-        // backgroundColor: 'red'
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      },
-      popup: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-      }, 
-      icons: {
-        width: 90,
-        height: 90,
-      },
-      icontxt: {
-        fontFamily:"Urbanist-Light",
-        fontSize:15,
-        paddingBottom: 10,
-        paddingTop: 5
-      }
-    });
+      fontSize:15,
+      paddingBottom: 10,
+      paddingTop: 5
+    }
+});
+
+export default Spending;
