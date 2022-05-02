@@ -1,4 +1,5 @@
 import { useState, setState, useEffect } from 'react';
+import * as React from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Image, Button, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView,  SafeAreaView} from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
