@@ -31,15 +31,18 @@ export default function Temp(props) {
         if (props.numpercent >= 80) {
             setProgress2('#D8C8F6')
             setProgress1('#C4E7FF')
+            setColor('#000000') 
             setStringp(props.stringpercent)
         } else if (props.numpercent >= 40) {
             setProgress2('#C4E7FF')
             setProgress1('#FFEDAD')
+            setColor('#000000') 
             setStringp(props.stringpercent)
 
         } else if (props.numpercent > 0){
             setProgress2('#FFEDAD')
             setProgress1('#FFBFC3')
+            setColor('#000000') 
             setStringp(props.stringpercent)
 
         } else {
@@ -343,6 +346,7 @@ export default function Temp(props) {
     // const date = '3/1/22 5:23 PM'
     // const description = 'sushi and boba'
     
+    // console.log("PERCENTAGE!!", props.stringpercent)
     return (
     
         <View style={styles.overall}>

@@ -13,10 +13,10 @@ import { getItem } from '../../backend/asyncstorage.js';
 export default function remainingbudget() {
     const [uid, setUID] = useState('');
     // const {budget, remaining, percentage} = useBudget(uid["uid"]);
-    const [BUDGETID, setBUDGETID] = useState('')
-    const [budget, setBudget] = useState('');
-    const [remaining, setRemaining] = useState('');
-    const [percentage, setPercentage] = useState('');
+    const [BUDGETID, setBUDGETID] = useState()
+    const [budget, setBudget] = useState(null);
+    const [remaining, setRemaining] = useState(null);
+    const [percentage, setPercentage] = useState(null);
     const [stringpercent, setStringpercent] = useState('100%')
     const [color, setColor] = useState('#000000')
     const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
@@ -26,7 +26,8 @@ export default function remainingbudget() {
     React.useEffect(() => {
         const retrieveBudget = async () => {
             try {
-                getItem('budget').then((value) => setBudget(value))
+                console.log("in remaining budget we have budget",budget,"remaining",remaining,"percentage",percentage,"stringpercent",stringpercent)
+                getItem('budget').then((value) =>  setBudget(value))
                 getItem('remaining').then((value) => setRemaining(value))
                 getItem('percentage').then((value) => setPercentage(value))
                 getItem('stringpercent').then((value) => setStringpercent(value))
@@ -34,9 +35,10 @@ export default function remainingbudget() {
                 console.log("error", e)
             }
         }
-        retrieveBudget()
-    })
+        retrieveBudget();
+    }, [budget, remaining, percentage, stringpercent])
 
+    console.log("console loggingggggg", budget, remaining, percentage, stringpercent)
     // console.log("percentage here is", percentage)
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -93,6 +95,13 @@ export default function remainingbudget() {
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
 
     // console.log("remain: ", remaining)
+
+    if (!(remaining && percentage && stringpercent && budget)) {
+        console.log("loading....")
+        return (
+            <Text>loading...</Text>
+        )
+    } 
 
     return (
         <View style={styles.container}>

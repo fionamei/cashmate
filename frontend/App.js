@@ -52,9 +52,12 @@ export default function App() {
         querySnapshot.forEach((doc) => {
           setItem('budgetID',doc.id)
           setBudgetID(doc.id)
+         
         })
       })
       setItem('UserUID',user.uid)
+
+     
 
       const firstRef = doc(db, "user", user.uid)
       getDoc(firstRef).then((docSnap) => {
@@ -89,6 +92,7 @@ export default function App() {
     }
   });
 
+  console.log("budgetID is ... ", budgetID) 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="FirstScreen" options={{headerShown:false}}>

@@ -55,7 +55,6 @@ const Spending = () => {
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
 
-    const headerHeight = useHeaderHeight();
 
     async function updateRemaining(id, value) {
       const ref = doc(db, "user", uid, "budget", id)
@@ -65,23 +64,30 @@ const Spending = () => {
         })
         const remaining_temp = Number(docSnap.data()["remainingAmt"]) - Number(value)
         setItem("remaining", String(remaining_temp))
-        setItem("stringpercent", (String((remaining_temp / budget)) + '%'))
+        // setRemaining(remaining_temp)
+        setItem("stringpercent", (String((remaining_temp * 100 / budget)) + '%'))
         setItem("percentage", String((remaining_temp * 100 / budget).toFixed(2)) )
         // console.log(String(((Number(docSnap.data()["remainingAmt"]) - Number(value)) * 100) / budget).toFixed(2))
         // console.log("string percent and percentage is", percentage, stringPercent)
-        // console.log("in spendings js console loggin string percent", String(Number(docSnap.data()["remainingAmt"]) - Number(value)) + '%')
+        // console.log("in spendings js console loggin string percent", getItem("percentage"))
+        getItem("percentage").then((value) => console.log("percentage in debuggingg issss", value))
+        getItem("remaining").then((value) => console.log("remaining in debuggingg issss", value))
+        getItem("stringpercent").then((value) => console.log("stringpercent in debuggingg issss", value))
       })
     }
-  
+    
+    console.log("console logging debugggggggggg", budgetID, budget, uid)
+
     function create(num, det, cat, id) {
       const ref = doc(collection(db, "user", uid, "budget", id, "spending"))
       let percent = ((Number(remaining) - Number(value))/ Number(budget) * 100).toFixed(2)
+      console.log("REMAINING AND PERCENT HERE IS", remaining, value, budget, percent)
       setDoc(ref, {
         amount: num,
         detail: det,
         category: cat,
         timestamp: new Date(),
-        budget_id: BUDGETID,
+        budget_id: budgetID,
         percentage: percent,
         like: 0,
         smile: 0,
@@ -243,7 +249,9 @@ const Spending = () => {
                   // console.log("budgetid: ", budgetId)
                   // console.log("uid: ", user.uid)
                   setSpending(input)
-                  create(value, info, category, BUDGETID)
+                  setRemaining(budget - value)
+                  // console.log("JUST REMAINING", remaining)
+                  create(value, info, category, budgetID)
                   // updateRemaining(BUDGETID, value)
                   updateRemaining(budgetID, value)
                   navigation.replace('Profile')

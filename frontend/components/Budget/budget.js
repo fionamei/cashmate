@@ -47,6 +47,16 @@ export default function Budget(props) {
     setItem("remaining",String(num))
     setItem("stringpercent", "100%")
     setItem("percentage", "100")
+
+    const ref2 = query(collection(db, "user", props.uID, "budget"), orderBy("timestamp", "desc"), limit(1));
+    getDocs(ref2).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setItem('budgetID',doc.id)
+        // setBudgetID(doc.id)
+        
+      })
+    })
+
   }
 
   /****************** UID ******************/

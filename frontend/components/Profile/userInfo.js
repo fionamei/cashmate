@@ -42,7 +42,7 @@ export default function UserInfo() {
 
     // console.log('image !!!! ', image)
     // console.log('current name:',full_name)
-    console.log("OUTSIDE FUNCTION:: the variables are,", uid, first, last, image)
+    // console.log("OUTSIDE FUNCTION:: the variables are,", uid, first, last, image)
     
     const create = (imageURI) => {
         const ref = doc(db, "user", user.uid)
