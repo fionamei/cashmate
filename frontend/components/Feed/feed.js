@@ -18,7 +18,6 @@ export default function Feed() {
     const [feed, setFeed] = useState([])
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
-    const [spendings, setSpending] = useState([])
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -189,6 +188,7 @@ const styles = StyleSheet.create({
         // backgroundColor: 'green'
         backgroundColor:"#FFFFFF",
         width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height * .9,
         paddingBottom:"15%"
         
     },

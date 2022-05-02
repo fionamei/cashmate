@@ -21,6 +21,7 @@ import FriendsList from './components/Profile/friendsList';
 import Contact from './components/Settings/contact'
 import About from './components/Settings/about'
 import { getItem, setItem } from './backend/asyncstorage.js';
+import Onboarding from './components/Onboarding/onboarding.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
   const auth = getAuth();
   const [uID, setUID] = useState('');
   const [budgetID, setBudgetID] = useState('');
+  const [newUser, setNewUser] = useState(false);
   // const [spendingID, setSpendingID] = useState('');
 
   useEffect(() => {
@@ -35,13 +37,14 @@ export default function App() {
       try {
         getItem('UserUID').then((value) => setUID(value))
         getItem('budgetID').then((value) => setBudgetID(value))
+        getItem('visited').then((value) => setNewUser(value))
       }
       catch(e) {
         console.log(e)
       }
     }
     retrieveInfo();
-  }, [uID, budgetID])
+  }, [uID, budgetID, newUser])
 
   onAuthStateChanged(auth, (user) => {
     // if logged in 
@@ -89,10 +92,11 @@ export default function App() {
     }
   });
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="FirstScreen" options={{headerShown:false}}>
-      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
+  if (newUser != null) {
+    return (
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName={"Onboarding"}>
+      <Stack.Screen options={{ headerShown:false }} name="Onboarding" component={Onboarding}/>
       <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
       </Stack.Screen>
         <Stack.Screen name="Budget" children={() => <Budget uID={uID} budgetID={budgetID}/> }/>
@@ -102,10 +106,35 @@ export default function App() {
                       options={{headerRight: () => (<SettingsButton/>), 
                                 headerLeft: ()=> (<AddFriendButton/>)}}/>
         <Stack.Screen name="Nav" component={Nav}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Settings" component={Settings}/>
-        <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}} />
-        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Signup" options={{headerShown: false}} component={Signup} />
+        <Stack.Screen name="FirstScreen" options={{headerShown: false}} component={FirstScreen} />
+        <Stack.Screen name="Search" component={Search}/>
+        <Stack.Screen name="FriendsList" component={FriendsList}/>
+        <Stack.Screen name="Contact" component={Contact}/>
+        <Stack.Screen name="About" component={About}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+    )
+  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"FirstScreen"}>
+      <Stack.Screen options={{ headerShown:false }} name="Onboarding" component={Onboarding}/>
+      <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
+      </Stack.Screen>
+        <Stack.Screen name="Budget" children={() => <Budget uID={uID} budgetID={budgetID}/> }/>
+        <Stack.Screen name="Spending" component={Spending}/>
+        <Stack.Screen name="Feed" component={Feed} />
+        <Stack.Screen name="Profile" component={Profile} 
+                      options={{headerRight: () => (<SettingsButton/>), 
+                                headerLeft: ()=> (<AddFriendButton/>)}}/>
+        <Stack.Screen name="Nav" component={Nav}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="Settings" component={Settings}/>
+        <Stack.Screen name="Signup" component={Signup}/>
+        <Stack.Screen name="FirstScreen" component={FirstScreen}/>
         <Stack.Screen name="Search" component={Search}/>
         <Stack.Screen name="FriendsList" component={FriendsList}/>
         <Stack.Screen name="Contact" component={Contact}/>

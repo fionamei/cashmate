@@ -9,7 +9,6 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Signup from './signup.js';
-import { setItem, getItem } from '../../backend/asyncstorage'
 
 
 export default function LoginScreen() {
@@ -24,7 +23,7 @@ export default function LoginScreen() {
       if (user) {
         const uid = user.uid
         navigation.pop()
-        navigation.replace("Spending")
+        navigation.replace("Profile", {uid:uid})
       }
     })
 
@@ -46,7 +45,6 @@ export default function LoginScreen() {
             // const errorMessage = error.message;
         });
   }
-
 
   const [isLoaded] = useFonts({
     "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: '700',
-    fontSize: Dimensions.get('window').height * .02,
+    fontSize: 16,
     fontFamily:'Urbanist-Light'
   }
 })

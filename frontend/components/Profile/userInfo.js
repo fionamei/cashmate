@@ -8,41 +8,32 @@ import { useFonts } from '@use-expo/font';
 import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { getItem, setItem } from '../../backend/asyncstorage.js';
 
 // const friends = 4
 
 export default function UserInfo() {
     const [uid, setUID] = useState('')
-    const [first, setFirst] = useState(null)
-    const [last, setLast] = useState(null)
+    const [first, setFirst] = useState('')
+    const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
     const [loadImage, setLoadImage] = useState(null)
-    const [loading, setLoading] = useState(true)
     const navigation = useNavigation()
 
-    React.useEffect(() => {
-        const retrieveUserInfo = async () => {
-            try {
-                getItem('UserUID').then((value) => setUID(value))
-                getItem('firstName').then((value) => setFirst(value))
-                getItem('lastName').then((value) => setLast(value))
-                getItem('pfp').then((value) => setImage(value))
-                console.log("the variables are,", uid, first, last, image)
-            }
-            catch(e) {
-                console.log(e)
-            }
-        }
-        retrieveUserInfo();
-    }, [])
-
     const user = getAuth().currentUser;
+    if (uid == '') {
+        setUID(user.uid)
+    } else {
+        
+        if (first == '') {
+            const firstRef = doc(db, "user", uid)
+        
+            getDoc(firstRef).then((docSnap) => {
+                setFirst(docSnap.data()['firstName'])
+                setLast(docSnap.data()['lastName'])
+            })
+        }
+    }
     const full_name = first + " " + last
-
-    // console.log('image !!!! ', image)
-    // console.log('current name:',full_name)
-    console.log("OUTSIDE FUNCTION:: the variables are,", uid, first, last, image)
     
     const create = (imageURI) => {
         const ref = doc(db, "user", user.uid)
@@ -50,14 +41,44 @@ export default function UserInfo() {
             updateDoc(ref, {
               image: imageURI
             })
-            setItem("pfp", String(imageURI))
         })
+        console.log("CALL 2")
     }
 
+    const getImage = () => {
+        const ref = doc(db, "user", user.uid)
+        const change =  getDoc(ref).then((docSnap) => {
+            if (docSnap.data()['image'] != null) {
+                setImage(docSnap.data()['image'])
+            }
+        })
+        console.log("CALL 3")
+    }
+
+    // const onFileChange = (e) => {
+    //     const file = e.target.files[0]
+    //     const storageRef = app.storage().ref()
+    //     const fileRef = storageRef.child(file.name)
+    //     fileRef.put(file).then(() => {
+    //         console.log("Uploaded file", file.name)
+    //     })
+    // }
+
     useEffect(() => {
+        // if (image == null) {
+        //     create(image)
+        // } else {
+        //     getImage()
+        // }
+        // getImage()
         create(image)
         setLoadImage(true)
+        // onFileChange()
     }, [image])
+
+    useEffect(() => {
+        getImage()
+    }, [loadImage])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -84,12 +105,13 @@ export default function UserInfo() {
 
             uploadImage(result.uri).then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    console.log("changing to",url)
-                    // setItem("pfp", url)
                     setImage(url)
-                    setItem("pfp", String(url))
                 })
             })
+
+            // setImage(result.uri);
+            console.log("IMAGE ONCE CHOSEN:", image)
+            console.log("CALL 1")
         }
     };
 
@@ -101,36 +123,9 @@ export default function UserInfo() {
         return null;
     } 
 
-    if (!(uid && first && last && image)) {
-        console.log("loading is true")
-        return (
-            <Text>Loading</Text>
-        )
-    }
     return (
         <View style={styles.profile}>
             <TouchableOpacity onPress={pickImage}>
-                {/* <FastImage 
-                    source={{uri:image}} // image address
-                    // cacheKey={image.substring(0,10)} // could be a unque id
-                    style={styles.image} // your custom style object
-                    />
-                {console.log("this is the image",image)} */}
-
-                {/* if (image) {
-                    console.log("this is image",image)
-                } */}
-{/*                 
-                {image  
-                    ? <ExpoFastImage 
-                        uri={image} 
-                        cache={ExpoFastImage.cacheControl.immutable}
-                        // cacheKey={image}
-                        style={styles.image} // your custom style object
-                      />
-                    :  <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
-                }  */}
-
                 {image  
                     ? <Image source={{ uri: image }} style={styles.image} />
                     : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>

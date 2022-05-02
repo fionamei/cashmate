@@ -1,27 +1,19 @@
 import { useState, setState, useEffect } from 'react';
-import * as React from 'react';
-import { Alert, Modal, Pressable, StyleSheet, Image, Button, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView,  SafeAreaView} from 'react-native';
+import { Alert, Modal, Pressable, StyleSheet, Image, Text, View, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import { db } from '../../backend/Firebase.js';
+// import { budgetId } from '../Budget/budget.js';
 import iconImages from './images';
 import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useHeaderHeight } from '@react-navigation/elements';
-// import { Header } from 'react-navigation-stack';
-import {getItem, setItem} from '../../backend/asyncstorage.js'; 
 
-const Spending = () => {
-// export default function Spending() {
-
-
-// export default function Spending() {
-    const navigation = useNavigation();
+export default function Spending() {
     const [input, setInput] = useState('');
     const [value, setValue] = useState();
     const [info, setInfo] = useState('');
-    const [budgetID, setBUDGETID] = useState('')
+    const [BUDGETID, setBUDGETID] = useState('')
     const [budget, setBudget] = useState(0);
     const [remaining, setRemaining] = useState(0);
     const [uid, setUID] = useState('');
@@ -29,21 +21,8 @@ const Spending = () => {
     const [category, setCategory] = useState();
     const [isCategory, setIsCategory] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const navigation = useNavigation();
     // const [uid, setUID] = useState('');
-
-    React.useEffect(() => {
-      const retrieveUserInfo = async() => {
-        try {
-          getItem('budgetID').then((value) => setBUDGETID(value))
-          getItem('budget').then((value) => setBudget(value))
-          getItem('UserUID').then((value) => setUID(value))
-        }
-        catch(e) {
-          console.log("Spendings in Error:",e)
-        }
-      }
-      retrieveUserInfo();
-    }, [])
 
     const [isLoaded] = useFonts({
         "Urbanist-Light": require("../../assets/Urbanist/static/Urbanist-Light.ttf")
@@ -55,21 +34,12 @@ const Spending = () => {
     const category1 = ['food', 'utilities', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
 
-    const headerHeight = useHeaderHeight();
-
     async function updateRemaining(id, value) {
       const ref = doc(db, "user", uid, "budget", id)
       const change =  await getDoc(ref).then((docSnap) => {
         updateDoc(ref, {
           remainingAmt: Number(docSnap.data()["remainingAmt"]) - Number(value)
         })
-        const remaining_temp = Number(docSnap.data()["remainingAmt"]) - Number(value)
-        setItem("remaining", String(remaining_temp))
-        setItem("stringpercent", (String((remaining_temp / budget)) + '%'))
-        setItem("percentage", String((remaining_temp * 100 / budget).toFixed(2)) )
-        // console.log(String(((Number(docSnap.data()["remainingAmt"]) - Number(value)) * 100) / budget).toFixed(2))
-        // console.log("string percent and percentage is", percentage, stringPercent)
-        // console.log("in spendings js console loggin string percent", String(Number(docSnap.data()["remainingAmt"]) - Number(value)) + '%')
       })
     }
   
@@ -101,33 +71,33 @@ const Spending = () => {
       'other': iconImages.categories.other
   }
 
-    // /***************************************************/
-    // /* THESE ARE THE FIREBASE-RELATED METHODS          */
-    // /*                                                 */
-    // /* Methods included in this file:                  */
-    // /*   create() => sets new spending within 'budget' */
-    // /*   onAuthStateChanged() => handles login         */
-    // /*   getRecentlyCreatedBudget()  => sets           */
-    // /*     global variable budget id to the most       */
-    // /*     recent one                                  */
-    // /***************************************************/
+    /***************************************************/
+    /* THESE ARE THE FIREBASE-RELATED METHODS          */
+    /*                                                 */
+    /* Methods included in this file:                  */
+    /*   create() => sets new spending within 'budget' */
+    /*   onAuthStateChanged() => handles login         */
+    /*   getRecentlyCreatedBudget()  => sets           */
+    /*     global variable budget id to the most       */
+    /*     recent one                                  */
+    /***************************************************/
 
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //         const uid = user.uid;
-    //         setUID(uid)
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const uid = user.uid;
+            setUID(uid)
 
-    //         const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
-    //         const q2 = getDocs(q).then((querySnapshot) => {
-    //             querySnapshot.forEach((doc) => {
-    //                 setBUDGETID(doc.id)
-    //                 setBudget(doc.data()['amount'])
-    //                 setRemaining(doc.data()['remainingAmt'])
-    //             })
-    //         })
-    //     }
-    // })
+            const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+            const q2 = getDocs(q).then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    setBUDGETID(doc.id)
+                    setBudget(doc.data()['amount'])
+                    setRemaining(doc.data()['remainingAmt'])
+                })
+            })
+        }
+    })
 
     const RowOne = category1.map((c) =>
         <TouchableOpacity 
@@ -158,225 +128,200 @@ const Spending = () => {
         </TouchableOpacity>
     )
     
-  
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
+    
 
-          <View style={styles.content}>
-             <Text style={styles.display}>I spent</Text>
-             <View style={styles.input} >
-               <Text style={styles.icon}>$</Text>
-               <TextInput 
-                style={styles.inputLine} 
-                keyboardType="numeric"
-                editable 
-                placeholder="0"
-                maxLength={7}
-                onChangeText={(text)=>{
-                  setInput(text)
-                  setValue(text)
-                  }
-                }/>
-            </View>
-            <Text style={styles.display}>on</Text>
-            
-
-            <View style={styles.input} >
-              <TextInput 
-                style={styles.inputLine} 
-                editable 
-                placeholder="description"
-                maxLength={20}
-                onChangeText={(text)=>{
-                  setInput(text)
-                  setInfo(text)
-                  }
-                }/>
-            </View>
-            <View >
-                <Modal
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                    setModalVisible(!modalVisible);
-                }}
-                >
-
-                    <View style={styles.popup}>
-                        <View style={styles.modalView}>
-                            <View style={styles.buttonsContainer}>
-                                {RowOne}
-                            </View>
-                            <View style={styles.buttonsContainer}>
-                                {RowTwo}
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-                <View style={styles.underline}>
-                  {isCategory ? 
-                  <Pressable
-                      style={styles.continue}
-                      onPress={() => setModalVisible(true)}
-                      >
-                      <Text style={styles.chosen}>({category})</Text>
-                  </Pressable>
-                  : 
-                  <Pressable
-                      style={styles.continue}
-                      onPress={() => setModalVisible(true)}
-                      >
-                      <Text style={styles.textStyle}>category</Text>
-                  </Pressable>
-                }</View>
-
-            </View>
-            <TouchableOpacity style={styles.continueButton} 
-              onPress={() => {
-                if (value && info && category) {
-                  // console.log("budgetid: ", budgetId)
-                  // console.log("uid: ", user.uid)
-                  setSpending(input)
-                  create(value, info, category, BUDGETID)
-                  // updateRemaining(BUDGETID, value)
-                  updateRemaining(budgetID, value)
-                  navigation.replace('Profile')
-                } else {
-                    Alert.alert("Missing price, place, or category!")
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <Text style={styles.display}>I spent</Text>
+          <View style={styles.input} >
+            <Text style={styles.icon}>$</Text>
+            <TextInput 
+              style={styles.inputLine} 
+              keyboardType="numeric"
+              editable 
+              placeholder="0"
+              maxLength={7}
+              onChangeText={(text)=>{
+                setInput(text)
+                setValue(text)
                 }
-              }} >
-              <Text style={styles.continue}>continue</Text>
-            </TouchableOpacity>
-            
+              }/>
           </View>
+          <Text style={styles.display}>on</Text>
+
+          <View style={styles.input} >
+            <TextInput 
+              style={styles.inputLine} 
+              editable 
+              placeholder="description"
+              maxLength={20}
+              onChangeText={(text)=>{
+                setInput(text)
+                setInfo(text)
+                }
+              }/>
+          </View>
+          <View >
+              <Modal
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+              }}
+              >
+
+                  <View style={styles.popup}>
+                      <View style={styles.modalView}>
+                          <View style={styles.buttonsContainer}>
+                              {RowOne}
+                          </View>
+                          <View style={styles.buttonsContainer}>
+                              {RowTwo}
+                          </View>
+                      </View>
+                  </View>
+              </Modal>
+              <View style={styles.underline}>
+                {isCategory ? 
+                <Pressable
+                    style={styles.continue}
+                    onPress={() => setModalVisible(true)}
+                    >
+                    <Text style={styles.chosen}>({category})</Text>
+                </Pressable>
+                : 
+                <Pressable
+                    style={styles.continue}
+                    onPress={() => setModalVisible(true)}
+                    >
+                    <Text style={styles.textStyle}>category</Text>
+                </Pressable>
+              }</View>
+
+          </View>
+          <TouchableOpacity style={styles.continueButton} 
+            onPress={() => {
+              if (value && info && category) {
+                // console.log("budgetid: ", budgetId)
+                // console.log("uid: ", user.uid)
+                setSpending(input)
+                create(value, info, category, BUDGETID)
+                updateRemaining(BUDGETID, value)
+                navigation.replace('Profile')
+              } else {
+                  Alert.alert("Missing price, place, or category!")
+              }
+            }} >
+            <Text style={styles.continue}>continue</Text>
+          </TouchableOpacity>
+          <Nav />
         </View>
       </TouchableWithoutFeedback>
-      <Nav />
-    </KeyboardAvoidingView>
-  );
-};
+      );
+}
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: 'red',
-    backgroundColor: '#fff',
-
-  },
-  inner: {
-    // padding: 24,
-    flex: 1,
-    justifyContent: "space-around",
-    paddingBottom: '10%',
-    // backgroundColor: 'pink'
-  },
-  content: {
-    // marginTop: '30%',
-    // paddingTop:  Dimensions.get('window').height - Dimensions.get('window').height*0.85,
-    // width: Dimensions.get('window').width,
-    alignItems: 'center',
-    // backgroundColor: 'blue',
-  },
-  input: {
-    flexDirection: 'row',
-    resizeMode:'contain'
-  },
-  inputLine: {
-    fontSize: 50,
-    fontFamily:"Urbanist-Light",
-    borderBottomColor:'#000000',
-    borderBottomWidth:2
-  },
-  icon: {
-    fontSize: 40,
-  },
-  continueButton: {
-    margin:"2%",
-    borderBottomColor:'#000000',
-    borderBottomWidth:2,
-    marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
-  },
-  continue: {
-    fontFamily:"Urbanist-Light",
-    fontSize:20
-  },
-  display: {
-    paddingTop: 30,
-    alignItems: 'center',
-    fontSize: 30,
-    padding: "7%",
-    fontFamily:"Urbanist-Light",
-  },
-  roundButton: {
-      justifyContent: 'center',
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
       alignItems: 'center',
+      paddingTop:  Dimensions.get('window').height - Dimensions.get('window').height*0.9,
+    },
+    input: {
+      flexDirection: 'row',
+      resizeMode:'contain'
+    },
+    inputLine: {
+      fontSize: 50,
+      fontFamily:"Urbanist-Light",
+      borderBottomColor:'#000000',
+      borderBottomWidth:2
+    },
+    icon: {
+      fontSize: 40,
+    },
+    continueButton: {
       margin:"2%",
-      borderRadius: 100,
-      
-  },
-  buttonsContainer: {
-      flexDirection: "row",
-  },
-  modalView: {
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5
-    },
-    textStyle: {
-      color: "#bbbbbb",
-      padding: 10,
-      textAlign: "center",
-      fontSize: 30,
-      fontFamily:"Urbanist-Light",
-    },
-    chosen: {
-      color: "#000000",
-      padding: 10,
-      textAlign: "center",
-      fontSize: 30,
-      fontFamily:"Urbanist-Light",
-    },
-    underline: {
       borderBottomColor:'#000000',
       borderBottomWidth:2,
-      height: 50,
-      // backgroundColor: 'red'
+      marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
     },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center"
-    },
-    popup: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 22
-    }, 
-    icons: {
-      width: 90,
-      height: 90,
-    },
-    icontxt: {
+    continue: {
       fontFamily:"Urbanist-Light",
-      fontSize:15,
-      paddingBottom: 10,
-      paddingTop: 5
-    }
-});
-
-export default Spending;
+      fontSize:20
+    },
+    display: {
+      paddingTop: 30,
+      alignItems: 'center',
+      fontSize: 30,
+      padding: "7%",
+      fontFamily:"Urbanist-Light",
+    },
+    roundButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin:"2%",
+        borderRadius: 100,
+        
+    },
+    buttonsContainer: {
+        flexDirection: "row",
+    },
+    modalView: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      textStyle: {
+        color: "#bbbbbb",
+        padding: 10,
+        textAlign: "center",
+        fontSize: 30,
+        fontFamily:"Urbanist-Light",
+      },
+      chosen: {
+        color: "#000000",
+        padding: 10,
+        textAlign: "center",
+        fontSize: 30,
+        fontFamily:"Urbanist-Light",
+      },
+      underline: {
+        borderBottomColor:'#000000',
+        borderBottomWidth:2,
+        height: 50,
+        // backgroundColor: 'red'
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      },
+      popup: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      }, 
+      icons: {
+        width: 90,
+        height: 90,
+      },
+      icontxt: {
+        fontFamily:"Urbanist-Light",
+        fontSize:15,
+        paddingBottom: 10,
+        paddingTop: 5
+      }
+    });

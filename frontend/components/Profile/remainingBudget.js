@@ -7,8 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import { db } from '../../backend/Firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LinearGradient } from 'expo-linear-gradient';
-import { getItem } from '../../backend/asyncstorage.js'; 
 // import LinearGradient from 'react-native-linear-gradient';
+
+// import { budgetId } from '../Budget/budget.js';
+
+const budget = 100
+const remaining = 100
+const percentage = remaining / budget * 100
+const stringpercent = `${percentage}%`
+
 
 export default function remainingbudget() {
     const [uid, setUID] = useState('');
@@ -21,59 +28,71 @@ export default function remainingbudget() {
     const [color, setColor] = useState('#000000')
     const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
     const [progress2, setProgress2] = useState('#C4E7FF')
-    // const [test, setTest] = useState()
     
-    React.useEffect(() => {
-        const retrieveBudget = async () => {
-            try {
-                getItem('budget').then((value) => setBudget(value))
-                getItem('remaining').then((value) => setRemaining(value))
-                getItem('percentage').then((value) => setPercentage(value))
-                getItem('stringpercent').then((value) => setStringpercent(value))
-            } catch (e) {
-                console.log("error", e)
-            }
-        }
-        retrieveBudget()
-    })
 
-    // console.log("percentage here is", percentage)
+
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
     if (user) {
-        // this sets the color of the bar when its 0
-        if (remaining == '') {
-            // setStringpercent(`${percentage}%`)
-            setColor('#000000')
-            // setProgress1('#D8C8F6')
-            // setProgress2('#C4E7FF')
-        } 
-        else if (remaining <= 0) {
-            // setStringpercent("0%")
-            setColor('#E94646')
-        } else {
-            // setStringpercent(`${percentage}%`)
-            setColor('#000000')
-        }
+        const uid = user.uid;
+        setUID(uid)
+        // console.log("test uid", uid)
+
+        const q = query(collection(db, "user", uid, "budget"), orderBy("timestamp", "desc"), limit(1));
+        const q2 = getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setBUDGETID(doc.id)
+        })
+        })
+
+        // console.log("test BUDGET ID", BUDGETID)
+
+        const docRef = doc(db, "user", uid, "budget", BUDGETID);
+        // console.log("test docref", docRef)
+        getDoc(docRef).then((docSnap) => {
+            setBudget(docSnap.data()['amount'])
+            setRemaining((docSnap.data()['remainingAmt']).toFixed(2))
+            setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
+            // console.log(percentage)
+
+            // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
+            // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+        })
+    
+    
+    // this sets the color of the bar when its 0
+    if (remaining == '') {
+        setStringpercent(`${percentage}%`)
+        setColor('#000000')
+        // setProgress1('#D8C8F6')
+        // setProgress2('#C4E7FF')
+    } 
+    else if (remaining <= 0) {
+        setStringpercent("0%")
+        setColor('#E94646')
+    } else {
+        setStringpercent(`${percentage}%`)
+        setColor('#000000')
+    }
 
 
-    // setting the progressbar color ranges
-        if (percentage >= 80) {
-            setProgress2('#D8C8F6')
-            setProgress1('#C4E7FF')
-        } else if (percentage >= 40) {
-            setProgress2('#C4E7FF')
-            setProgress1('#FFEDAD')
-        } else if (percentage > 0){
-            setProgress2('#FFEDAD')
-            setProgress1('#FFBFC3')
-        } else {
-            setProgress2('#D8C8F6')
-            setProgress1('#C4E7FF')
-        }
-        
-        // console.log(progress1, progress2)
-        // console.log("this is the stringpercent",stringpercent)
+// setting the progressbar color ranges
+    if (percentage >= 80) {
+        setProgress2('#D8C8F6')
+        setProgress1('#C4E7FF')
+    } else if (percentage >= 40) {
+        setProgress2('#C4E7FF')
+        setProgress1('#FFEDAD')
+    } else if (percentage > 0){
+        setProgress2('#FFEDAD')
+        setProgress1('#FFBFC3')
+    } else {
+        setProgress2('#D8C8F6')
+        setProgress1('#C4E7FF')
+    }
+    
+    // console.log(progress1, progress2)
+    // console.log("this is the stringpercent",stringpercent)
 
     } else {
         console.log("NO USER SIGNED IN")
