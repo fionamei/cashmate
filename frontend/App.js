@@ -22,6 +22,7 @@ import Contact from './components/Settings/contact'
 import About from './components/Settings/about'
 import { getItem, setItem } from './backend/asyncstorage.js';
 import Onboarding from './components/Onboarding/onboarding.js';
+import { LogBox } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export default function App() {
   const [budgetID, setBudgetID] = useState('');
   const [newUser, setNewUser] = useState(false);
   // const [spendingID, setSpendingID] = useState('');
+  LogBox.ignoreAllLogs();
 
   useEffect(() => {
     const retrieveInfo = async () => {
