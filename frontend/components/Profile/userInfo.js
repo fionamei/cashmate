@@ -9,14 +9,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
-// const friends = 4
-
 export default function UserInfo() {
     const [uid, setUID] = useState('')
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
-    const [loadImage, setLoadImage] = useState(null)
+    // const [loadImage, setLoadImage] = useState(null)
     const navigation = useNavigation()
 
     const user = getAuth().currentUser;
@@ -49,36 +47,16 @@ export default function UserInfo() {
         const ref = doc(db, "user", user.uid)
         const change =  getDoc(ref).then((docSnap) => {
             if (docSnap.data()['image'] != null) {
+                console.log("there's an image",docSnap.data()['image'])
                 setImage(docSnap.data()['image'])
             }
         })
         console.log("CALL 3")
     }
 
-    // const onFileChange = (e) => {
-    //     const file = e.target.files[0]
-    //     const storageRef = app.storage().ref()
-    //     const fileRef = storageRef.child(file.name)
-    //     fileRef.put(file).then(() => {
-    //         console.log("Uploaded file", file.name)
-    //     })
-    // }
-
-    useEffect(() => {
-        // if (image == null) {
-        //     create(image)
-        // } else {
-        //     getImage()
-        // }
-        // getImage()
-        create(image)
-        setLoadImage(true)
-        // onFileChange()
-    }, [image])
-
     useEffect(() => {
         getImage()
-    }, [loadImage])
+    }, [image])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -107,9 +85,9 @@ export default function UserInfo() {
                 getDownloadURL(storageRef).then((url) => {
                     setImage(url)
                 })
+                create(result.uri)
             })
 
-            // setImage(result.uri);
             console.log("IMAGE ONCE CHOSEN:", image)
             console.log("CALL 1")
         }
@@ -165,13 +143,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: "3%"
     },
-
-    // fill: {
-    //     ...StyleSheet.absoluteFill,
-    //     backgroundColor: "#000000",
-    //     // width: "50%"
-    //     width: stringpercent,
-    // },
 
     // text:
     subtitle1: {
