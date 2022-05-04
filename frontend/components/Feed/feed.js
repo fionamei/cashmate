@@ -160,20 +160,43 @@ export default function Feed() {
             spending_id = {post.spending_id}
             />
     )
-
+    // if (feed.length == 0) {
+    //     return (
+    //         <View style={styles.container}>
+    //                 <Text style={styles.emptyFeed}>
+    //                     There are no spendings! Add friends or input your own spendings!
+    //                 </Text>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // } else {
+    //     return (
+    //         <View style={styles.container}>
+    //             <ScrollView style={styles.scroll}>
+    //                 {everything}
+    //                 {console.log(feed)}
+    //                 <View style={styles.container}>
+    //                     {/* keep this here or it all breaks :DD */}
+    //                 </View> 
+                    
+    //             </ScrollView>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // }
     return (
-        <View style={styles.container}>
-            <ScrollView style={styles.scroll}>
-                {everything}
-                
-                <View style={styles.container}>
-                    {/* keep this here or it all breaks :DD */}
-                </View> 
-                
-            </ScrollView>
-            <Nav/>
-        </View>
-    )
+            <View style={styles.container}>
+                <ScrollView style={styles.scroll}>
+                    {everything}
+                    {console.log(feed)}
+                    <View style={styles.container}>
+                        {/* keep this here or it all breaks :DD */}
+                    </View> 
+                    
+                </ScrollView>
+                <Nav/>
+            </View>
+            )
 }
 
 const styles = StyleSheet.create({
@@ -189,4 +212,44 @@ const styles = StyleSheet.create({
     scroll: {
         paddingBottom:"30%",
     },
+    buttons: {
+        flexDirection: 'row',
+        // backgroundColor: 'black'
+    },
+
+    // TEXT
+    name: {
+        fontSize:24,
+        fontFamily:'Urbanist-Regular'
+    },
+    // emptyFeed: {
+    //     fontSize:30,
+    //     fontFamily:'Urbanist-Regular',
+    //     alignSelf: 'center',
+    //     padding: 10,
+    //     textAlign: 'center'
+    // },
+    price: {
+        fontSize: 42,
+        fontFamily:'Urbanist-Regular'
+    },
+    date: {
+        fontSize:24,
+        fontFamily:'Urbanist-Regular',
+        color:'#BBBBBB'
+    },
+    
+    description: {
+        fontSize:20,
+        fontFamily:'Urbanist-Regular',
+        flex: 1, 
+        flexWrap: 'wrap',
+        // flexShrink: 1,
+        // width: 400,
+        // overflow: 'breakword'
+        // overflow-wrap: break-word; 
+        // backgroundColor:'red',
+        // width: '60%'
+        
+    }
 })

@@ -10,21 +10,21 @@ const screens = [
         id: '1',
         title: "Set Goals",
         subtitle: "Choose a weekly budget",
-        image: require('./assets/goals.png'),
+        image: require('../../assets/onboarding/goals.png'),
         continue: false
     },
     {
         id: '2',
         title: "Record Spendings",
         subtitle: "Input spendings for your own record",
-        image: require('./assets/spendings.png'),
+        image: require('../../assets/onboarding/spendings.png'),
         continue: false
     },
     {
         id: '3',
         title: "Save With Friends",
         subtitle: "Find friends and compare your progress!",
-        image: require('./assets/save.png'),
+        image: require('../../assets/onboarding/save.png'),
         continue: true
     }
 ]
@@ -60,7 +60,7 @@ export default function Onboarding() {
                         <TouchableOpacity style={styles.buttonContainer}
                          onPress={() => {navigation.replace('FirstScreen'); recordVisit}}>
                              <Text style={styles.nextButtonText}>Get Started</Text>
-                             <Image style={styles.nextButton} source={require("./assets/next.png")}/>
+                             <Image style={styles.nextButton} source={require("../../assets/onboarding/getstarted.png")}/>
                         </TouchableOpacity>
                         {/* <TouchableOpacity style={styles.buttonContainer2}>
                             <Text style={styles.nextButtonText2}>Get Started</Text>
@@ -106,21 +106,23 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor:"white",
         flex:1,
-        justifyContent:'center',
+        // justifyContent:'center',
         padding:Dimensions.get('window').width * 0.03,
     },
     title: {
         fontFamily:'Urbanist-Black',
         alignSelf:'center',
         fontSize: Dimensions.get('window').width * 0.08,
-        fontWeight:"700"
+        fontWeight:"700",
+        marginTop:Dimensions.get('window').height/7
     },
     image: {
         marginTop:Dimensions.get('window').width * 0.2,
-        marginBottom:Dimensions.get('window').width * 0.2,
-        width:Dimensions.get('window').width * 0.9,
+        marginBottom:Dimensions.get('window').width * 0.15,
+        width:Dimensions.get('window').width * 0.75,
+        height:Dimensions.get('window').width * 0.75,
         alignSelf:'center',
-        resizeMode:'contain'
+        resizeMode:'contain',
     },
     subtitle: {
         fontFamily:'Urbanist-Regular',
@@ -187,4 +189,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 10,
     },
+  
+    nextButton: {
+        position: 'absolute',
+        bottom: -Dimensions.get('window').height * 0.13,
+        left: Dimensions.get('window').width * 0.48,
+        width:Dimensions.get('window').width * 0.4, 
+        resizeMode:'contain'
 })

@@ -116,7 +116,7 @@ export default function Search() {
                 <View style={styles.content}>
                     {pfp  
                         ? <Image source={{ uri: pfp }} style={styles.image} />
-                        : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                        : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                     }
                     <Text style={styles.name}>{name}</Text>
                 </View>
@@ -156,7 +156,7 @@ export default function Search() {
             <View style={styles.container}> 
                 {/* <Text>hi</Text> */}
                 <TextInput 
-                    placeholder="enter your friend's email"
+                    placeholder="Enter your friend's email"
                     style={styles.inputbox}
                     // onKeyPress={handleKeyDown}
 
@@ -177,7 +177,7 @@ export default function Search() {
                     }
                 />
                 { emailEntered ?
-                    <Text style={styles.error}>404: user not found :(</Text> : <></>
+                    <Text style={styles.error}>404: User not found :(</Text> : <></>
                 }
                 {exist ? 
                     <Display />

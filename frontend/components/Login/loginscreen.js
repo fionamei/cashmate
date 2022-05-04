@@ -71,7 +71,7 @@ export default function LoginScreen() {
         {/* <Image source={require('../../assets/icon.png')} style={styles.image}/> */}
         <View style={styles.inputs}>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputSubtitle}>username:</Text>
+            <Text style={styles.inputSubtitle}>Username:</Text>
             <TextInput
               placeholder="Email@email.com"
               value={email}
@@ -80,7 +80,7 @@ export default function LoginScreen() {
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputSubtitle}>password:</Text>
+            <Text style={styles.inputSubtitle}>Password:</Text>
             <TextInput
               placeholder="Password :D"
               value={password}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     borderBottomColor:"black",
     borderBottomWidth:3,
-    fontSize: Dimensions.get('window').height * .025,
+    fontSize: Dimensions.get('window').height * .024,
     fontFamily:'Urbanist-Light',
     width: Dimensions.get('window').width * .25,
     // backgroundColor: 'blue'

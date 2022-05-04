@@ -115,7 +115,7 @@ export default function remainingbudget() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.subtitle1}>remaining: </Text>
+            <Text style={styles.subtitle1}>Remaining: </Text>
             {remaining ? <Text style={{ 
                             fontFamily:'Urbanist-Medium',
                             fontSize: Dimensions.get('window').height/13,
@@ -195,7 +195,7 @@ export default function remainingbudget() {
                 // onPress={() => navigation.replace("Budget")}
             >    */}
             {/* <Text style={styles.subtitle3}>{prn2 === "Sunday" ? "It's Sunday! Input your budget!" : `weekly budget: $${budget}`}</Text> */}
-            <Text style={styles.subtitle3}>weekly budget: ${budget}</Text>
+            <Text style={styles.subtitle3}>Weekly budget: ${budget}</Text>
             {/* </TouchableOpacity> */}
             
             {remaining ?  <Text style={styles.subtitle4}>${remaining} remaining</Text> : 
