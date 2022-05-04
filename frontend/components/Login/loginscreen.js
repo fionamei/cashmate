@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Image, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { auth, firebaseConfig, db  } from '../../backend/Firebase.js'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
@@ -9,6 +9,8 @@ import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc,
 import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Signup from './signup.js';
+import ExpoFastImage from 'expo-fast-image'
+
 
 
 export default function LoginScreen() {
@@ -61,26 +63,34 @@ export default function LoginScreen() {
     // >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.loginContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputSubtitle}>username:</Text>
-          <TextInput
-            placeholder="Email@email.com"
-            value={email}
-            onChangeText={text => setEmail(text)}
-            style={styles.inputText}
-          />
+      <ExpoFastImage
+            uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/logo.png?alt=media&token=74252fa3-c0f7-4217-8013-34625e7750ce" // image address
+            cacheKey='0' // could be a unque id
+            style={styles.image} // your custom style object
+            // any supported props by Image
+            />
+        {/* <Image source={require('../../assets/icon.png')} style={styles.image}/> */}
+        <View style={styles.inputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputSubtitle}>username:</Text>
+            <TextInput
+              placeholder="Email@email.com"
+              value={email}
+              onChangeText={text => setEmail(text)}
+              style={styles.inputText}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputSubtitle}>password:</Text>
+            <TextInput
+              placeholder="Password :D"
+              value={password}
+              onChangeText={text => setPassword(text)}
+              style={styles.inputText}
+              secureTextEntry
+            />
+          </View>
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputSubtitle}>password:</Text>
-          <TextInput
-            placeholder="Password :D"
-            value={password}
-            onChangeText={text => setPassword(text)}
-            style={styles.inputText}
-            secureTextEntry
-          />
-        </View>
-
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={handleLogin}
@@ -105,8 +115,10 @@ const styles = StyleSheet.create({
     backgroundColor:'white'
   },
   inputContainer: {
-    width: '80%',
+    // width: '100%',
     flexDirection: "row",
+    paddingLeft: '1%',
+    // paddingTop: '20%'
     // backgroundColor: "green"
   },
   inputText: {
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     borderBottomColor:"black",
     borderBottomWidth:2,
-    fontSize:20,
+    fontSize: Dimensions.get('window').height * .025,
     marginLeft:10,
     fontFamily:'Urbanist-Light',
     width: Dimensions.get('window').width * 0.58,
@@ -123,8 +135,10 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     borderBottomColor:"black",
     borderBottomWidth:3,
-    fontSize:20,
+    fontSize: Dimensions.get('window').height * .025,
     fontFamily:'Urbanist-Light',
+    width: Dimensions.get('window').width * .25,
+    // backgroundColor: 'blue'
   },
   buttonContainer: {
     width: '60%',
@@ -144,7 +158,22 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: Dimensions.get('window').height * .025,
     fontFamily:'Urbanist-Light'
+  },
+  image: {
+    width: Dimensions.get('window').height * .15,
+    height: Dimensions.get('window').height * .15,
+    position: 'absolute',
+    top: '8%'
+  },
+  inputs: {
+    paddingTop: '20%',
+    // backgroundColor: 'pink',
+    width: Dimensions.get('window').width *.9,
   }
+  // imageContainer: {
+  //   paddingBottom: '30%',
+  //   backgroundColor: 'green'
+  // }
 })

@@ -162,7 +162,7 @@ export default function Spending() {
                 }
               }/>
           </View>
-          <View >
+          <View>
               <Modal
                   transparent={true}
                   visible={modalVisible}
@@ -171,17 +171,24 @@ export default function Spending() {
                   setModalVisible(!modalVisible);
               }}
               >
+                <TouchableOpacity
+                  activeOpacity={1} 
+                  style={styles.modalTouch}
+                  onPressOut={() => {setModalVisible(false)}}
+                  >
 
-                  <View style={styles.popup}>
-                      <View style={styles.modalView}>
-                          <View style={styles.buttonsContainer}>
-                              {RowOne}
-                          </View>
-                          <View style={styles.buttonsContainer}>
-                              {RowTwo}
-                          </View>
-                      </View>
-                  </View>
+                    <View style={styles.popup}>
+                        <View style={styles.modalView}>
+                            <View style={styles.buttonsContainer}>
+                                {RowOne}
+                            </View>
+                            <View style={styles.buttonsContainer}>
+                                {RowTwo}
+                            </View>
+                        </View>
+                    </View>
+
+                </TouchableOpacity>
               </Modal>
               <View style={styles.underline}>
                 {isCategory ? 
@@ -235,13 +242,15 @@ const styles = StyleSheet.create({
       resizeMode:'contain'
     },
     inputLine: {
-      fontSize: 50,
+      fontSize: Dimensions.get('window').width*0.115,
+      // fontSize: 50,
       fontFamily:"Urbanist-Light",
       borderBottomColor:'#000000',
       borderBottomWidth:2
     },
     icon: {
-      fontSize: 40,
+      fontSize: Dimensions.get('window').width*0.09,
+      // fontSize: 40,
     },
     continueButton: {
       margin:"2%",
@@ -251,12 +260,14 @@ const styles = StyleSheet.create({
     },
     continue: {
       fontFamily:"Urbanist-Light",
-      fontSize:20
+      fontSize: Dimensions.get('window').height*0.025,
+      // fontSize:20
     },
     display: {
-      paddingTop: 30,
-      alignItems: 'center',
-      fontSize: 30,
+      // paddingTop: 30,
+      // alignItems: 'center',
+      fontSize: Dimensions.get('window').width*0.07,
+      // fontSize: 30,
       padding: "7%",
       fontFamily:"Urbanist-Light",
     },
@@ -269,11 +280,12 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: "row",
+        // backgroundColor: 'pink'
     },
     modalView: {
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        padding: Dimensions.get('window').width * .065,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -282,46 +294,57 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        width: Dimensions.get('window').width * .85,
+        height: Dimensions.get('window').height * .35,
+      },
+      modalTouch: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        // backgroundColor: 'red',
       },
       textStyle: {
         color: "#bbbbbb",
-        padding: 10,
+        padding: '2%',
         textAlign: "center",
-        fontSize: 30,
+        fontSize: Dimensions.get('window').width*0.07,
+        // fontSize: 30,
         fontFamily:"Urbanist-Light",
       },
       chosen: {
         color: "#000000",
-        padding: 10,
+        padding: '2%',
         textAlign: "center",
-        fontSize: 30,
+        fontSize: Dimensions.get('window').width*0.07,
         fontFamily:"Urbanist-Light",
       },
       underline: {
         borderBottomColor:'#000000',
         borderBottomWidth:2,
-        height: 50,
+        height: Dimensions.get('window').height * .055,
+        // height: 50,
         // backgroundColor: 'red'
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
       },
       popup: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        // marginTop: 22
       }, 
       icons: {
-        width: 90,
-        height: 90,
+        // width: 90,
+        // height: 90,
+        width: Dimensions.get('window').width * .22,
+        height: Dimensions.get('window').width * .22,
       },
       icontxt: {
         fontFamily:"Urbanist-Light",
-        fontSize:15,
-        paddingBottom: 10,
-        paddingTop: 5
-      }
+        fontSize: Dimensions.get('window').height * .016,
+        paddingBottom: '4%',
+        paddingTop: '2%',
+        // backgroundColor: 'blue'
+      },
+      // outer: {
+      //   // backgroundColor: 'pink'
+      // }
     });

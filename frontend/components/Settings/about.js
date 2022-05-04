@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import { useFonts } from '@use-expo/font';
 
@@ -28,9 +28,10 @@ const styles = StyleSheet.create ({
     },
     text: {
         fontFamily: 'Urbanist-Regular',
-        fontSize: 30,
-        padding: 30,
+        fontSize: Dimensions.get('window').width*0.07,
+        // fontSize: 30,
+        padding: '7%',
         textAlign: 'center',
-        marginTop: 20
+        marginTop: '7%'
     },
 })
