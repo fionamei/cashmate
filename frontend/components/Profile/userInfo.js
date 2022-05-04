@@ -84,8 +84,8 @@ export default function UserInfo() {
             uploadImage(result.uri).then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     setImage(url)
+                    create(url)
                 })
-                create(result.uri)
             })
 
             console.log("IMAGE ONCE CHOSEN:", image)
