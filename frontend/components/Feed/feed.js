@@ -87,9 +87,10 @@ export default function Feed() {
                 let currentImage = listPfps[i]
                 const q3 = query(collection(db, "user", listUID[i], "budget", listBudgetID[i], "spending"), orderBy("timestamp", "desc"));
                 const q4 = getDocs(q3).then((querySnapshot) => {
-                    setIsEmpty(true)
+                    setFeed([])
                     querySnapshot.forEach((doc) => {
                         // console.log("HI there are spendings")
+                        setIsEmpty(true)
                         let update = {
                             "name": currentName,
                             "uid": currentUID,
@@ -147,7 +148,6 @@ export default function Feed() {
     // console.log("FEED", feed)
     // console.log("feed length", feed.length)
 
-
     const sorted = feed.sort((a,b)=>{
         const dateA = new Date(`${a.timestamp}`).valueOf();
         const dateB = new Date(`${b.timestamp}`).valueOf();
@@ -177,7 +177,14 @@ export default function Feed() {
 
     console.log("feed length", feed.length)
     console.log("there are no spendings:",isEmpty)
-    if (isEmpty == true) {
+    if (feed == null) {
+        return (
+            <View style={styles.container}>
+
+            </View>
+        )
+    }
+    else if (isEmpty == true) {
         return (
             <View style={styles.container}>
                     <Text style={styles.emptyFeed}>
@@ -204,7 +211,9 @@ export default function Feed() {
                 <Nav/>
             </View>
         )
-    } else {
+    } 
+    
+    else {
     //     return (
     //         <View style={styles.container}>
     //             <ScrollView style={styles.scroll}>

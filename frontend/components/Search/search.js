@@ -14,6 +14,7 @@ export default function Search() {
     const [name, setName] = useState('')
     const [pfp, setPfp] = useState()
     const [added, setAdded] = useState(false)
+    const [isUser, setIsUser] = useState(false)
 
 
     const [isLoaded] = useFonts({
@@ -90,16 +91,29 @@ export default function Search() {
                 setEmailEntered(true)
             } else {
                 querySnapshot.forEach((doc) => {
-                    setUserID(doc.id)
-                    console.log(doc.id)
-                    let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
-                    setName(nameToBeSet)
-                    console.log("USER ID", userID)
-                    console.log("NAME", name)
+                    if (doc.id == user.uid) {
+                        setUserID(doc.id)
+                        let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
+                        setName(nameToBeSet)
 
-                    setPfp(doc.data()['image'])
-                    setExist(true)
-                    setAdded(false)
+                        setPfp(doc.data()['image'])
+                        setExist(true)
+                        setIsUser(true)
+                    }
+                    else {
+                        setUserID(doc.id)
+                        // console.log(doc.id)
+                        let nameToBeSet = (doc.data()['firstName'] + " " + doc.data()['lastName'])
+                        setName(nameToBeSet)
+                        // console.log("USER ID", userID)
+                        // console.log("NAME", name)
+    
+                        setPfp(doc.data()['image'])
+                        setExist(true)
+                        setAdded(false)
+                        setIsUser(false)
+                    }
+                    // console.log("isUser",isUser)
                 });
             }
         })
@@ -121,29 +135,20 @@ export default function Search() {
                     <Text style={styles.name}>{name}</Text>
                 </View>
                 <View>
-                    { added ? 
-                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/> 
-                        :<TouchableOpacity
+                    { (!isUser && !added)?  
+                        <TouchableOpacity
                             style={styles.button}
                             onPress={() => {setAdded(true)
                                             handleFriend()}}
                         >
                             <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
                         </TouchableOpacity>
-                        // :
-                        // <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/>
-
-                    // {  added ?
-                    //     <View style={styles.pendingText}>
-                    //         <Text>Pending</Text>
-                    //     </View>
-                    //     :
-                    //     <TouchableOpacity
-                    //     style={styles.button}
-                    //     onPress={() => setAdded(!added)}>
-                    //         <Image source={require('../../assets/searchicons/add.png')} style={styles.add}/>
-                    //     </TouchableOpacity>
-
+                        :
+                        <></>
+                        }
+                    { (!isUser && added) ? 
+                        <Image source={require('../../assets/searchicons/requested.png')} style={styles.add}/> 
+                        : <></>
                     }
                 </View>
             </View>
