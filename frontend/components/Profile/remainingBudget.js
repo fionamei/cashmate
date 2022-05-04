@@ -18,7 +18,7 @@ export default function remainingbudget() {
     const [budget, setBudget] = useState('');
     const [remaining, setRemaining] = useState('');
     const [percentage, setPercentage] = useState('');
-    const [stringpercent, setStringpercent] = useState('100%')
+    const [stringpercent, setStringpercent] = useState('')
     const [color, setColor] = useState('#000000')
     const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
     const [progress2, setProgress2] = useState('#C4E7FF')
@@ -45,20 +45,9 @@ export default function remainingbudget() {
         const docRef = doc(db, "user", uid, "budget", BUDGETID);
         // console.log("test docref", docRef)
         getDoc(docRef).then((docSnap) => {
-            // console.log("data is",docSnap.data())
             setBudget(docSnap.data()['amount'])
-            // console.log("remaining",docSnap.data()['remainingAmt'])
             setRemaining(Number(docSnap.data()['remainingAmt']).toFixed(2))
-            if (!(remaining == '' || budget == '')) {
-                setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
-            }
-            else if (remaining == '') {
-                setPercentage(100)
-            }
-            // console.log(percentage)
-
-            // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
-            // console.log('REMAINING AFTER GETTING BUDGET OBJ', remaining);
+            setPercentage((( Number(docSnap.data()['remainingAmt']) / Number(docSnap.data()['amount']) * 100)).toFixed(2))
         })
     
     
@@ -117,10 +106,6 @@ export default function remainingbudget() {
     if (budget == '' || remaining == '' || percentage == '') {
         return (
             <View style={styles.emptyContainer}>
-                {/* {console.log("hi!")}
-                {console.log("budget:",budget)}
-                {console.log("remaining:",remaining)}
-                {console.log("percentage:",percentage)} */}
             </View>
         )
     }
