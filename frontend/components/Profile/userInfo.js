@@ -117,7 +117,7 @@ export default function UserInfo() {
                     {full_name}
                 </Text>
                 <View style={styles.subprofile}>
-                    <TouchableOpacity onPress={() => navigation.navigate("FriendsList")}> 
+                    <TouchableOpacity onPress={() => navigation.navigate("Friends List")}> 
                         <Text style={styles.pfptxt}>View Your Friends</Text>
                     </TouchableOpacity>
                 </View>

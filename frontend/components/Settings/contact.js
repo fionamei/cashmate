@@ -27,8 +27,8 @@ const styles = StyleSheet.create ({
     text: {
         fontFamily: 'Urbanist-Regular',
         fontSize: Dimensions.get('window').width/14,
-        padding: 30,
+        padding: '7%',
         textAlign: 'center',
-        marginTop: 50
+        marginTop: '10%'
     },
 })

@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
+import { Alert, StyleSheet, Text, Image, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { auth, firebaseConfig, db  } from '../../backend/Firebase.js'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc } from 'firebase/firestore';
 import { useFonts } from '@use-expo/font';
+import ExpoFastImage from 'expo-fast-image'
+
 
 
 
@@ -52,6 +54,15 @@ export default function Signup() {
 
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.loginContainer}>
+        <ExpoFastImage
+            uri= "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/logo.png?alt=media&token=74252fa3-c0f7-4217-8013-34625e7750ce" // image address
+            cacheKey='0' // could be a unque id
+            style={styles.image} // your custom style object
+            // any supported props by Image
+            />
+        {/* <Image source={require('../../assets/icon.png')} style={styles.image}/> */}
+
+        <View style={styles.inputs}>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputSubtitle}>first name:</Text>
                 <TextInput
@@ -73,7 +84,7 @@ export default function Signup() {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputSubtitle}>username:</Text>
+                <Text style={styles.inputSubtitle}>email:</Text>
                 <TextInput
                     placeholder="Email@email.com"
                     value={email}
@@ -92,7 +103,7 @@ export default function Signup() {
                     secureTextEntry
                 />
             </View>
-                
+        </View>
 
             <View style={styles.buttonContainer}>
                 
@@ -132,17 +143,18 @@ const styles = StyleSheet.create({
       backgroundColor:'white'
     },
     inputContainer: {
-      width: '80%',
+    //   width: '80%',
       flexDirection: "row",
-      // backgroundColor: "green"
+      paddingLeft: '1%',
+    //   backgroundColor: "green"
     },
     inputText: {
       // backgroundColor: "red",
       marginTop: "3%",
       borderBottomColor:"black",
       borderBottomWidth:2,
-      fontSize:20,
-      marginLeft:10,
+      fontSize: Dimensions.get('window').height * .025,
+      marginLeft: 10,
       fontFamily:'Urbanist-Light',
       width: Dimensions.get('window').width * 0.58,
     },
@@ -150,15 +162,16 @@ const styles = StyleSheet.create({
       marginTop: "3%",
       borderBottomColor:"black",
       borderBottomWidth:3,
-      fontSize:20,
+      fontSize: Dimensions.get('window').height * .025,
       fontFamily:'Urbanist-Light',
+      width: Dimensions.get('window').width * .25,
+    //   backgroundColor: 'pink',
     },
     buttonContainer: {
       width: '60%',
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.8,
-  
       // marginTop: 40,
     },
     button: {
@@ -171,7 +184,18 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       fontWeight: '700',
-      fontSize: 16,
+      fontSize: Dimensions.get('window').height * .025,
       fontFamily:'Urbanist-Light'
+    },
+    image: {
+        width: Dimensions.get('window').height * .15,
+        height: Dimensions.get('window').height * .15,
+        position: 'absolute',
+        top: '8%'
+      },
+    inputs: {
+    paddingTop: '20%',
+    // backgroundColor: 'pink',
+    width: Dimensions.get('window').width *.9,
     }
   })
