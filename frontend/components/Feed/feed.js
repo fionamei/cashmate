@@ -7,6 +7,8 @@ import { db } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import Nav from '../Navbar/navbar';
 import Temp from './temp';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 export default function Feed() {
@@ -19,6 +21,7 @@ export default function Feed() {
     const [isEmpty, setIsEmpty] = useState(false)
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
+    const navigation = useNavigation();
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -84,7 +87,9 @@ export default function Feed() {
                 let currentImage = listPfps[i]
                 const q3 = query(collection(db, "user", listUID[i], "budget", listBudgetID[i], "spending"), orderBy("timestamp", "desc"));
                 const q4 = getDocs(q3).then((querySnapshot) => {
+                    setIsEmpty(true)
                     querySnapshot.forEach((doc) => {
+                        // console.log("HI there are spendings")
                         let update = {
                             "name": currentName,
                             "uid": currentUID,
@@ -99,9 +104,8 @@ export default function Feed() {
                             "timestamp": (doc.data()["timestamp"]).toDate().toLocaleDateString() + " " + (doc.data()["timestamp"]).toDate().toTimeString().substring(0,5)
                             // "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
                         }
-
                         tempFeed.push(update)
-                        // setIsEmpty(false)
+                        setIsEmpty(false)
                         // console.log("tempFeed useEffect", isEmpty)
                     })
                     if (i == listUID.length-1) {
@@ -131,13 +135,6 @@ export default function Feed() {
         setCounter(counter+1)
         changeFeed()
         
-        // if (feed.length == 0) {
-        //     // console.log("HI")
-        //     setIsEmpty(true)
-        // }
-        // else {
-        //     setIsEmpty(false)
-        // }
     }, [updateVal])
 
     if (!isLoaded) {
@@ -178,18 +175,36 @@ export default function Feed() {
             />
     )
 
-    // console.log("feed length", feed.length)
-    // console.log("are there spendings?:",isEmpty)
-    // if (isEmpty == true) {
-    //     return (
-    //         <View style={styles.container}>
-    //                 <Text style={styles.emptyFeed}>
-    //                     There are no spendings! Add friends or input your own spendings!
-    //                 </Text>
-    //             <Nav/>
-    //         </View>
-    //     )
-    // } else {
+    console.log("feed length", feed.length)
+    console.log("there are no spendings:",isEmpty)
+    if (isEmpty == true) {
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.emptyFeed}>
+                        There are no spendings!
+                    </Text>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.pop()
+                            navigation.navigate("Search")}}
+                        >
+                        <Text style={styles.emptyFeedB}>[Add friends!]</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.emptyFeed}>or</Text>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.pop()
+                            navigation.replace("Spending")
+                        }}
+                        >
+                        <Text style={styles.emptyFeedB}>[Input your own spendings!]</Text>
+                    </TouchableOpacity>
+                <Nav/>
+            </View>
+        )
+    } else {
     //     return (
     //         <View style={styles.container}>
     //             <ScrollView style={styles.scroll}>
@@ -217,7 +232,7 @@ export default function Feed() {
                 <Nav/>
             </View>
             )
-}
+}}
 
 const styles = StyleSheet.create({
     container: {
@@ -246,8 +261,18 @@ const styles = StyleSheet.create({
         fontSize:30,
         fontFamily:'Urbanist-Regular',
         alignSelf: 'center',
-        padding: 10,
+        // padding: 10,
         textAlign: 'center'
+    },
+    emptyFeedB: {
+        fontSize:30,
+        fontFamily:'Urbanist-Medium',
+        // fontFamily:'Urbanist-Regular',
+
+        alignSelf: 'center',
+        // padding: 10,
+        textAlign: 'center',
+        // fontWeight: "200"
     },
     price: {
         fontSize: 42,
@@ -271,5 +296,12 @@ const styles = StyleSheet.create({
         // backgroundColor:'red',
         // width: '60%'
         
-    }
+    }, 
+    // button: {
+    //     // margin:"2%",
+    //     borderBottomColor:'#000000',
+    //     borderBottomWidth:2,
+    //     height: '5%',
+    //     // backgroundColor: 'pink'
+    // }
 })

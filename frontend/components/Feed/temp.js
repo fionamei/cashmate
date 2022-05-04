@@ -344,7 +344,7 @@ export default function Temp(props) {
     // const description = 'sushi and boba'
     
     return (
-    
+        <View style={styles.bigger}>
         <View style={styles.overall}>
             <View style={styles.container}>
                 
@@ -541,16 +541,26 @@ export default function Temp(props) {
                         <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> } */}
                 </TouchableOpacity>
             </View>
-        </View>
+        </View></View>
     )
 }
 
 const styles = StyleSheet.create({
+    bigger: {
+        // width: Dimensions.get("window").width * .95,
+        // height: Dimensions.get("window").height * 0.2,
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        // backgroundColor: 'pink',
+    },
     overall : {
         borderBottomColor:'black',
         borderBottomWidth:1,
         alignItems: 'center', 
         justifyContent: 'center', 
+        width: Dimensions.get("window").width * .95,
+        // backgroundColor: 'pink',
+        
     }, 
     container: {
         flex: 1, 
