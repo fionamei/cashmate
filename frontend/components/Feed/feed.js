@@ -7,6 +7,9 @@ import { db } from '../../backend/Firebase.js';
 import { doc, collection, onSnapshot, setDoc, updateDoc, orderBy, limit, getDoc, query, get, getDocs, addDoc, where } from 'firebase/firestore';
 import Nav from '../Navbar/navbar';
 import Temp from './temp';
+import { useNavigation, useNavigationParam } from '@react-navigation/native'
+import { list } from 'firebase/storage';
+
 
 
 export default function Feed() {
@@ -18,6 +21,7 @@ export default function Feed() {
     const [spendings, setSpending] = useState([])
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
+    const [hasSpendings, setHasSpendings] = useState(false)
 
     const [isLoaded] = useFonts({
         "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf"),
@@ -25,6 +29,8 @@ export default function Feed() {
     })
 
     const user = getAuth().currentUser;
+    const navigation = useNavigation()
+
 
     useEffect(() => {
         let temp = []
@@ -69,11 +75,16 @@ export default function Feed() {
         }
         getBudgetIDs()
     }, [listUID])
-
+    // console.log("listuid is...", listUID)
     useEffect(() => {
         let tempFeed = []
         const getSpendingObj = async () => {
             for (let i = 0; i < listUID.length; i++) {
+                // console.log("feed is", feed, "listuid is", listUID)
+                // if (feed.length > 1 || listUID.length > 1) {
+                //     setHasSpendings(true)
+                // }
+                // console.log("hiihi")
                 let currentName = listNames[i]
                 let currentUID = listUID[i]
                 let currentBudgetID = listBudgetID[i] 
@@ -95,18 +106,32 @@ export default function Feed() {
                             "timestamp": (doc.data()["timestamp"]).toDate().toLocaleDateString() + " " + (doc.data()["timestamp"]).toDate().toTimeString().substring(0,5)
                             // "timestamp": (doc.data()["timestamp"].toDate().toString()).substr(0,24)
                         }
-
+                        console.log("update is..", update)
+                        if (update) {
+                            setHasSpendings(true)
+                        }
+                        
                         tempFeed.push(update)
                         
                     })
                     if (i == listUID.length-1) {
                         setFeed(tempFeed)
+                        // console.log("update is..", update)
+                        // if (tempFeed.length > 0) {
+                        //     setHasSpendings(true)
+                        // }
                     }
                 })
             }
         }
         getSpendingObj()
     }, [listBudgetID])
+
+    // console.log("feed is", feed.length, "listuid is", listUID.length, "hasspendings is", hasSpendings)
+
+    // if (!hasSpendings && (feed.length >= 1 || listUID.length > 1)) {
+    //     setHasSpendings(true)
+    // }
 
     useEffect(() => {
         const changeFeed = async () => {
@@ -145,7 +170,7 @@ export default function Feed() {
       });
     //   console.log("SORTED IS", sorted)
 
-
+    // console.log(" feed i s", feed)
     const everything = sorted.map((post, index) => 
       <Temp key={index}
             name={post.name} 
@@ -161,6 +186,7 @@ export default function Feed() {
             spending_id = {post.spending_id}
             />
     )
+    //   console.log("spendings is..", spendings)
     // if (feed.length == 0) {
     //     return (
     //         <View style={styles.container}>
@@ -185,6 +211,31 @@ export default function Feed() {
     //         </View>
     //     )
     // }
+    // console.log("Sorted is.. ", sorted)
+
+    if (!hasSpendings) {
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.emptyFeed}>
+                        There are no spendings!
+                    </Text>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => navigation.navigate("Search")}
+                        >
+                        <Text style={styles.emptyFeedB}>[Add friends!]</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.emptyFeed}>or</Text>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => navigation.navigate("Spending")}
+                        >
+                        <Text style={styles.emptyFeedB}>[Input your own spendings!]</Text>
+                    </TouchableOpacity>
+                <Nav/>
+            </View>
+        )
+    }
     return (
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
@@ -223,13 +274,23 @@ const styles = StyleSheet.create({
         fontSize:24,
         fontFamily:'Urbanist-Regular'
     },
-    // emptyFeed: {
-    //     fontSize:30,
-    //     fontFamily:'Urbanist-Regular',
-    //     alignSelf: 'center',
-    //     padding: 10,
-    //     textAlign: 'center'
-    // },
+    emptyFeed: {
+        fontSize:30,
+        fontFamily:'Urbanist-Regular',
+        alignSelf: 'center',
+        // padding: 10,
+        textAlign: 'center'
+    },
+    emptyFeedB: {
+        fontSize:30,
+        fontFamily:'Urbanist-Medium',
+        // fontFamily:'Urbanist-Regular',
+
+        alignSelf: 'center',
+        // padding: 10,
+        textAlign: 'center',
+        // fontWeight: "200"
+    },
     price: {
         fontSize: 42,
         fontFamily:'Urbanist-Regular'
@@ -252,5 +313,12 @@ const styles = StyleSheet.create({
         // backgroundColor:'red',
         // width: '60%'
         
-    }
+    }, 
+    // button: {
+    //     // margin:"2%",
+    //     borderBottomColor:'#000000',
+    //     borderBottomWidth:2,
+    //     height: '5%',
+    //     // backgroundColor: 'pink'
+    // }
 })
