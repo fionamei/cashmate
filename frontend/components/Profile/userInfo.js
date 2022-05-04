@@ -109,11 +109,11 @@ export default function UserInfo() {
             <TouchableOpacity onPress={pickImage}>
                 {image  
                     ? <Image source={{ uri: image }} style={styles.image} />
-                    : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                    : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                 }
                 {/* // {image && <Image source={{ uri: image }} style={styles.image} />} */}
             </TouchableOpacity> 
-            {/* <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/> */}
+            {/* <Image source={require('../assets/pfp/nopfp.jpg')} style={styles.image}/> */}
             
             <View style={styles.descriptions}>
                 <Text style={styles.name}>

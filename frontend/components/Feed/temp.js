@@ -352,9 +352,9 @@ export default function Temp(props) {
                     <View style={styles.imageContainer}>
                         {props.image  
                             ? <Image source={{ uri: props.image }} style={styles.image} />
-                            : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                            : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                         }
-                        {/* <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/> */}
+                        {/* <Image source={require("../../assets/pfp/nopfp.jpg")} style={styles.image}/> */}
                     </View>
                     <View style={styles.heading}>
                         <Text style={styles.name}>{props.name}</Text>
