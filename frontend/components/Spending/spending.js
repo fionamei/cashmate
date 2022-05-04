@@ -221,7 +221,7 @@ export default function Spending() {
                   Alert.alert("Missing price, place, or category!")
               }
             }} >
-            <Text style={styles.continue}>continue</Text>
+            <Text style={styles.continue}>Continue</Text>
           </TouchableOpacity>
           <Nav />
         </View>
