@@ -64,7 +64,7 @@ export default function Signup() {
 
         <View style={styles.inputs}>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputSubtitle}>first name:</Text>
+                <Text style={styles.inputSubtitle}>First name:</Text>
                 <TextInput
                     placeholder="First name"
                     // value={text}
@@ -74,7 +74,7 @@ export default function Signup() {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputSubtitle}>last name:</Text>
+                <Text style={styles.inputSubtitle}>Last name:</Text>
                 <TextInput
                     placeholder="Last name"
                     // value={password}
@@ -84,7 +84,7 @@ export default function Signup() {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputSubtitle}>email:</Text>
+                <Text style={styles.inputSubtitle}>Email:</Text>
                 <TextInput
                     placeholder="Email@email.com"
                     value={email}
@@ -94,7 +94,7 @@ export default function Signup() {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputSubtitle}>password:</Text>
+                <Text style={styles.inputSubtitle}>Password:</Text>
                 <TextInput
                     placeholder="Password :D"
                     value={password}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
       marginTop: "3%",
       borderBottomColor:"black",
       borderBottomWidth:3,
-      fontSize: Dimensions.get('window').height * .025,
+      fontSize: Dimensions.get('window').height * .024,
       fontFamily:'Urbanist-Light',
       width: Dimensions.get('window').width * .25,
     //   backgroundColor: 'pink',
