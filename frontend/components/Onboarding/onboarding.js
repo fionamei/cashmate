@@ -196,4 +196,5 @@ const styles = StyleSheet.create({
         left: Dimensions.get('window').width * 0.48,
         width:Dimensions.get('window').width * 0.4, 
         resizeMode:'contain'
+    }
 })
