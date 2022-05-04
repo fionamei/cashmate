@@ -10,7 +10,6 @@ import Temp from './temp';
 
 
 export default function Feed() {
-    const [clicked, isClicked] = useState(false)
     const [listUID, setListUID] = useState([])
     const [listNames, setListNames] = useState([])
     const [listPfps, setListPfps] = useState([])
@@ -202,71 +201,16 @@ export default function Feed() {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1, 
-        // flexDirection: 'row',
-        // justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        // paddingTop:"5%",
-        // backgroundColor: 'green'
         backgroundColor:"#FFFFFF",
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height * .9,
         paddingBottom:"15%"
         
     },
-    postContainer: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-        height: Dimensions.get("window").height * 0.15,
-        maxWidth: Dimensions.get('window').width * 0.9,
-
-        // borderTopColor: 'black'
-        // backgroundColor: 'red'
-    },
-    buttonContainer: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-between',
-        width: Dimensions.get("window").width * 0.3,
-        // backgroundColor: 'black'
-    },
-    aboutContainer: {
-        // flexGrow: 1,
-        // flexDirection: 'row',
-        // flexShrink: 1,
-        flexWrap: 'wrap',
-        
-        // width: 20,
-        width: '60%'
-        
-    },
     scroll: {
-        // padding: "10%",
         paddingBottom:"30%",
-        // backgroundColor: 'blue'
-    },
-    image: {
-        width: 55,
-        height: 55,
-        borderRadius: 100,
-        alignItems:'center',
-        marginTop: '25%'
-    },  
-    heading: {
-        // flexDirection: 'row',
-        justifyContent:'flex-start',
-        // backgroundColor: 'black'
-        // flexWrap:'wrap'
-    },
-    iconOne: {
-        width:20.19,
-        height:18
-    },
-    iconTwo: {
-        width:18,
-        height:18
     },
     buttons: {
         flexDirection: 'row',
@@ -308,5 +252,4 @@ const styles = StyleSheet.create({
         // width: '60%'
         
     }
-    
 })
