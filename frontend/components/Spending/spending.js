@@ -8,6 +8,7 @@ import iconImages from './images';
 import Nav from '../Navbar/navbar';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ExpoFastImage from 'expo-fast-image'
 
 export default function Spending() {
     const [input, setInput] = useState('');
@@ -31,7 +32,7 @@ export default function Spending() {
     if (!isLoaded) {
         return null;
     } 
-    const category1 = ['food', 'utilities', 'lifestyle']
+    const category1 = ['food', 'shopping', 'lifestyle']
     const category2 = ['travel', 'entertainment', 'other']
 
     async function updateRemaining(id, value) {
@@ -64,7 +65,7 @@ export default function Spending() {
     
     const icons = {
       'food': iconImages.categories.food,
-      'utilities': iconImages.categories.utilities,
+      'shopping': iconImages.categories.shopping,
       'lifestyle': iconImages.categories.lifestyle,
       'travel': iconImages.categories.travel,
       'entertainment': iconImages.categories.entertainment,
@@ -109,7 +110,11 @@ export default function Spending() {
             setIsCategory(true)
           }}
           >
-            <Image source={(icons[c])} style={styles.icons} />
+            <ExpoFastImage 
+              uri={(icons[c])} 
+              cacheKey={c + '1'} // there was an error so i added 1 to refresh cacheing
+              style={styles.icons} 
+            />
             <Text style={styles.icontxt}>{c}</Text>  
         </TouchableOpacity>
     )
@@ -123,7 +128,12 @@ export default function Spending() {
             setIsCategory(true)
           }}
           >
-          <Image source={(icons[c])} style={styles.icons}/>
+          <ExpoFastImage 
+              uri={(icons[c])} 
+              cacheKey={c + '1'} // there was an error so i added 1 to refresh cacheing
+              style={styles.icons} 
+          />
+          {/* <Image source={(icons[c])} style={styles.icons}/> */}
           <Text style={styles.icontxt}>{c}</Text>
         </TouchableOpacity>
     )
