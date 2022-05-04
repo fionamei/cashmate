@@ -11,12 +11,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 // import { budgetId } from '../Budget/budget.js';
 
-const budget = 100
-const remaining = 100
-const percentage = remaining / budget * 100
-const stringpercent = `${percentage}%`
-
-
 export default function remainingbudget() {
     const [uid, setUID] = useState('');
     // const {budget, remaining, percentage} = useBudget(uid["uid"]);
@@ -29,9 +23,10 @@ export default function remainingbudget() {
     const [progress1, setProgress1] = useState('#D8C8F6') //color for gradient 1
     const [progress2, setProgress2] = useState('#C4E7FF')
     
-
+    // console.log("hi")
 
     const auth = getAuth();
+    // console.log("REMAINING BUDGET!!")
     onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
@@ -50,9 +45,16 @@ export default function remainingbudget() {
         const docRef = doc(db, "user", uid, "budget", BUDGETID);
         // console.log("test docref", docRef)
         getDoc(docRef).then((docSnap) => {
+            // console.log("data is",docSnap.data())
             setBudget(docSnap.data()['amount'])
-            setRemaining((docSnap.data()['remainingAmt']).toFixed(2))
-            setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
+            // console.log("remaining",docSnap.data()['remainingAmt'])
+            setRemaining(Number(docSnap.data()['remainingAmt']).toFixed(2))
+            if (!(remaining == '' || budget == '')) {
+                setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
+            }
+            else if (remaining == '') {
+                setPercentage(100)
+            }
             // console.log(percentage)
 
             // console.log('AMOUNT AFTER GETTING BUDGET OBJ', budget);
@@ -112,7 +114,16 @@ export default function remainingbudget() {
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
 
     // console.log("remain: ", remaining)
-
+    if (budget == '' || remaining == '' || percentage == '') {
+        return (
+            <View style={styles.emptyContainer}>
+                {/* {console.log("hi!")}
+                {console.log("budget:",budget)}
+                {console.log("remaining:",remaining)}
+                {console.log("percentage:",percentage)} */}
+            </View>
+        )
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.subtitle1}>Remaining: </Text>
@@ -263,8 +274,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         // backgroundColor: "black",
         width: Dimensions.get("window").width * 0.8,
+        height: Dimensions.get("window").height * 0.25,
         backgroundColor:"#FFFFFF" 
     },
 
+    // empty container:
+    emptyContainer: {
+        height: Dimensions.get("window").height * 0.25,
+    }
 
 })
