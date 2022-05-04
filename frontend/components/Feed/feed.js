@@ -15,6 +15,7 @@ export default function Feed() {
     const [listPfps, setListPfps] = useState([])
     const [listBudgetID, setListBudgetID] = useState([])
     const [feed, setFeed] = useState([])
+    const [spendings, setSpending] = useState([])
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
 

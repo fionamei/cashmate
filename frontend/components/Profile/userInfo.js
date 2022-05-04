@@ -50,6 +50,9 @@ export default function UserInfo() {
                 console.log("there's an image",docSnap.data()['image'])
                 setImage(docSnap.data()['image'])
             }
+            else {
+                console.log("user does not have a profile pic")
+            }
         })
         console.log("CALL 3")
     }

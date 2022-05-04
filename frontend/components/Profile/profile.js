@@ -50,7 +50,6 @@ export default function Profile() {
     }
 
     var prn2 = new Date().toLocaleDateString('en-us', { weekday: 'long' }); 
-    
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>

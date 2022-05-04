@@ -38,8 +38,7 @@ export default function Timeline() {
 
     useEffect(() => {
         const getSpendingObj = async () => {
-            // console.log("BUDGET ID OF MOST RECENT", BUDGETID)
-
+            console.log("BUDGET ID OF MOST RECENT", BUDGETID)
             const q3 = query(collection(db, "user", uid, "budget", BUDGETID, "spending"), orderBy("timestamp", "desc"));
             const q4 = getDocs(q3).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
