@@ -101,6 +101,9 @@ export default function UserInfo() {
         return null;
     } 
 
+    // if (!image) {
+    //     return <Text>Loading...</Text>
+    // }
     return (
         <View style={styles.profile}>
             <TouchableOpacity onPress={pickImage}>
