@@ -40,7 +40,8 @@ export default function Signup() {
               password: password,
               image: "https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/default.png?alt=media&token=bc6d9aa0-3054-4fcf-bd61-a85afa2e6a63",
               firstName: first,
-              lastName: last
+              lastName: last,
+              image: 'https://firebasestorage.googleapis.com/v0/b/cashmate-9436a.appspot.com/o/default.png?alt=media&token=bc6d9aa0-3054-4fcf-bd61-a85afa2e6a63'
           })
         })
         .catch((error) => {

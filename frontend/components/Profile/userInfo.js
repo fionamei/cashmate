@@ -14,7 +14,6 @@ export default function UserInfo() {
     const [first, setFirst] = useState('')
     const [last, setLast] = useState('')
     const [image, setImage] = useState(null);
-    // const [loadImage, setLoadImage] = useState(null)
     const navigation = useNavigation()
 
     const user = getAuth().currentUser;
@@ -104,9 +103,20 @@ export default function UserInfo() {
         return null;
     } 
 
-    // if (!image) {
-    //     return <Text>Loading...</Text>
-    // }
+    if (!image) {
+        return (
+            <View style={styles.profile}>
+                <TouchableOpacity style={styles.image}>
+                </TouchableOpacity>
+
+                <View style={styles.description}>
+                    <Text style={styles.name}></Text>
+                    <Text style={styles.subprofile}></Text>
+                </View>
+
+            </View>
+        )
+    }
     return (
         <View style={styles.profile}>
             <TouchableOpacity onPress={pickImage}>
