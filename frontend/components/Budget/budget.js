@@ -115,20 +115,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    paddingTop: 150,
+    paddingTop: Dimensions.get('window').height * 0.15,
   },
   input: {
     flexDirection: 'row',
     resizeMode:'contain'
   },
   inputLine: {
-    fontSize: 50,
+    fontSize: Dimensions.get('window').height * 0.05,
     fontFamily:"Urbanist-Light",
     borderBottomColor:'#000000',
     borderBottomWidth:2
   },
   icon: {
-    fontSize: 40,
+    fontSize: Dimensions.get('window').height * 0.05,
   },
   continueButton: {
     margin:"2%",
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
   },
   continue: {
     fontFamily:"Urbanist-Light",
-    fontSize:20
+    fontSize:Dimensions.get('window').height * 0.025
   },
   display: {
-    paddingTop: 50,
+    paddingTop: Dimensions.get('window').height * 0.055,
     alignItems: 'center',
-    fontSize: 30,
-    padding: 20,
+    fontSize: Dimensions.get('window').height * 0.04,
+    padding: Dimensions.get('window').height * 0.03,
     fontFamily:"Urbanist-Light",
   }
   });

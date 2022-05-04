@@ -224,14 +224,6 @@ const styles = StyleSheet.create({
     // },
 
     // text:
-    box: {
-        width: 300,
-        height: 30,
-        marginVertical: 20,
-        borderColor: '#000000',
-        borderWidth: 1,
-        borderRadius: 7.0,
-      },
     subtitle1: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/30,

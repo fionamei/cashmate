@@ -116,7 +116,7 @@ export default function Search() {
                 <View style={styles.content}>
                     {pfp  
                         ? <Image source={{ uri: pfp }} style={styles.image} />
-                        : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                        : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                     }
                     <Text style={styles.name}>{name}</Text>
                 </View>

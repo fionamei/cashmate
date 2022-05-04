@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View, SafeAreaView, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, View, SafeAreaView, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { useFonts } from 'expo-font';
 import { getItem, setItem } from '../../backend/asyncstorage';
@@ -42,7 +42,8 @@ export default function Onboarding() {
 
     const [isLoaded] = useFonts({
         "Urbanist-Black": require("../../assets/Urbanist/static/Urbanist-Black.ttf"),
-        "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf")
+        "Urbanist-Regular": require("../../assets/Urbanist/static/Urbanist-Regular.ttf"),
+        "Urbanist-Medium": require("../../assets/Urbanist/static/Urbanist-Medium.ttf")
     })
     if (!isLoaded) {
         return null;
@@ -56,10 +57,14 @@ export default function Onboarding() {
                 <Text style={styles.subtitle}>{item.subtitle}</Text>
                 {item.continue ?
                     <View >
-                        <TouchableOpacity 
+                        <TouchableOpacity style={styles.buttonContainer}
                          onPress={() => {navigation.replace('FirstScreen'); recordVisit}}>
+                             <Text style={styles.nextButtonText}>Get Started</Text>
                              <Image style={styles.nextButton} source={require("../../assets/onboarding/getstarted.png")}/>
                         </TouchableOpacity>
+                        {/* <TouchableOpacity style={styles.buttonContainer2}>
+                            <Text style={styles.nextButtonText2}>Get Started</Text>
+                        </TouchableOpacity> */}
                     </View> 
                     : <View />}
             </View>
@@ -80,6 +85,7 @@ export default function Onboarding() {
                                         ? { backgroundColor: '#000000' }
                                         : { backgroundColor: 'rgba(0, 0, 0, .2)' },
                                 ]}
+                                disabled={true}
                             >
                             </TouchableOpacity>
                         ))}
@@ -125,10 +131,48 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
 
+    // button
+    buttonContainer: {
+        flexDirection:'row',
+        marginLeft:Dimensions.get('window').width * 0.55,
+        position:'absolute',
+        top:20,
+        borderBottomWidth:2
+        // bottom: - Dimensions.get('window').height * 0.05,
+        // left: Dimensions.get('window').width * 0.55,
+    },
+    nextButtonText: {
+        fontFamily:'Urbanist-Medium',
+        alignSelf:'center',
+        fontSize: Dimensions.get('window').width * 0.05,
+        // position:'absolute',
+        marginLeft:5,
+        paddingRight:10
+    },
+    nextButton: {
+        // position: 'absolute',
+        resizeMode:'contain',
+        width:20
+    },
+
+    buttonContainer2: {
+        marginTop:20,
+        borderRadius:20,
+        overflow:'hidden'
+    },
+    nextButtonText2: {
+        alignSelf:'center',
+        fontFamily:'Urbanist-Medium',
+        fontSize:20,
+        backgroundColor:'black',
+        color:'white',
+        padding:10,
+    },
+
     //pagination
     paginationContainer: {
         position: 'absolute',
-        bottom: Dimensions.get('window').width * 0.08,
+        bottom: Dimensions.get('window').width * 0.03,
         left: Dimensions.get('window').width * 0.05,
         right: Dimensions.get('window').width * 0.05,
       },
@@ -145,12 +189,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 10,
     },
-
+  
     nextButton: {
         position: 'absolute',
         bottom: -Dimensions.get('window').height * 0.13,
         left: Dimensions.get('window').width * 0.48,
         width:Dimensions.get('window').width * 0.4, 
         resizeMode:'contain'
-    }
 })

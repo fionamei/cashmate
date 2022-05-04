@@ -80,7 +80,7 @@ export default function FriendsList() {
     const Display = nameList.map((name, index) => 
             // const image = imageList[index];
             <View style={styles.user}
-                key={name}
+                key={name + index}
             >
                 
                 <View style={styles.content}>
@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor:"white",
         flex:1,
-        // backgroundColor: 'red'
     },
     user: {
         flexDirection:'row',
@@ -113,10 +112,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width * .9,
         height: Dimensions.get('window').width * .20,
         marginLeft: '5%',
-        // backgroundColor: 'red'
-        // // height: 
-        // backgroundColor: 'green',
-        // justifyContent: 'space-between'
     },
     image: {
         width: Dimensions.get('window').width * .20,
@@ -125,15 +120,12 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily:'Urbanist-Regular',
-        fontSize: 25,
-        // paddingTop: Dimensions.get('window').width * .05,
+        fontSize: Dimensions.get("window").width/16,
         padding: '5%',
-        // backgroundColor: 'red'
     },
     content: {
         width: Dimensions.get('window').width * .67,
         height: Dimensions.get('window').width * .20,
-        // backgroundColor: 'blue',
         flexDirection: 'row',
         alignItems:'center',
     }

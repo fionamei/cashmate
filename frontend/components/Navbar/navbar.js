@@ -22,7 +22,6 @@ export default function Nav() {
             </TouchableOpacity>
             
             <TouchableOpacity 
-                // title="Go to Input"
                 onPress={() => {
                     if (route.name != "Spending") {
                         navigation.replace('Spending')
@@ -34,20 +33,8 @@ export default function Nav() {
 
             </TouchableOpacity>
             
-            {/* <TouchableOpacity
-                // title="Go to Spending"
-                onPress={() => {
-                    if (route.name != "Feed") {
-                        navigation.replace('Feed')
-                    }
-                }}
-            >   
-                {route.name === 'Feed' ? <Image source={require('../../assets/navicon/homedot.png')} style={styles.icons} /> : 
-                <Image source={require('../../assets/navicon/home.png')} style={styles.icons} /> }
-            </TouchableOpacity> */}
 
             <TouchableOpacity
-                // title="Go to Spending"
                 onPress={() => {
                     if (route.name != "Profile") {
                         navigation.replace('Profile')
@@ -67,25 +54,17 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         backgroundColor: "rgb(255,255,255)",
-        // backgroundColor: 'red',
         position: 'absolute',
         bottom: "0%",
         display:'flex',
         justifyContent: "space-evenly",
         flexWrap: "wrap",
         width:Dimensions.get('window').width,
-        // backgroundColor: 'transparent'
-        // height: 50
     },
     icons: {
-        width: 45,
+        width: Dimensions.get('window').width * 0.1,
         height: 45,
         resizeMode:'contain',
         margin: Dimensions.get('window').width * 0.05
     },
-    // filled: {
-    //     height: 35,
-    //     width: 35,
-    //     // backgroundColor: 'black'
-    // }
 })

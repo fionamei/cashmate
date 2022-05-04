@@ -352,9 +352,9 @@ export default function Temp(props) {
                     <View style={styles.imageContainer}>
                         {props.image  
                             ? <Image source={{ uri: props.image }} style={styles.image} />
-                            : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                            : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                         }
-                        {/* <Image source={require("../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg")} style={styles.image}/> */}
+                        {/* <Image source={require("../../assets/pfp/nopfp.jpg")} style={styles.image}/> */}
                     </View>
                     <View style={styles.heading}>
                         <Text style={styles.name}>{props.name}</Text>
@@ -540,11 +540,6 @@ export default function Temp(props) {
                         <Image source={require("../../assets/feedicons/angryfilled.png")} style={styles.iconTwo}/> :
                         <Image source={require("../../assets/feedicons/angryunfilled.png")} style={styles.iconTwo}/> } */}
                 </TouchableOpacity>
-
-                
-
-                {/* <Text style={styles.category}>{props.category}</Text> */}
-
             </View>
         </View>
     )
@@ -556,9 +551,6 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: 'blue',
-        // height: Dimensions.get("window").height * 0.2,
-        // maxWidth: Dimensions.get('window').width * .9,
     }, 
     container: {
         flex: 1, 
@@ -566,43 +558,28 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: 'red',
         backgroundColor:"#FFFFFF",
         
     },
 
     postContainer: {
-        // borderBottomColor:'black',
-        // borderBottomWidth:1,
         flex:1,
         flexDirection:'row',
         justifyContent:'space-evenly',
         height: Dimensions.get("window").height * 0.14,
         maxWidth: Dimensions.get('window').width * .9,
         paddingTop: '3%',
-        // backgroundColor: 'pink',
-
     },
     buttonContainer: {
         flex:1,
         flexDirection:'row',
         justifyContent:'flex-end',
-        // justifyContent:'space-between',
         width: Dimensions.get("window").width * 0.85, // 0.3 initially 
         paddingBottom: '1%',
-        // backgroundColor: 'red'
     },
     aboutContainer: {
-        // flexGrow: 1,
-        // flexDirection: 'row',
-        // flexShrink: 1,
         flexWrap: 'wrap',
-        // backgroundColor: 'green',
-        width: Dimensions.get("window").width * 0.4,
-        // justifyContent:'flex-end',
-        // width: 20,
-        // width: '60%'
-        
+        width: Dimensions.get("window").width * 0.4,   
     },
     image: {
         width: 55,
@@ -613,48 +590,35 @@ const styles = StyleSheet.create({
         marginLeft: '2%'
     },  
     heading: {
-        // flexDirection: 'row',
         justifyContent:'flex-start',
-        // backgroundColor: 'red',
         width: Dimensions.get("window").width * 0.35,
-        // flexWrap:'wrap'
     },
     iconOne: {
         width:Dimensions.get("window").width * 0.05,
         height:Dimensions.get("window").width * 0.045,
-        // marginTop:3,
         marginRight: '5%',
-        // backgroundColor: 'red'
-
     },
     iconTwo: {
         width:Dimensions.get("window").width * 0.05,
         height:Dimensions.get("window").width * 0.05,
-        // margin:2,
         marginLeft:'15%',
         marginRight: '5%',
-        // backgroundColor: 'red'
     },
     buttons: {
         flexDirection: 'row',
         width: Dimensions.get("window").width * 0.12,
-        // backgroundColor: 'pink',
-        
     },
 
     // TEXT
     name: {
-        // fontSize: 24,
         fontSize: Dimensions.get('window').height/39,
         fontFamily:'Urbanist-Regular'
     },
     price: {
-        // fontSize: 42,
         fontSize: Dimensions.get('window').height/22,
         fontFamily:'Urbanist-Regular'
     },
     date: {
-        // fontSize:24,
         fontSize: Dimensions.get('window').height/42,
         fontFamily:'Urbanist-Regular',
         color:'#BBBBBB'
@@ -672,19 +636,9 @@ const styles = StyleSheet.create({
     },
     
     description: {
-        // fontSize:20,
         fontSize: Dimensions.get('window').height/45,
         fontFamily:'Urbanist-Regular',
         flex: 1, 
         flexWrap: 'wrap',
-    
-        // flexShrink: 1,
-        // width: 400,
-        // overflow: 'breakword'
-        // overflow-wrap: break-word; 
-        // backgroundColor:'red',
-        // width: '60%'
-        
     }
-    
 })

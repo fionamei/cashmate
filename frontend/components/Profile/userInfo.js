@@ -64,10 +64,10 @@ export default function UserInfo() {
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            cropperCircleOverlay: true,
+            aspect: [4, 4],
         });
 
         // console.log(result);
@@ -87,8 +87,8 @@ export default function UserInfo() {
             uploadImage(result.uri).then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     setImage(url)
+                    create(url)
                 })
-                create(result.uri)
             })
 
             console.log("IMAGE ONCE CHOSEN:", image)
@@ -112,11 +112,11 @@ export default function UserInfo() {
             <TouchableOpacity onPress={pickImage}>
                 {image  
                     ? <Image source={{ uri: image }} style={styles.image} />
-                    : <Image source={require('../../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/>
+                    : <Image source={require('../../assets/pfp/default.png')} style={styles.image}/>
                 }
                 {/* // {image && <Image source={{ uri: image }} style={styles.image} />} */}
             </TouchableOpacity> 
-            {/* <Image source={require('../assets/pfp/4123e04216d533533c4517d6a0c3e397.jpeg')} style={styles.image}/> */}
+            {/* <Image source={require('../assets/pfp/nopfp.jpg')} style={styles.image}/> */}
             
             <View style={styles.descriptions}>
                 <Text style={styles.name}>
@@ -137,34 +137,17 @@ const styles = StyleSheet.create({
         flex: 1, 
         alignItems: 'center', 
         justifyContent: 'center', 
-        // backgroundColor: "black",
         backgroundColor:"#FFFFFF" 
-    },
-    progressBar: {
-        height: 20,
-        width: '65%',
-        backgroundColor: 'white',
-        borderColor: '#000',
-        borderWidth: 2,
-        borderRadius: 5,
-        marginBottom: "3%"
     },
 
     // text:
     subtitle1: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/30,
-        // paddingTop: "3%"
     },
 
     // history 
     heading1: {
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        flexWrap:'wrap'
-    },
-
-    heading2: {
         flexDirection: 'row',
         justifyContent:'space-between',
         flexWrap:'wrap'
@@ -180,34 +163,26 @@ const styles = StyleSheet.create({
         paddingTop:"2%",
     },
 
-    scroll: {
-        padding: "10%",
-        paddingBottom:"30%"
-    },
-
     profile: {
         alignItems: "flex-start",
         width: Dimensions.get("window").width * 0.8,
         flexDirection: "row",
-        // backgroundColor: "red",
         paddingBottom: "5%",
-        // borderBottomColor: "black",
-        // borderBottomWidth: 1
     },
 
     image: {
-        width: 100,
-        height: 100,
+        width: Dimensions.get("window").width * 0.25,
+        height: Dimensions.get("window").width * 0.25,
         borderRadius: 100 
     },
 
     descriptions: {
-        paddingLeft: '8%'
+        paddingLeft: Dimensions.get("window").width * 0.05
     },
 
     name: {
         fontFamily:'Urbanist-Regular',
-        fontSize: 35
+        fontSize: Dimensions.get("window").width/11
     },
 
     subprofile: {
@@ -217,7 +192,7 @@ const styles = StyleSheet.create({
 
     pfptxt: {
         fontFamily:'Urbanist-Regular',
-        fontSize: 20
+        fontSize: Dimensions.get("window").width/20
     }
 
 })

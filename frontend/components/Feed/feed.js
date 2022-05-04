@@ -10,7 +10,6 @@ import Temp from './temp';
 
 
 export default function Feed() {
-    const [clicked, isClicked] = useState(false)
     const [listUID, setListUID] = useState([])
     const [listNames, setListNames] = useState([])
     const [listPfps, setListPfps] = useState([])
@@ -162,89 +161,57 @@ export default function Feed() {
             spending_id = {post.spending_id}
             />
     )
-
+    // if (feed.length == 0) {
+    //     return (
+    //         <View style={styles.container}>
+    //                 <Text style={styles.emptyFeed}>
+    //                     There are no spendings! Add friends or input your own spendings!
+    //                 </Text>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // } else {
+    //     return (
+    //         <View style={styles.container}>
+    //             <ScrollView style={styles.scroll}>
+    //                 {everything}
+    //                 {console.log(feed)}
+    //                 <View style={styles.container}>
+    //                     {/* keep this here or it all breaks :DD */}
+    //                 </View> 
+                    
+    //             </ScrollView>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // }
     return (
-        <View style={styles.container}>
-            <ScrollView style={styles.scroll}>
-                {everything}
-                
-                <View style={styles.container}>
-                    {/* keep this here or it all breaks :DD */}
-                </View> 
-                
-            </ScrollView>
-            <Nav/>
-        </View>
-    )
+            <View style={styles.container}>
+                <ScrollView style={styles.scroll}>
+                    {everything}
+                    {console.log(feed)}
+                    <View style={styles.container}>
+                        {/* keep this here or it all breaks :DD */}
+                    </View> 
+                    
+                </ScrollView>
+                <Nav/>
+            </View>
+            )
 }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1, 
-        // flexDirection: 'row',
-        // justifyContent:'space-between',
         alignItems: 'center', 
         justifyContent: 'center', 
-        // paddingTop:"5%",
-        // backgroundColor: 'green'
         backgroundColor:"#FFFFFF",
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height * .9,
         paddingBottom:"15%"
         
     },
-    postContainer: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-        height: Dimensions.get("window").height * 0.15,
-        maxWidth: Dimensions.get('window').width * 0.9,
-
-        // borderTopColor: 'black'
-        // backgroundColor: 'red'
-    },
-    buttonContainer: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-between',
-        width: Dimensions.get("window").width * 0.3,
-        // backgroundColor: 'black'
-    },
-    aboutContainer: {
-        // flexGrow: 1,
-        // flexDirection: 'row',
-        // flexShrink: 1,
-        flexWrap: 'wrap',
-        
-        // width: 20,
-        width: '60%'
-        
-    },
     scroll: {
-        // padding: "10%",
         paddingBottom:"30%",
-        // backgroundColor: 'blue'
-    },
-    image: {
-        width: 55,
-        height: 55,
-        borderRadius: 100,
-        alignItems:'center',
-        marginTop: '25%'
-    },  
-    heading: {
-        // flexDirection: 'row',
-        justifyContent:'flex-start',
-        // backgroundColor: 'black'
-        // flexWrap:'wrap'
-    },
-    iconOne: {
-        width:20.19,
-        height:18
-    },
-    iconTwo: {
-        width:18,
-        height:18
     },
     buttons: {
         flexDirection: 'row',
@@ -256,6 +223,13 @@ const styles = StyleSheet.create({
         fontSize:24,
         fontFamily:'Urbanist-Regular'
     },
+    // emptyFeed: {
+    //     fontSize:30,
+    //     fontFamily:'Urbanist-Regular',
+    //     alignSelf: 'center',
+    //     padding: 10,
+    //     textAlign: 'center'
+    // },
     price: {
         fontSize: 42,
         fontFamily:'Urbanist-Regular'
@@ -279,5 +253,4 @@ const styles = StyleSheet.create({
         // width: '60%'
         
     }
-    
 })
