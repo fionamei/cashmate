@@ -10,7 +10,6 @@ import { useFonts } from '@use-expo/font';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Signup from './signup.js';
 
-
 export default function LoginScreen() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState('')
@@ -107,10 +106,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '80%',
     flexDirection: "row",
-    // backgroundColor: "green"
   },
   inputText: {
-    // backgroundColor: "red",
     marginTop: "3%",
     borderBottomColor:"black",
     borderBottomWidth:2,
@@ -131,16 +128,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.8,
-
-    // marginTop: 40,
   },
   button: {
     margin:"3%",
-    //  padding:"1%",
-    //  backgroundColor:"#89CFF0",
     borderBottomColor:'#000000',
     borderBottomWidth:2,
-    // marginTop: Dimensions.get('window').height - Dimensions.get('window').height*0.9,
   },
   buttonText: {
     fontWeight: '700',

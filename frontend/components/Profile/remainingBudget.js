@@ -51,7 +51,7 @@ export default function remainingbudget() {
         // console.log("test docref", docRef)
         getDoc(docRef).then((docSnap) => {
             setBudget(docSnap.data()['amount'])
-            setRemaining((docSnap.data()['remainingAmt']).toFixed(2))
+            setRemaining((docSnap.data()['remainingAmt']))
             setPercentage((Number(remaining) / Number(budget) * 100).toFixed(2))
             // console.log(percentage)
 
@@ -228,14 +228,6 @@ const styles = StyleSheet.create({
     // },
 
     // text:
-    box: {
-        width: 300,
-        height: 30,
-        marginVertical: 20,
-        borderColor: '#000000',
-        borderWidth: 1,
-        borderRadius: 7.0,
-      },
     subtitle1: {
         fontFamily:'Urbanist-Regular',
         fontSize: Dimensions.get('window').height/30,
