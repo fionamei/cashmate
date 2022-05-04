@@ -16,6 +16,7 @@ export default function Feed() {
     const [listBudgetID, setListBudgetID] = useState([])
     const [feed, setFeed] = useState([])
     const [spendings, setSpending] = useState([])
+    const [isEmpty, setIsEmpty] = useState(false)
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
 
@@ -48,6 +49,13 @@ export default function Feed() {
             setListNames(tempName)
             setListPfps(tempPfp)
         })
+
+        if (listUID.length == 0) {
+            setIsEmpty(true)
+        }
+        else {
+            setIsEmpty(false)
+        }
     }, [])
 
     useEffect(() => {
@@ -59,6 +67,7 @@ export default function Feed() {
                     querySnapshot.forEach((doc) => {
                         // console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
                         tempBudget.push(doc.id)
+                        setIsEmpty(false)
                         // setListBudgetID([...listBudgetID, doc.id])
                     })
                     if (i == listUID.length-1) {
@@ -101,6 +110,7 @@ export default function Feed() {
                     })
                     if (i == listUID.length-1) {
                         setFeed(tempFeed)
+                        setIsEmpty(false)
                     }
                 })
             }
@@ -123,6 +133,7 @@ export default function Feed() {
         }
         setCounter(counter+1)
         changeFeed()
+        setIsEmpty(false)
     }, [updateVal])
 
     if (!isLoaded) {
@@ -161,30 +172,31 @@ export default function Feed() {
             spending_id = {post.spending_id}
             />
     )
-    // if (feed.length == 0) {
-    //     return (
-    //         <View style={styles.container}>
-    //                 <Text style={styles.emptyFeed}>
-    //                     There are no spendings! Add friends or input your own spendings!
-    //                 </Text>
-    //             <Nav/>
-    //         </View>
-    //     )
-    // } else {
-    //     return (
-    //         <View style={styles.container}>
-    //             <ScrollView style={styles.scroll}>
-    //                 {everything}
-    //                 {console.log(feed)}
-    //                 <View style={styles.container}>
-    //                     {/* keep this here or it all breaks :DD */}
-    //                 </View> 
+
+    if (isEmpty == true) {
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.emptyFeed}>
+                        There are no spendings! Add friends or input your own spendings!
+                    </Text>
+                <Nav/>
+            </View>
+        )
+    } else {
+        return (
+            <View style={styles.container}>
+                <ScrollView style={styles.scroll}>
+                    {everything}
+                    {console.log(feed)}
+                    <View style={styles.container}>
+                        {/* keep this here or it all breaks :DD */}
+                    </View> 
                     
-    //             </ScrollView>
-    //             <Nav/>
-    //         </View>
-    //     )
-    // }
+                </ScrollView>
+                <Nav/>
+            </View>
+        )
+    }
     return (
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
@@ -223,13 +235,13 @@ const styles = StyleSheet.create({
         fontSize:24,
         fontFamily:'Urbanist-Regular'
     },
-    // emptyFeed: {
-    //     fontSize:30,
-    //     fontFamily:'Urbanist-Regular',
-    //     alignSelf: 'center',
-    //     padding: 10,
-    //     textAlign: 'center'
-    // },
+    emptyFeed: {
+        fontSize:30,
+        fontFamily:'Urbanist-Regular',
+        alignSelf: 'center',
+        padding: 10,
+        textAlign: 'center'
+    },
     price: {
         fontSize: 42,
         fontFamily:'Urbanist-Regular'
