@@ -50,12 +50,6 @@ export default function Feed() {
             setListPfps(tempPfp)
         })
 
-        if (listUID.length == 0) {
-            setIsEmpty(true)
-        }
-        else {
-            setIsEmpty(false)
-        }
     }, [])
 
     useEffect(() => {
@@ -68,6 +62,7 @@ export default function Feed() {
                         // console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
                         tempBudget.push(doc.id)
                         setIsEmpty(false)
+                        // console.log("listUID useEffect", isEmpty)
                         // setListBudgetID([...listBudgetID, doc.id])
                     })
                     if (i == listUID.length-1) {
@@ -106,11 +101,11 @@ export default function Feed() {
                         }
 
                         tempFeed.push(update)
-                        
+                        // setIsEmpty(false)
+                        // console.log("tempFeed useEffect", isEmpty)
                     })
                     if (i == listUID.length-1) {
                         setFeed(tempFeed)
-                        setIsEmpty(false)
                     }
                 })
             }
@@ -128,12 +123,21 @@ export default function Feed() {
                 setSpending([updateVal])
             } else {
                 setSpending([...spendings, updateVal])
+                // setIsEmpty(false)
+                // console.log("changefeed useeffect", isEmpty)
             }
             // console.log("SPENDING:", spendings)
         }
         setCounter(counter+1)
         changeFeed()
-        setIsEmpty(false)
+        
+        // if (feed.length == 0) {
+        //     // console.log("HI")
+        //     setIsEmpty(true)
+        // }
+        // else {
+        //     setIsEmpty(false)
+        // }
     }, [updateVal])
 
     if (!isLoaded) {
@@ -144,6 +148,7 @@ export default function Feed() {
     // console.log("LIST NAMES", listNames)
     // console.log("LIST BUDGET ID", listBudgetID)
     // console.log("FEED", feed)
+    // console.log("feed length", feed.length)
 
 
     const sorted = feed.sort((a,b)=>{
@@ -173,35 +178,37 @@ export default function Feed() {
             />
     )
 
-    if (isEmpty == true) {
-        return (
-            <View style={styles.container}>
-                    <Text style={styles.emptyFeed}>
-                        There are no spendings! Add friends or input your own spendings!
-                    </Text>
-                <Nav/>
-            </View>
-        )
-    } else {
-        return (
-            <View style={styles.container}>
-                <ScrollView style={styles.scroll}>
-                    {everything}
-                    {console.log(feed)}
-                    <View style={styles.container}>
-                        {/* keep this here or it all breaks :DD */}
-                    </View> 
+    // console.log("feed length", feed.length)
+    // console.log("are there spendings?:",isEmpty)
+    // if (isEmpty == true) {
+    //     return (
+    //         <View style={styles.container}>
+    //                 <Text style={styles.emptyFeed}>
+    //                     There are no spendings! Add friends or input your own spendings!
+    //                 </Text>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // } else {
+    //     return (
+    //         <View style={styles.container}>
+    //             <ScrollView style={styles.scroll}>
+    //                 {everything}
+    //                 {console.log(feed)}
+    //                 <View style={styles.container}>
+    //                     {/* keep this here or it all breaks :DD */}
+    //                 </View> 
                     
-                </ScrollView>
-                <Nav/>
-            </View>
-        )
-    }
+    //             </ScrollView>
+    //             <Nav/>
+    //         </View>
+    //     )
+    // }
     return (
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
                     {everything}
-                    {console.log(feed)}
+                    {/* {console.log(feed)} */}
                     <View style={styles.container}>
                         {/* keep this here or it all breaks :DD */}
                     </View> 
