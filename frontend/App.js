@@ -98,21 +98,21 @@ export default function App() {
   if (newUser != null) {
     return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName={"Onboarding"}>
-      <Stack.Screen options={{ headerShown:false }} name="Onboarding" component={Onboarding}/>
-      <Stack.Screen name="Home" component={Home} option={{ presentation: 'card' }}>
-      </Stack.Screen>
+      <Stack.Navigator initialRouteName={"Onboarding"} options={{headerShown:false}}>
+        <Stack.Screen name="Onboarding" component={Onboarding}/>
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Budget" children={() => <Budget uID={uID} budgetID={budgetID}/> }/>
         <Stack.Screen name="Spending" component={Spending}/>
         <Stack.Screen name="Feed" component={Feed} />
         <Stack.Screen name="Profile" component={Profile} 
-                      options={{headerRight: () => (<SettingsButton/>), 
-                                headerLeft: ()=> (<AddFriendButton/>)}}/>
+                      // options={{headerRight: () => (<SettingsButton/>), 
+                      //           headerLeft: ()=> (<AddFriendButton/>)}}
+                                />
         <Stack.Screen name="Nav" component={Nav}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Settings" component={Settings}/>
-        <Stack.Screen name="Signup" options={{headerShown: false}} component={Signup} />
-        <Stack.Screen name="FirstScreen" options={{headerShown: false}} component={FirstScreen} />
+        <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}}/>
+        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Search" component={Search}/>
         <Stack.Screen name="FriendsList" component={FriendsList}/>
         <Stack.Screen name="Contact" component={Contact}/>
@@ -134,12 +134,12 @@ export default function App() {
                       options={{headerRight: () => (<SettingsButton/>), 
                                 headerLeft: ()=> (<AddFriendButton/>)}}/>
         <Stack.Screen name="Nav" component={Nav}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Settings" component={Settings}/>
-        <Stack.Screen name="Signup" component={Signup}/>
-        <Stack.Screen name="FirstScreen" component={FirstScreen}/>
+        <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}}/>
+        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Search" component={Search}/>
-        <Stack.Screen name="FriendsList" component={FriendsList}/>
+        <Stack.Screen name="Friends List" component={FriendsList}/>
         <Stack.Screen name="Contact" component={Contact}/>
         <Stack.Screen name="About" component={About}/>
       </Stack.Navigator>

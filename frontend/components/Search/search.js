@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
     },
     error: {
         fontFamily:'Urbanist-Regular',
-        fontSize: 20,
+        fontSize: Dimensions.get('window').width * .05,
+        // fontSize: 20,
         marginTop: 40
     },
     user: {
@@ -232,7 +233,8 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily:'Urbanist-Regular',
-        fontSize: 25,
+        fontSize: Dimensions.get('window').width * .06,
+        // fontSize: 25,
         // paddingTop: Dimensions.get('window').width * .05,
         padding: '5%',
         // backgroundColor: 'red'
@@ -248,13 +250,13 @@ const styles = StyleSheet.create({
     button: {
         flexDirection:'row'
     },
-    pendingText: {
-        borderColor: 'black',
-        borderWidth:2,
-        padding:10, 
-        borderRadius:10,
-        paddingRight:20
-    },
+    // pendingText: {
+    //     borderColor: 'black',
+    //     borderWidth:2,
+    //     padding:10, 
+    //     borderRadius:10,
+    //     paddingRight:20
+    // },
     add: {
         width: Dimensions.get('window').width * .12,
         resizeMode:'contain',
