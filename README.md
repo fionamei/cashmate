@@ -17,7 +17,7 @@ Use the package manager [yarn](https://pip.pypa.io/en/stable/) to install the de
 yarn install
 ```
 
-This app can be run on [Expo](https://docs.expo.dev/get-started/installation/), you may need to install the Expo Go app on your mobile device, and then install the expo dependencies
+This app can be run on [Expo](https://docs.expo.dev/get-started/installation/), you may need to install the Expo Go app on your mobile device, and then install the expo dependencies.
 ```bash
 yarn install --global expo-cli
 ```
