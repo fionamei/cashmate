@@ -9,7 +9,6 @@ Cashmate is a social money accountability app that allows users to improve their
 - [Built with](#built-with)
 - [About us](#About-us)
 - [What we learned](#what-we-learned)
-- [Useful resources](#useful-resources)
 
 ## Installation: Yarn and Expo
 Use the package manager [yarn](https://pip.pypa.io/en/stable/) to install the dependencies needed to run Cashmate.
@@ -18,18 +17,22 @@ Use the package manager [yarn](https://pip.pypa.io/en/stable/) to install the de
 yarn install
 ```
 
-This app can be run on [Expo](https://docs.expo.dev/get-started/installation/), you may need to install the Expo Go app on your mobile device, and then install the expo dependencies
+This app can be run on [Expo](https://docs.expo.dev/get-started/installation/), you may need to install the Expo Go app on your mobile device, and then install the expo dependencies.
 ```bash
 yarn install --global expo-cli
 ```
+
 
 ## Running the app
 To generate the Expo QR code, or run locally on a simulator you start your app with:
 ```bash
 yarn start
 ```
+### TestFlight
+Test our app on [Testflight](https://developer.apple.com/testflight/)! Download the TestFlight app on the AppStore and go to this [link](https://testflight.apple.com/join/bqZtmBlq) to test out our app!
 
 ## Built with
+React Native frontend, Firebase Backend, and runs locally on Expo. 
 
 ## About us!
 
@@ -57,5 +60,4 @@ We learned a lot as we worked on this project from start to finish, and had a lo
 </a>
 
 ## What we learned
-
-## Useful resources
+We learned how to create a project from scratch, from giving it a grand vision to breaking down parts of it by user priority, we managed to make a functioning app that looks pretty cool :) Our idea evolved from a simple finance app that would teach users how to budget, to an app that allows users to socialize and bond together! As we created our app, we ran into a lot of technical difficulties, like using tech stacks that were new to us, not knowing how to organize our data, and balancing our own course work on top of meeting in person for sprints. For most of us, we didn't have experience working on a project of this scale, especially since we are mostly sophomores who were not initially set on the CS track. Our frontend team works with our UI/UX developer to bring her beautiful designs to life, and our backend team is the backbone of our project, making functions that create the magic behind what you see. Our budgeting app that is meant to bond others, allowed our team members to bond too! From crashing out on study room couches to eating dominos past midnight, we're really proud of where we are now. Working alongside passionate people is really fun.

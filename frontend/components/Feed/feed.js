@@ -16,6 +16,7 @@ export default function Feed() {
     const [listBudgetID, setListBudgetID] = useState([])
     const [feed, setFeed] = useState([])
     const [spendings, setSpending] = useState([])
+    const [isEmpty, setIsEmpty] = useState(false)
     const [counter, setCounter] = useState(0)
     const [updateVal, setUpdateVal] = useState({})
 
@@ -48,6 +49,7 @@ export default function Feed() {
             setListNames(tempName)
             setListPfps(tempPfp)
         })
+
     }, [])
 
     useEffect(() => {
@@ -59,6 +61,8 @@ export default function Feed() {
                     querySnapshot.forEach((doc) => {
                         // console.log("USER ID", listUID[i], "BUDGET ID TO BE ADDED:", doc.id)
                         tempBudget.push(doc.id)
+                        setIsEmpty(false)
+                        // console.log("listUID useEffect", isEmpty)
                         // setListBudgetID([...listBudgetID, doc.id])
                     })
                     if (i == listUID.length-1) {
@@ -97,7 +101,8 @@ export default function Feed() {
                         }
 
                         tempFeed.push(update)
-                        
+                        // setIsEmpty(false)
+                        // console.log("tempFeed useEffect", isEmpty)
                     })
                     if (i == listUID.length-1) {
                         setFeed(tempFeed)
@@ -118,11 +123,21 @@ export default function Feed() {
                 setSpending([updateVal])
             } else {
                 setSpending([...spendings, updateVal])
+                // setIsEmpty(false)
+                // console.log("changefeed useeffect", isEmpty)
             }
             // console.log("SPENDING:", spendings)
         }
         setCounter(counter+1)
         changeFeed()
+        
+        // if (feed.length == 0) {
+        //     // console.log("HI")
+        //     setIsEmpty(true)
+        // }
+        // else {
+        //     setIsEmpty(false)
+        // }
     }, [updateVal])
 
     if (!isLoaded) {
@@ -133,6 +148,7 @@ export default function Feed() {
     // console.log("LIST NAMES", listNames)
     // console.log("LIST BUDGET ID", listBudgetID)
     // console.log("FEED", feed)
+    // console.log("feed length", feed.length)
 
 
     const sorted = feed.sort((a,b)=>{
@@ -161,7 +177,10 @@ export default function Feed() {
             spending_id = {post.spending_id}
             />
     )
-    // if (feed.length == 0) {
+
+    // console.log("feed length", feed.length)
+    // console.log("are there spendings?:",isEmpty)
+    // if (isEmpty == true) {
     //     return (
     //         <View style={styles.container}>
     //                 <Text style={styles.emptyFeed}>
@@ -189,7 +208,7 @@ export default function Feed() {
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
                     {everything}
-                    {console.log(feed)}
+                    {/* {console.log(feed)} */}
                     <View style={styles.container}>
                         {/* keep this here or it all breaks :DD */}
                     </View> 
@@ -223,13 +242,13 @@ const styles = StyleSheet.create({
         fontSize:24,
         fontFamily:'Urbanist-Regular'
     },
-    // emptyFeed: {
-    //     fontSize:30,
-    //     fontFamily:'Urbanist-Regular',
-    //     alignSelf: 'center',
-    //     padding: 10,
-    //     textAlign: 'center'
-    // },
+    emptyFeed: {
+        fontSize:30,
+        fontFamily:'Urbanist-Regular',
+        alignSelf: 'center',
+        padding: 10,
+        textAlign: 'center'
+    },
     price: {
         fontSize: 42,
         fontFamily:'Urbanist-Regular'
