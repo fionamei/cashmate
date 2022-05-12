@@ -4,10 +4,11 @@ Cashmate is a social money accountability app that allows users to improve their
 
 ## Table of contents
 
-- [Installation](#Installation)
-- [Running the app](#Running-the-app)
+- [Installation](#installation-yarn-and-expo)
+- [Running the app](#running-the-app)
 - [Built with](#built-with)
-- [About us](#About-us)
+- [About us](#about-us)
+- [Snapshots](#snapshots)
 - [What we learned](#what-we-learned)
 
 ## Installation: Yarn and Expo
@@ -33,6 +34,18 @@ Test our app on [Testflight](https://developer.apple.com/testflight/)! Download 
 
 ## Built with
 React Native frontend, Firebase Backend, and runs locally on Expo. 
+
+## Snapshots
+<p align="middle">
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss6.png"/>
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss1.png"/>
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss2.png"/>
+</p>
+<p align="middle">
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss3.png"/>
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss4.png"/>
+  <img width="200" src="https://github.com/fionamei/cashmate/blob/main/frontend/assets/screenshots/ss5.png"/>
+</p>
 
 ## About us!
 
