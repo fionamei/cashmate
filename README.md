@@ -7,8 +7,8 @@ Cashmate is a social money accountability app that allows users to improve their
 - [Installation](#installation-yarn-and-expo)
 - [Running the app](#running-the-app)
 - [Built with](#built-with)
-- [About us](#about-us)
 - [Snapshots](#snapshots)
+- [About us](#about-us)
 - [What we learned](#what-we-learned)
 
 ## Installation: Yarn and Expo
